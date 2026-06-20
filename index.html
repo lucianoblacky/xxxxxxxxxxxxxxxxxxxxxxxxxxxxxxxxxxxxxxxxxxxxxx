@@ -82,6 +82,33 @@ ul{margin:0;padding:0;list-style:none;}
 }
 .gold-bar:hover{ filter:brightness(1.04); }
 
+/* ---------- Certificate badge carousel ---------- */
+.badge-carousel{
+  background:#fff;
+  padding:1rem 0;
+  overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+.badge-carousel__track{
+  display:flex;
+  align-items:center;
+  gap:2.25rem;
+  width:max-content;
+  animation:badgeScroll 28s linear infinite;
+}
+.badge-carousel:hover .badge-carousel__track{ animation-play-state:paused; }
+.badge-carousel__track img{
+  height:56px;
+  width:56px;
+  border-radius:50%;
+  object-fit:contain;
+  flex:0 0 auto;
+}
+@keyframes badgeScroll{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(-50%); }
+}
+
 /* ---------- Site header / sticky promo ---------- */
 .site-header{
   background:#fff;
@@ -699,6 +726,7 @@ ul{margin:0;padding:0;list-style:none;}
   margin-bottom:1rem;
 }
 .product-card img.product-photo{ max-width:13rem; margin:0 auto 1.1rem; }
+.product-card img.product-photo--bogo{ max-width:100%; border-radius:0.5rem; }
 .product-card .stars-line{ font-size:0.8rem; margin-bottom:0.5rem; color:var(--ink-soft); }
 .product-card h3{ font-size:1.2rem; margin-bottom:0.5rem; }
 .product-card .offer-tag{ color:var(--accent); font-weight:800; font-size:0.82rem; margin-bottom:0.3rem; }
@@ -719,44 +747,29 @@ ul{margin:0;padding:0;list-style:none;}
 .stat .num{ font-family:var(--font-heading); font-size:clamp(2.2rem,1.8rem+2vw,3rem); font-weight:800; color:var(--accent); }
 .stat .label{ font-size:0.85rem; color:var(--ink-soft); margin-top:0.35rem; }
 
-/* ---------- Donut ring stats (exact match) ---------- */
+/* ---------- Donut ring stats (using real original images) ---------- */
 .donut-row{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:0.5rem;
+  gap:1rem;
   max-width:40rem;
   margin:1.5rem auto 0;
 }
 @media (max-width:600px){
-  .donut-row{ grid-template-columns:1fr; gap:2rem; max-width:14rem; }
+  .donut-row{ grid-template-columns:1fr; gap:1.5rem; max-width:16rem; }
 }
 .donut-stat{
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-}
-.donut-svg{ width:100%; max-width:9.5rem; aspect-ratio:1/1; transform:rotate(-90deg); }
-.donut-svg circle{ stroke-linecap:butt; }
-.donut-svg circle:first-of-type{ stroke-dasharray:2.2 2.4; }
-.donut-svg circle:nth-of-type(2){
-  stroke-dasharray:2.2 2.4;
-  stroke-dashoffset:0;
-  -webkit-mask-image:conic-gradient(from -90deg, #000 calc(var(--pct) * 1%), transparent calc(var(--pct) * 1%));
-  mask-image:conic-gradient(from -90deg, #000 calc(var(--pct) * 1%), transparent calc(var(--pct) * 1%));
-  transform-origin:60px 60px;
-}
-.donut-center{
-  position:absolute;
-  top:0; left:0; right:0;
-  height:calc(100% - 2.6rem);
   display:flex;
   align-items:center;
   justify-content:center;
 }
-.donut-pct{ font-family:var(--font-heading); font-size:clamp(1.6rem,1.3rem+1.2vw,2.1rem); font-weight:800; color:var(--ink); }
-.donut-label{ font-size:0.8rem; color:var(--ink-soft); margin-top:0.5rem; line-height:1.4; max-width:9rem; }
+.donut-img{
+  width:100%;
+  max-width:11rem;
+  border-radius:50%;
+  aspect-ratio:1/1;
+  object-fit:contain;
+}
 
 /* ---------- Quote + mini review carousel (exact match) ---------- */
 .quote-reviews-section{ background:var(--bg); padding:2.5rem 0 3rem; }
@@ -789,43 +802,35 @@ ul{margin:0;padding:0;list-style:none;}
   justify-content:center;
   cursor:pointer;
 }
-.mini-review-cards{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1rem;
+.mini-nav:hover{ background:var(--bg); }
+.mini-review-viewport{
   flex:1;
   min-width:0;
+  overflow:hidden;
+  border-radius:0.6rem;
 }
-@media (max-width:700px){
-  .mini-review-cards{ grid-template-columns:1fr; }
+.mini-review-cards{
+  display:flex;
+  transition:transform 0.4s cubic-bezier(.2,.8,.2,1);
 }
 .mini-review-card{
-  background:#fff;
-  border:1px solid var(--line);
+  flex:0 0 50%;
+  min-width:0;
+  padding:0 0.5rem;
+  box-sizing:border-box;
+}
+.mini-review-card img{
+  width:100%;
   border-radius:0.6rem;
-  padding:1.1rem 1.1rem 0.85rem;
+  border:1px solid var(--line);
+  display:block;
 }
-.mini-review-card__top{ display:flex; align-items:flex-start; gap:0.6rem; margin-bottom:0.5rem; }
-.mini-avatar{
-  width:2rem; height:2rem; border-radius:50%;
-  background:#ffe2c7; color:#b9650f;
-  display:flex; align-items:center; justify-content:center;
-  font-size:0.7rem; font-weight:800; flex:0 0 auto;
+@media (max-width:700px){
+  .mini-review-card{ flex:0 0 100%; }
 }
-.mini-avatar--alt{ background:#f3d8ec; color:#a2317f; }
-.mini-review-meta{ display:flex; flex-direction:column; flex:1; min-width:0; }
-.mini-name{ font-size:0.85rem; font-weight:700; color:var(--ink); }
-.mini-sub{ font-size:0.72rem; color:var(--ink-soft); }
-.mini-date{ font-size:0.7rem; color:var(--ink-soft); flex:0 0 auto; white-space:nowrap; }
-.mini-stars-row{ color:#00b67a; font-size:0.85rem; letter-spacing:0.05em; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.5rem; }
-.mini-stars-row .mini-verified{ color:var(--ink-soft); font-size:0.7rem; letter-spacing:0; font-weight:600; }
-.mini-title{ font-weight:700; font-size:0.85rem; margin-bottom:0.25rem; color:var(--ink); }
-.mini-text{ font-size:0.82rem; line-height:1.55; color:var(--ink-soft); margin-bottom:0.5rem; }
-.mini-text mark{ background:#fff3b0; color:var(--ink); padding:0 0.1rem; }
-.mini-date-bottom{ font-size:0.68rem; color:#999; }
 
-.mini-dots{ display:flex; justify-content:center; gap:0.4rem; margin-top:1.25rem; }
-.mini-dots .dot{ width:0.4rem; height:0.4rem; border-radius:50%; background:#d8d8d8; }
+.mini-dots{ display:flex; justify-content:center; gap:0.4rem; margin-top:1.25rem; flex-wrap:wrap; }
+.mini-dots .dot{ width:0.4rem; height:0.4rem; border-radius:50%; background:#d8d8d8; cursor:pointer; }
 .mini-dots .dot.is-active{ background:var(--ink); }
 .section-eyebrow{ text-align:center; font-size:0.78rem; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; color:var(--accent); margin-bottom:0.6rem; }
 .section-title{ text-align:center; font-size:clamp(1.3rem,1.1rem+1vw,1.8rem); max-width:38rem; margin:0 auto 2rem; }
@@ -855,6 +860,33 @@ ul{margin:0;padding:0;list-style:none;}
 <body>
 
 <a href="#offer" class="gold-bar">VIEW THE LIMITED TIME OFFER</a>
+
+<!-- CERTIFICATE BADGE CAROUSEL (top) -->
+<div class="badge-carousel">
+  <div class="badge-carousel__track">
+    <img src="images/gempages_586400118794617629-1b5d742f-9d68-4736-83ee-0eba6a2fdff2.png" alt="IQNET Recognized Certification">
+    <img src="images/gempages_586400118794617629-7db4959e-499e-4741-8c11-4a6a39902f83.png" alt="ISO 9001 Certified">
+    <img src="images/gempages_586400118794617629-8e504600-928c-4961-bc32-fac72cd9a8ca.png" alt="Rated Excellent on Trustpilot">
+    <img src="images/gempages_586400118794617629-85d84ae9-5f26-4798-b9e2-c6fbc791ba22.png" alt="HACCP Food Safety Certified">
+    <img src="images/gempages_586400118794617629-511ad62d-9372-4c62-b2cf-0108497fb1ec.png" alt="D-U-N-S Registered">
+    <img src="images/gempages_586400118794617629-53284fa0-09b0-48c8-a475-9b521e3e065c.png" alt="AAA Highest Creditworthiness">
+    <img src="images/gempages_586400118794617629-ab27b8a5-abd9-40b0-84e5-c48d0dc90c3d.png" alt="GMP Certified">
+    <img src="images/GMP_Certified_Shilajit_-_image.png" alt="GMP Certified">
+    <img src="images/Heavy_Metal_Tested_Mountaindrop_Shilajit.png" alt="Heavy Metal Tested">
+    <img src="images/Himalaya_1.jpg" alt="Himalayan Sourced">
+    <!-- duplicate set for seamless loop -->
+    <img src="images/gempages_586400118794617629-1b5d742f-9d68-4736-83ee-0eba6a2fdff2.png" alt="IQNET Recognized Certification">
+    <img src="images/gempages_586400118794617629-7db4959e-499e-4741-8c11-4a6a39902f83.png" alt="ISO 9001 Certified">
+    <img src="images/gempages_586400118794617629-8e504600-928c-4961-bc32-fac72cd9a8ca.png" alt="Rated Excellent on Trustpilot">
+    <img src="images/gempages_586400118794617629-85d84ae9-5f26-4798-b9e2-c6fbc791ba22.png" alt="HACCP Food Safety Certified">
+    <img src="images/gempages_586400118794617629-511ad62d-9372-4c62-b2cf-0108497fb1ec.png" alt="D-U-N-S Registered">
+    <img src="images/gempages_586400118794617629-53284fa0-09b0-48c8-a475-9b521e3e065c.png" alt="AAA Highest Creditworthiness">
+    <img src="images/gempages_586400118794617629-ab27b8a5-abd9-40b0-84e5-c48d0dc90c3d.png" alt="GMP Certified">
+    <img src="images/GMP_Certified_Shilajit_-_image.png" alt="GMP Certified">
+    <img src="images/Heavy_Metal_Tested_Mountaindrop_Shilajit.png" alt="Heavy Metal Tested">
+    <img src="images/Himalaya_1.jpg" alt="Himalayan Sourced">
+  </div>
+</div>
 
 <header class="site-header">
   <div class="container">
@@ -893,7 +925,7 @@ ul{margin:0;padding:0;list-style:none;}
     </div>
 
     <div class="hero-image">
-      <img src="images/If_You_Did_Not_Feel_A_Difference_You_Never_Took_Shilajit_-_Mountaindrop_Shilajit_Works_Instantly.webp" alt="Man working out with PeakModo Himalayan Shilajit Resin">
+      <img src="images/If_You_Did_Not_Feel_A_Difference_You_Never_Took_Shilajit_-_Mountaindrop_Shilajit_Works_Instantly.jpg" alt="Man working out with PeakModo Himalayan Shilajit Resin">
     </div>
   </div>
 </section>
@@ -902,13 +934,18 @@ ul{margin:0;padding:0;list-style:none;}
 <section class="trust-icons">
   <div class="container">
     <ul>
-      <li><img src="images/GMP_Certified_Shilajit_-_image.webp" alt="GMP Certified"><span>GMP CERTIFIED</span></li>
-      <li><img src="images/Lab_Tested_And_Purified_Shilajit_Mountaindrop.webp" alt="EU Lab Tested"><span>EU LAB TESTED</span></li>
-      <li><img src="images/50_Day_Moneyback_Guarantee_On_Mountaindrop_Shilajit.webp" alt="Money-Back Guarantee"><span>MONEY-BACK GUARANTEE</span></li>
-      <li><img src="images/No_Additives_In_Mountaindrop_Shilajit.webp" alt="No Additives"><span>NO ADDITIVES</span></li>
-      <li><img src="images/Heavy_Metal_Tested_Mountaindrop_Shilajit.webp" alt="Heavy Metals Tested"><span>HEAVY METALS TESTED</span></li>
+      <li><img src="images/GMP_Certified_Shilajit_-_image.png" alt="GMP Certified"><span>GMP CERTIFIED</span></li>
+      <li><img src="images/Lab_Tested_And_Purified_Shilajit_Mountaindrop.png" alt="EU Lab Tested"><span>EU LAB TESTED</span></li>
+      <li><img src="images/50_Day_Moneyback_Guarantee_On_Mountaindrop_Shilajit.png" alt="Money-Back Guarantee"><span>MONEY-BACK GUARANTEE</span></li>
+      <li><img src="images/No_Additives_In_Mountaindrop_Shilajit.png" alt="No Additives"><span>NO ADDITIVES</span></li>
+      <li><img src="images/Heavy_Metal_Tested_Mountaindrop_Shilajit.png" alt="Heavy Metals Tested"><span>HEAVY METALS TESTED</span></li>
     </ul>
   </div>
+</section>
+
+<!-- PRODUCT VISUAL HIGHLIGHT -->
+<section class="container" style="padding:1.5rem 0;">
+  <img src="images/Shilajit_PDP_Main_Image.jpg" alt="PeakModo Himalayan Shilajit Resin - limited time offer, usage instructions and customer testimonial" style="width:100%; max-width:40rem; display:block; margin:0 auto; border-radius:0.6rem;">
 </section>
 
 <!-- THE ONLY BRAND IN THE WORLD -->
@@ -921,7 +958,7 @@ ul{margin:0;padding:0;list-style:none;}
       <p>That's why PeakModo Himalayan Shilajit Resin doesn't just compete – it dominates. While other brands sell stories, <strong>PeakModo Himalayan Shilajit Resin sells tested, measurable results.</strong></p>
     </div>
     <div class="stat-card">
-      <img src="images/Mountaindrop_Is_The_Only_Clinically_Tested_Shilajit_In_EU.webp" alt="Clinically tested and verified - 93% reported better sleep quality">
+      <img src="images/Mountaindrop_Is_The_Only_Clinically_Tested_Shilajit_In_EU.jpg" alt="Clinically tested and verified - 93% reported better sleep quality">
     </div>
   </div>
 </section>
@@ -930,7 +967,7 @@ ul{margin:0;padding:0;list-style:none;}
 <section class="container">
   <div class="reason img-right">
     <div class="reason-img">
-      <img src="images/Himalayan_Shilajit_Resin_Is_The_Most_Potent.webp" alt="Pills versus real shilajit resin dissolving in water">
+      <img src="images/Himalayan_Shilajit_Resin_Is_The_Most_Potent.jpg" alt="Pills versus real shilajit resin dissolving in water">
     </div>
     <div class="reason-text">
       <h2>1. Most Shilajit Products Aren't Actually Shilajit</h2>
@@ -949,7 +986,7 @@ ul{margin:0;padding:0;list-style:none;}
 <section class="container" style="background:#fff;">
   <div class="reason img-right">
     <div class="reason-img">
-      <img src="images/Mountaindrop_Shilajit_Is_Not_Manufactured_In_China.webp" alt="Not manufactured in China">
+      <img src="images/Mountaindrop_Shilajit_Is_Not_Manufactured_In_China.jpg" alt="Not manufactured in China">
     </div>
     <div class="reason-text">
       <h2>2. Most Brands Hide That They Source From Chinese Factories</h2>
@@ -968,7 +1005,7 @@ ul{margin:0;padding:0;list-style:none;}
 <section class="container">
   <div class="reason">
     <div class="reason-img">
-      <img src="images/Low_Altitude_Shialjit_Is_Contaminated_While_Mountaindrop_Shilajit_Is_Not.webp" alt="Low altitude shilajit is contaminated">
+      <img src="images/Low_Altitude_Shialjit_Is_Contaminated_While_Mountaindrop_Shilajit_Is_Not.jpg" alt="Low altitude shilajit is contaminated">
     </div>
     <div class="reason-text">
       <h2>3. Low-Altitude Shilajit Is Contaminated and Weak</h2>
@@ -987,7 +1024,7 @@ ul{margin:0;padding:0;list-style:none;}
 <section class="container" style="background:#fff;">
   <div class="reason img-right">
     <div class="reason-img">
-      <img src="images/Image_1_-_Man_Working_Out_With_Mountaindrop_Shilajit.webp" alt="Energy upgrade over 30 days">
+      <img src="images/Image_1_-_Man_Working_Out_With_Mountaindrop_Shilajit.jpg" alt="Energy upgrade over 30 days">
     </div>
     <div class="reason-text">
       <h2>4. Real Shilajit Upgrades Your Baseline Energy in 30 Days</h2>
@@ -1007,7 +1044,7 @@ ul{margin:0;padding:0;list-style:none;}
 <section class="container">
   <div class="reason">
     <div class="reason-img">
-      <img src="images/Mountaindrop_Shilajit_has_the_highest_Fulvic_Acid_in_the_Europian_Market.webp" alt="81.67% Fulvic Acid Content - laboratory tested and verified">
+      <img src="images/Mountaindrop_Shilajit_has_the_highest_Fulvic_Acid_in_the_Europian_Market.jpg" alt="81.67% Fulvic Acid Content - laboratory tested and verified">
     </div>
     <div class="reason-text">
       <h2>5. Most "Lab Tested" Claims Are Never Verified After the First Batch</h2>
@@ -1037,8 +1074,11 @@ ul{margin:0;padding:0;list-style:none;}
         <p>But once this batch sells out, we can't restock until next season. If this page disappears, the offer is gone.</p>
       </div>
       <div>
-        <img src="images/PRE_ORDER_EUR_Shilajit_BOGO.webp" alt="Buy one get one free - 210€ now 0,53€ per day">
+        <img src="images/PRE_ORDER_EUR_Shilajit_BOGO.jpg" alt="Buy one get one free - 210€ now 0,53€ per day">
       </div>
+    </div>
+    <div style="max-width:22rem; margin:2rem auto 0;">
+      <img src="images/Altai_1.jpg" alt="PeakModo Himalayan Shilajit Resin jar with dosage spoon" style="width:100%; border-radius:0.5rem;">
     </div>
   </div>
 </section>
@@ -1132,7 +1172,7 @@ ul{margin:0;padding:0;list-style:none;}
   <div class="product-card">
 
     <div class="offer-card__tag">Limited Offer – Buy One Get One Free</div>
-    <img class="product-photo" src="images/mountaindrop-original-shilajit-himalayas-100g-mountaindrop.com.png" alt="PeakModo Himalayan Shilajit Resin">
+    <img class="product-photo product-photo--bogo" src="images/EUR_Pre_Order_Red.png" alt="Buy One Get One Free - 2 Jars PeakModo Himalayan Shilajit Resin">
     <div class="stars-line">★★★★★ Rated "Excellent" 4.8/5 on Trustpilot · 6+ Independent Lab Certificates</div>
     <h3>PeakModo Himalayan Shilajit Resin (2×45g)</h3>
     <div class="offer-tag">Pre Order Now – Buy 1 Get 1 Free + 10% Off</div>
@@ -1166,64 +1206,23 @@ ul{margin:0;padding:0;list-style:none;}
   </div>
 </section>
 
-<!-- STATS — donut ring charts (exact match to original) -->
+<!-- STATS — donut ring charts (real original images) -->
 <section class="container" style="padding:2rem 0 3rem;">
   <p class="section-eyebrow">The proof is in the numbers…</p>
   <div class="donut-row">
     <div class="donut-stat">
-      <svg viewBox="0 0 120 120" class="donut-svg">
-        <circle cx="60" cy="60" r="52" fill="none" stroke="#1c1c1c" stroke-width="10"></circle>
-        <circle cx="60" cy="60" r="52" fill="none" stroke="url(#goldRing1)" stroke-width="10"
-          style="--pct:89;"></circle>
-        <defs>
-          <linearGradient id="goldRing1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="var(--gold-1)"/>
-            <stop offset="50%" stop-color="var(--gold-3)"/>
-            <stop offset="100%" stop-color="var(--gold-1)"/>
-          </linearGradient>
-        </defs>
-      </svg>
-      <div class="donut-center"><span class="donut-pct">89%</span></div>
-      <p class="donut-label">achieve their desired results</p>
+      <img src="images/MD_89_PC.jpg" alt="89% achieve their desired results" class="donut-img">
     </div>
-
     <div class="donut-stat">
-      <svg viewBox="0 0 120 120" class="donut-svg">
-        <circle cx="60" cy="60" r="52" fill="none" stroke="#1c1c1c" stroke-width="10"></circle>
-        <circle cx="60" cy="60" r="52" fill="none" stroke="url(#goldRing2)" stroke-width="10"
-          style="--pct:83;"></circle>
-        <defs>
-          <linearGradient id="goldRing2" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="var(--gold-1)"/>
-            <stop offset="50%" stop-color="var(--gold-3)"/>
-            <stop offset="100%" stop-color="var(--gold-1)"/>
-          </linearGradient>
-        </defs>
-      </svg>
-      <div class="donut-center"><span class="donut-pct">83%</span></div>
-      <p class="donut-label">experience significant benefits from regular use</p>
+      <img src="images/MD_83.jpg" alt="83% experience significant benefits from regular use" class="donut-img">
     </div>
-
     <div class="donut-stat">
-      <svg viewBox="0 0 120 120" class="donut-svg">
-        <circle cx="60" cy="60" r="52" fill="none" stroke="#1c1c1c" stroke-width="10"></circle>
-        <circle cx="60" cy="60" r="52" fill="none" stroke="url(#goldRing3)" stroke-width="10"
-          style="--pct:79;"></circle>
-        <defs>
-          <linearGradient id="goldRing3" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="var(--gold-1)"/>
-            <stop offset="50%" stop-color="var(--gold-3)"/>
-            <stop offset="100%" stop-color="var(--gold-1)"/>
-          </linearGradient>
-        </defs>
-      </svg>
-      <div class="donut-center"><span class="donut-pct">79%</span></div>
-      <p class="donut-label">would highly recommend to friends and colleagues</p>
+      <img src="images/MD_79_PC.png" alt="79% would highly recommend to friends and colleagues" class="donut-img">
     </div>
   </div>
 </section>
 
-<!-- CUSTOMER QUOTE + MINI REVIEW CARDS CAROUSEL (exact match to original) -->
+<!-- CUSTOMER QUOTE + REAL TRUSTPILOT SCREENSHOT CAROUSEL -->
 <section class="quote-reviews-section">
   <div class="container">
     <h2 class="section-title">"From all the Shilajit I ordered in the past 7 years… this one works the best…"</h2>
@@ -1231,45 +1230,34 @@ ul{margin:0;padding:0;list-style:none;}
 
     <div class="mini-review-track">
       <button class="mini-nav mini-nav--prev" aria-label="Previous reviews" type="button">‹</button>
-      <div class="mini-review-cards">
-        <div class="mini-review-card">
-          <div class="mini-review-card__top">
-            <div class="mini-avatar">MD</div>
-            <div class="mini-review-meta">
-              <span class="mini-name">Michael Dalton</span>
-              <span class="mini-sub">It · 9 reviews</span>
-            </div>
-            <span class="mini-date">Jan 16, 2026</span>
-          </div>
-          <div class="mini-stars-row">★★★★★ <span class="mini-verified">✓ Verified</span></div>
-          <p class="mini-title">Mike</p>
-          <p class="mini-text"><mark>Great product really works</mark> and these people are proud of it and add offers to make sure many people can enjoy their range of top quality products.</p>
-          <span class="mini-date-bottom">January 16, 2026</span>
-        </div>
-
-        <div class="mini-review-card">
-          <div class="mini-review-card__top">
-            <div class="mini-avatar mini-avatar--alt">DE</div>
-            <div class="mini-review-meta">
-              <span class="mini-name">Dem</span>
-              <span class="mini-sub">CH · 7 reviews</span>
-            </div>
-            <span class="mini-date">Nov 27, 2025</span>
-          </div>
-          <div class="mini-stars-row">★★★★★ <span class="mini-verified">✓ Verified</span></div>
-          <p class="mini-title">Shilajit excellent</p>
-          <p class="mini-text"><mark>Shilajit excellent</mark>, impeccable quality and price. Fast delivery and information. I highly recommend both the product and the service.</p>
-          <span class="mini-date-bottom">November 26, 2025</span>
+      <div class="mini-review-viewport">
+        <div class="mini-review-cards" id="reviewCarouselTrack">
+          <div class="mini-review-card"><img src="images/6acf72f2a55874302bfaeddbdcadf6e577a92c3d.png" alt="Review from Michael Dalton"></div>
+          <div class="mini-review-card"><img src="images/50724716c680e0ed24701c0028c8ec89d99d3240.png" alt="Review from Dem"></div>
+          <div class="mini-review-card"><img src="images/830b181cb60f19f36a241ae3f1409d6f6e45ae9e.png" alt="Review from Asgeir Runarsson"></div>
+          <div class="mini-review-card"><img src="images/9212ba75cdb3bf47e382445e9a2d582cdd8f9140.png" alt="Review from Anonimo"></div>
+          <div class="mini-review-card"><img src="images/95a4d4bff9bafa02aeee9c4663d288924126f9bd.png" alt="Review from Dagmara Jastrzebska"></div>
+          <div class="mini-review-card"><img src="images/b64fc59358f3ff2d4e944d2b8fece426acb1fd29.png" alt="Review from Silvia"></div>
+          <div class="mini-review-card"><img src="images/d61c094dfe6ad1de2452b6ecd8dbcf6d4c96d030.png" alt="Review from Petar Topchiyski"></div>
+          <div class="mini-review-card"><img src="images/fd255b1d657f97e9ff30e428979753666c8cfaf4.png" alt="Review from Arman Sarhaddar"></div>
         </div>
       </div>
       <button class="mini-nav mini-nav--next" aria-label="Next reviews" type="button">›</button>
     </div>
 
-    <div class="mini-dots">
-      <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <div class="mini-dots" id="reviewCarouselDots">
+      <span class="dot is-active" data-slide="0"></span>
+      <span class="dot" data-slide="1"></span>
+      <span class="dot" data-slide="2"></span>
+      <span class="dot" data-slide="3"></span>
+      <span class="dot" data-slide="4"></span>
+      <span class="dot" data-slide="5"></span>
+      <span class="dot" data-slide="6"></span>
+      <span class="dot" data-slide="7"></span>
     </div>
   </div>
 </section>
+
 
 <!-- ====================================================================
      SECTION 4 — DECISION CLOSE (premium redesign)
@@ -1320,6 +1308,33 @@ ul{margin:0;padding:0;list-style:none;}
     </details>
   </div>
 </section>
+
+<!-- CERTIFICATE BADGE CAROUSEL (bottom) -->
+<div class="badge-carousel">
+  <div class="badge-carousel__track">
+    <img src="images/gempages_586400118794617629-1b5d742f-9d68-4736-83ee-0eba6a2fdff2.png" alt="IQNET Recognized Certification">
+    <img src="images/gempages_586400118794617629-7db4959e-499e-4741-8c11-4a6a39902f83.png" alt="ISO 9001 Certified">
+    <img src="images/gempages_586400118794617629-8e504600-928c-4961-bc32-fac72cd9a8ca.png" alt="Rated Excellent on Trustpilot">
+    <img src="images/gempages_586400118794617629-85d84ae9-5f26-4798-b9e2-c6fbc791ba22.png" alt="HACCP Food Safety Certified">
+    <img src="images/gempages_586400118794617629-511ad62d-9372-4c62-b2cf-0108497fb1ec.png" alt="D-U-N-S Registered">
+    <img src="images/gempages_586400118794617629-53284fa0-09b0-48c8-a475-9b521e3e065c.png" alt="AAA Highest Creditworthiness">
+    <img src="images/gempages_586400118794617629-ab27b8a5-abd9-40b0-84e5-c48d0dc90c3d.png" alt="GMP Certified">
+    <img src="images/GMP_Certified_Shilajit_-_image.png" alt="GMP Certified">
+    <img src="images/Heavy_Metal_Tested_Mountaindrop_Shilajit.png" alt="Heavy Metal Tested">
+    <img src="images/Himalaya_1.jpg" alt="Himalayan Sourced">
+    <!-- duplicate set for seamless loop -->
+    <img src="images/gempages_586400118794617629-1b5d742f-9d68-4736-83ee-0eba6a2fdff2.png" alt="IQNET Recognized Certification">
+    <img src="images/gempages_586400118794617629-7db4959e-499e-4741-8c11-4a6a39902f83.png" alt="ISO 9001 Certified">
+    <img src="images/gempages_586400118794617629-8e504600-928c-4961-bc32-fac72cd9a8ca.png" alt="Rated Excellent on Trustpilot">
+    <img src="images/gempages_586400118794617629-85d84ae9-5f26-4798-b9e2-c6fbc791ba22.png" alt="HACCP Food Safety Certified">
+    <img src="images/gempages_586400118794617629-511ad62d-9372-4c62-b2cf-0108497fb1ec.png" alt="D-U-N-S Registered">
+    <img src="images/gempages_586400118794617629-53284fa0-09b0-48c8-a475-9b521e3e065c.png" alt="AAA Highest Creditworthiness">
+    <img src="images/gempages_586400118794617629-ab27b8a5-abd9-40b0-84e5-c48d0dc90c3d.png" alt="GMP Certified">
+    <img src="images/GMP_Certified_Shilajit_-_image.png" alt="GMP Certified">
+    <img src="images/Heavy_Metal_Tested_Mountaindrop_Shilajit.png" alt="Heavy Metal Tested">
+    <img src="images/Himalaya_1.jpg" alt="Himalayan Sourced">
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer class="site-footer">
@@ -1443,6 +1458,61 @@ function renderPayPalButton() {
 
 updatePriceDisplay();
 renderPayPalButton();
+
+// ---------- review screenshot carousel ----------
+(function () {
+  const track = document.getElementById('reviewCarouselTrack');
+  const dotsWrap = document.getElementById('reviewCarouselDots');
+  if (!track || !dotsWrap) return;
+
+  const cards = Array.from(track.children);
+  const dots = Array.from(dotsWrap.children);
+  let perView = window.innerWidth <= 700 ? 1 : 2;
+  let index = 0;
+  const maxIndex = () => Math.max(0, cards.length - perView);
+
+  function layout() {
+    // each card takes (100 / perView)% of the viewport width
+    cards.forEach((c) => { c.style.flex = `0 0 ${100 / perView}%`; });
+  }
+
+  function update() {
+    const slidePct = 100 / perView;
+    track.style.transform = `translateX(-${index * slidePct}%)`;
+    dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
+  }
+
+  function goTo(i) {
+    index = Math.max(0, Math.min(i, maxIndex()));
+    update();
+  }
+
+  document.querySelector('.mini-nav--prev').addEventListener('click', () => goTo(index - 1));
+  document.querySelector('.mini-nav--next').addEventListener('click', () => goTo(index + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+
+  // basic touch swipe support
+  let startX = 0;
+  track.parentElement.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+  track.parentElement.addEventListener('touchend', (e) => {
+    const diff = e.changedTouches[0].clientX - startX;
+    if (diff > 40) goTo(index - 1);
+    else if (diff < -40) goTo(index + 1);
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    const newPerView = window.innerWidth <= 700 ? 1 : 2;
+    if (newPerView !== perView) {
+      perView = newPerView;
+      layout();
+      index = Math.min(index, maxIndex());
+      update();
+    }
+  });
+
+  layout();
+  update();
+})();
 
 // ---------- scroll-reveal animations ----------
 if ('IntersectionObserver' in window) {
