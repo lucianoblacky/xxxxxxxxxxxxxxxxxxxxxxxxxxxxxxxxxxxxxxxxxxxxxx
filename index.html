@@ -24,15 +24,20 @@
   --ink:#1c1c1c;
   --ink-soft:#1c1c1cb3;
   --accent:#c0392b;
-  --gold:#cb9b51;
-  --gold-dark:#a87f3f;
+  --gold:#9c7a3a;
+  --gold-dark:#7a5f2c;
+  --gold-1:#7a5a23;
+  --gold-2:#caa544;
+  --gold-3:#f0d889;
+  --gold-4:#caa544;
+  --gold-5:#8a6a2e;
   --line:#dcdcdc;
   --container-max:71.875rem;
   --font-heading:"Instrument Sans", ui-sans-serif, system-ui, sans-serif;
   --font-body:"Nunito", ui-sans-serif, system-ui, sans-serif;
 }
 *{box-sizing:border-box;}
-html,body{margin:0;padding:0;}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden;}
 body{
   background:var(--bg);
   color:var(--ink);
@@ -65,14 +70,15 @@ ul{margin:0;padding:0;list-style:none;}
 /* ---------- Gold offer bar (top, repeated) ---------- */
 .gold-bar{
   display:block;
-  background:linear-gradient(90deg,#b8862e,#d4af6a,#b8862e);
-  color:#1c1c1c;
+  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 25%,var(--gold-3) 50%,var(--gold-2) 75%,var(--gold-1) 100%);
+  color:#2a1f08;
   text-align:center;
   padding:0.7rem 1rem;
   font-size:0.78rem;
   font-weight:800;
   letter-spacing:0.04em;
   text-transform:uppercase;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 3px rgba(0,0,0,0.12);
 }
 .gold-bar:hover{ filter:brightness(1.04); }
 
@@ -158,8 +164,8 @@ ul{margin:0;padding:0;list-style:none;}
   align-items:center;
   justify-content:center;
   gap:0.6rem;
-  background:linear-gradient(135deg,#b8862e,#d4af6a 50%,#b8862e);
-  color:#1c1c1c;
+  background:linear-gradient(135deg,var(--gold-1) 0%,var(--gold-2) 35%,var(--gold-3) 50%,var(--gold-2) 65%,var(--gold-1) 100%);
+  color:#2a1f08;
   font-weight:800;
   font-size:0.95rem;
   letter-spacing:0.03em;
@@ -168,10 +174,10 @@ ul{margin:0;padding:0;list-style:none;}
   border-radius:0.85rem;
   width:100%;
   max-width:24rem;
-  box-shadow:0 8px 24px -6px rgba(184,134,46,0.55);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -2px 5px rgba(0,0,0,0.15), 0 8px 24px -6px rgba(122,90,35,0.5);
   transition:transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease;
 }
-.ot-cta:hover{ transform:translateY(-2px) scale(1.01); box-shadow:0 12px 28px -6px rgba(184,134,46,0.65); }
+.ot-cta:hover{ transform:translateY(-2px) scale(1.01); box-shadow:inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -2px 5px rgba(0,0,0,0.15), 0 12px 28px -6px rgba(122,90,35,0.6); }
 .ot-cta:active{ transform:translateY(0) scale(0.99); }
 
 .ot-divider{ height:1px; background:var(--line); margin:2rem 0 1.5rem; }
@@ -185,7 +191,7 @@ ul{margin:0;padding:0;list-style:none;}
   flex-wrap:wrap;
 }
 .ot-trustpilot .tp-score{ font-weight:800; font-size:1.05rem; }
-.ot-trustpilot .tp-stars-gold{ color:#F5B301; font-size:1.1rem; letter-spacing:0.08em; }
+.ot-trustpilot .tp-stars-gold{ color:var(--gold-2); font-size:1.1rem; letter-spacing:0.08em; }
 .ot-trustpilot .tp-label{ font-size:0.85rem; color:var(--ink-soft); font-weight:600; }
 
 .ot-trustpoints{
@@ -239,52 +245,63 @@ ul{margin:0;padding:0;list-style:none;}
   margin:0 auto 2.5rem;
   line-height:1.6;
 }
-.sp-cards{
-  display:flex;
-  gap:1.25rem;
-  overflow-x:auto;
-  padding:0.25rem 1.25rem 1rem;
-  margin:0 -1.25rem;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
+.sp-cards{ display:none; } /* legacy, unused after redesign */
+
+/* ---------- Trustpilot review card (exact screenshot match) ---------- */
+.tp-review-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:2rem;
+  align-items:start;
 }
-.sp-cards::-webkit-scrollbar{ display:none; }
 @media (min-width:860px){
-  .sp-cards{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    overflow:visible;
-    padding:0.25rem 0 1rem;
-    margin:0;
-    max-width:71.875rem;
-    margin-inline:auto;
-    padding-inline:2.5rem;
-  }
+  .tp-review-grid{ grid-template-columns:1fr 1fr; gap:2.75rem; }
 }
-.sp-card{
-  flex:0 0 85%;
-  scroll-snap-align:center;
-  background:rgba(255,255,255,0.65);
-  backdrop-filter:blur(16px) saturate(180%);
-  -webkit-backdrop-filter:blur(16px) saturate(180%);
-  border:1px solid rgba(255,255,255,0.6);
-  border-radius:1.25rem;
-  box-shadow:0 1px 1px rgba(0,0,0,0.02), 0 16px 32px -12px rgba(0,0,0,0.10);
-  padding:1.75rem;
-  position:relative;
-  overflow:hidden;
+
+.tp-review-card{
+  background:#fff;
+  border-radius:1rem;
+  box-shadow:0 1px 2px rgba(0,0,0,0.04), 0 20px 40px -16px rgba(0,0,0,0.12);
+  padding:1.5rem;
 }
-@media (min-width:860px){ .sp-card{ flex:none; } }
-.sp-card::before{
-  content:"";
-  position:absolute;
-  top:0; left:0; right:0;
-  height:3px;
-  background:linear-gradient(90deg,#b8862e,#F5B301,#b8862e);
+@media (min-width:700px){ .tp-review-card{ padding:2rem; } }
+
+.tp-review-card__header{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:0.4rem;
+  margin-bottom:0.5rem;
 }
-.sp-card .stars-gold{ color:#F5B301; font-size:1.05rem; letter-spacing:0.1em; display:block; margin-bottom:0.85rem; }
-.sp-card p.quote{ font-size:0.98rem; line-height:1.6; color:var(--ink); margin-bottom:1rem; font-weight:500; }
-.sp-card .author{ font-size:0.85rem; font-weight:800; color:var(--ink-soft); }
+.tp-star-icon{ color:#00b67a; font-size:1.3rem; }
+.tp-wordmark{ font-size:1.15rem; font-weight:700; color:#191919; }
+
+.tp-review-card__score{
+  text-align:center;
+  font-size:1.6rem;
+  font-weight:800;
+  color:#191b3d;
+  margin-bottom:1.25rem;
+  letter-spacing:-0.01em;
+}
+.tp-stars-green{ color:#00b67a; letter-spacing:0.05em; }
+.tp-review-count{ font-size:1.3rem; font-weight:800; color:#191b3d; }
+
+.tp-mini-review{
+  border:1px solid var(--line);
+  border-radius:0.6rem;
+  padding:1.1rem 1.25rem;
+  margin-bottom:0.85rem;
+}
+.tp-mini-review:last-child{ margin-bottom:0; }
+.tp-mini-stars{ color:#00b67a; font-size:1.1rem; letter-spacing:0.1em; display:block; margin-bottom:0.5rem; }
+.tp-mini-quote{ font-size:1rem; line-height:1.5; color:#1c1c1c; margin-bottom:0.5rem; font-weight:500; }
+.tp-mini-name{ font-weight:800; font-size:0.98rem; color:#1c1c1c; }
+
+.tp-review-text .tp-bold-line{ font-weight:800; font-size:0.98rem; margin-bottom:1rem; color:var(--ink); }
+.tp-review-text .tp-line{ font-size:0.96rem; line-height:1.65; color:var(--ink-soft); margin-bottom:1rem; }
+.tp-review-text .tp-line strong{ color:var(--ink); }
+.tp-inline-stars{ color:#F5B301; letter-spacing:0.05em; margin-right:0.3rem; }
 
 /* ---------- Section 3: Contrast (dark) ---------- */
 .contrast-section{
@@ -330,7 +347,7 @@ ul{margin:0;padding:0;list-style:none;}
   margin-bottom:1.1rem;
 }
 .cs-col.bad .cs-col-title{ color:#e57368; }
-.cs-col.good .cs-col-title{ color:#F5B301; }
+.cs-col.good .cs-col-title{ color:var(--gold-2); }
 .cs-col ul{ display:flex; flex-direction:column; gap:0.9rem; }
 .cs-col li{
   display:flex;
@@ -366,7 +383,7 @@ ul{margin:0;padding:0;list-style:none;}
   line-height:1.65;
 }
 .dc-urgency{
-  color:#F5B301;
+  color:var(--gold-2);
   font-weight:800;
   font-size:1rem;
   margin-bottom:0.3rem;
@@ -380,18 +397,18 @@ ul{margin:0;padding:0;list-style:none;}
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(135deg,#b8862e,#F5B301 50%,#b8862e);
-  color:#1c1c1c;
+  background:linear-gradient(135deg,var(--gold-1) 0%,var(--gold-2) 35%,var(--gold-3) 50%,var(--gold-2) 65%,var(--gold-1) 100%);
+  color:#2a1f08;
   font-weight:800;
   font-size:1rem;
   letter-spacing:0.03em;
   text-transform:uppercase;
   padding:1.2rem 3rem;
   border-radius:0.9rem;
-  box-shadow:0 10px 30px -6px rgba(245,179,1,0.45);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -2px 5px rgba(0,0,0,0.18), 0 10px 30px -6px rgba(122,90,35,0.5);
   transition:transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease;
 }
-.dc-cta:hover{ transform:translateY(-2px) scale(1.02); box-shadow:0 16px 36px -6px rgba(245,179,1,0.55); }
+.dc-cta:hover{ transform:translateY(-2px) scale(1.02); box-shadow:inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -2px 5px rgba(0,0,0,0.18), 0 16px 36px -6px rgba(122,90,35,0.6); }
 
 /* ---------- Sticky mobile CTA (Section 4 specific reinforcement) ---------- */
 @media (max-width:699px){
@@ -468,8 +485,8 @@ ul{margin:0;padding:0;list-style:none;}
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(90deg,#b8862e,#d4af6a,#b8862e);
-  color:#1c1c1c;
+  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 25%,var(--gold-3) 50%,var(--gold-2) 75%,var(--gold-1) 100%);
+  color:#2a1f08;
   font-weight:800;
   font-size:0.82rem;
   letter-spacing:0.03em;
@@ -478,9 +495,10 @@ ul{margin:0;padding:0;list-style:none;}
   border-radius:0.4rem;
   width:100%;
   max-width:26rem;
-  transition:transform .15s ease, filter .15s ease;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -2px 4px rgba(0,0,0,0.15), 0 6px 16px -4px rgba(122,90,35,0.45);
+  transition:transform .15s ease, filter .15s ease, box-shadow .15s ease;
 }
-.btn:hover{ filter:brightness(1.05); transform:translateY(-1px); }
+.btn:hover{ filter:brightness(1.08); transform:translateY(-1px); box-shadow:inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -2px 4px rgba(0,0,0,0.15), 0 8px 20px -4px rgba(122,90,35,0.55); }
 .btn-wrap{ display:flex; margin:1.1rem 0; }
 
 .hero-tp-row2{
@@ -731,48 +749,15 @@ ul{margin:0;padding:0;list-style:none;}
 
 <header class="site-header">
   <div class="container">
-    <img src="images/logo_website.png" alt="Mountaindrop">
+    <img src="images/logo_website.png" alt="PeakModo Himalayan Shilajit Resin">
   </div>
 </header>
-
-<!-- ====================================================================
-     SECTION 1 — OFFER & TRUST (premium redesign)
-     ==================================================================== -->
-<section class="offer-trust-section">
-  <div class="container">
-    <div class="offer-trust-card reveal">
-      <span class="ot-eyebrow">New Customer Discount</span>
-      <h2 class="ot-headline">Buy One Get One Free</h2>
-      <p class="ot-subhead">Get double the premium Himalayan Shilajit for the same price today.</p>
-
-      <span class="ot-guarantee-pill">🛡️ 50-Day Money-Back Guarantee</span>
-
-      <div class="btn-wrap" style="margin:0 0 0.5rem;">
-        <a href="#offer" class="ot-cta">Get This Offer Now</a>
-      </div>
-
-      <div class="ot-divider"></div>
-
-      <div class="ot-trustpilot">
-        <span class="tp-score">Rated "Excellent" 4.8</span>
-        <span class="tp-stars-gold">★★★★★</span>
-        <span class="tp-label">On Trustpilot</span>
-      </div>
-
-      <div class="ot-trustpoints">
-        <div class="point"><span class="check">✓</span> 50-Day Money-Back Guarantee</div>
-        <div class="point"><span class="check">✓</span> Harvested Above 5,000m Altitude</div>
-        <div class="point"><span class="check">✓</span> Every Batch Independently Lab Tested</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- HERO -->
 <section class="hero">
   <div class="container hero-grid">
     <div>
-      <h1>7 Reasons Most <span class="accent">"Himalayan Shilajit"</span> Is Fake (And How to Get the Real Thing With MountainDrop)</h1>
+      <h1>7 Reasons Most <span class="accent">"Himalayan Shilajit"</span> Is Fake (And How to Get the Real Thing With PeakModo Himalayan Shilajit Resin)</h1>
 
       <div class="hero-badge-row">
         <span class="tp-badge">Rated "Excellent" 4.8 <span class="tp-stars">★★★★★</span> On Trustpilot</span>
@@ -799,7 +784,7 @@ ul{margin:0;padding:0;list-style:none;}
     </div>
 
     <div class="hero-image">
-      <img src="images/If_You_Did_Not_Feel_A_Difference_You_Never_Took_Shilajit_-_Mountaindrop_Shilajit_Works_Instantly.webp" alt="Man working out with Mountaindrop Shilajit">
+      <img src="images/If_You_Did_Not_Feel_A_Difference_You_Never_Took_Shilajit_-_Mountaindrop_Shilajit_Works_Instantly.webp" alt="Man working out with PeakModo Himalayan Shilajit Resin">
     </div>
   </div>
 </section>
@@ -822,9 +807,9 @@ ul{margin:0;padding:0;list-style:none;}
   <div class="brand-proof">
     <div>
       <h2>The Only Brand In The World That Was Brave Enough To Test It</h2>
-      <p>The market was full of shilajit claims. Mountaindrop came in with proof.</p>
-      <p>By putting its own <strong>Himalayan Shilajit through a real clinical study</strong> at J.S. Hamilton Poland, Mountaindrop became the first brand in the world to turn ancient shilajit wisdom into modern medical evidence.</p>
-      <p>That's why Mountaindrop doesn't just compete – it dominates. While other brands sell stories, <strong>Mountaindrop sells tested, measurable results.</strong></p>
+      <p>The market was full of shilajit claims. PeakModo Himalayan Shilajit Resin came in with proof.</p>
+      <p>By putting its own <strong>Himalayan Shilajit through a real clinical study</strong> at J.S. Hamilton Poland, PeakModo Himalayan Shilajit Resin became the first brand in the world to turn ancient shilajit wisdom into modern medical evidence.</p>
+      <p>That's why PeakModo Himalayan Shilajit Resin doesn't just compete – it dominates. While other brands sell stories, <strong>PeakModo Himalayan Shilajit Resin sells tested, measurable results.</strong></p>
     </div>
     <div class="stat-card">
       <img src="images/Mountaindrop_Is_The_Only_Clinically_Tested_Shilajit_In_EU.webp" alt="Clinically tested and verified - 93% reported better sleep quality">
@@ -843,7 +828,7 @@ ul{margin:0;padding:0;list-style:none;}
       <p>If you've tried shilajit and felt nothing, you're not alone. Most people never experience what real shilajit does because what they bought wasn't real.</p>
       <p>Capsules. Powders. Gummies. Factory extracts designed for profit, not results.</p>
       <p><strong>Real shilajit is a sticky resin that fully dissolves in water.</strong> If yours doesn't, it won't work.</p>
-      <p>Thousands who switch to Mountaindrop report feeling the difference within days: more energy, sharper focus, better mood, stronger drive.</p>
+      <p>Thousands who switch to PeakModo Himalayan Shilajit Resin report feeling the difference within days: more energy, sharper focus, better mood, stronger drive.</p>
       <p><strong>You weren't doing it wrong. You were sold the wrong thing.</strong></p>
     </div>
   </div>
@@ -861,7 +846,7 @@ ul{margin:0;padding:0;list-style:none;}
       <h2>2. Most Brands Hide That They Source From Chinese Factories</h2>
       <p>Many brands import processed shilajit from Chinese factories, relabel it as "Himalayan," and charge premium prices.</p>
       <p>This isn't disclosed. Most buyers never know. Factory shilajit is often diluted, contaminated, or mixed with fillers.</p>
-      <p><strong>Mountaindrop is not manufactured in China.</strong></p>
+      <p><strong>PeakModo Himalayan Shilajit Resin is not manufactured in China.</strong></p>
       <p>Not extracted there. Not processed there. Not packaged there.</p>
       <p><strong>That's why people who switch notice real energy, focus, and drive within days.</strong></p>
     </div>
@@ -919,7 +904,7 @@ ul{margin:0;padding:0;list-style:none;}
       <h2>5. Most "Lab Tested" Claims Are Never Verified After the First Batch</h2>
       <p>Most brands advertise "lab tested" but never test again after the first batch. Some never test at all.</p>
       <p>Shilajit is a raw mineral resin. Its heavy metal content, microbial load, and mineral profile change with every harvest.</p>
-      <p><strong>Mountaindrop tests every single batch and publishes the certificates by lot number.</strong></p>
+      <p><strong>PeakModo Himalayan Shilajit Resin tests every single batch and publishes the certificates by lot number.</strong></p>
       <p>If you can't verify your exact jar, you're not buying shilajit. You're buying a claim.</p>
     </div>
   </div>
@@ -952,30 +937,49 @@ ul{margin:0;padding:0;list-style:none;}
 <a href="#offer" class="gold-bar" style="display:block;">VIEW THE LIMITED TIME OFFER</a>
 
 <!-- ====================================================================
-     SECTION 2 — SOCIAL PROOF (premium redesign)
+     SECTION 2 — VERIFIED CUSTOMER REVIEWS (Trustpilot card design)
      ==================================================================== -->
 <section class="social-proof-section">
-  <div class="container" style="max-width:none; padding:0;">
-    <div style="max-width:71.875rem; margin:0 auto; padding:0 1.25rem;">
-      <h2 class="sp-headline reveal">Over 1,000 Verified Customers Report Real Results Within Days</h2>
-      <p class="sp-subhead reveal">Mountaindrop has 1,042 verified Trustpilot reviews with an average rating of 4.8 stars.</p>
-    </div>
+  <div class="container">
+    <div class="tp-review-grid">
+      <div class="tp-review-card reveal">
+        <div class="tp-review-card__header">
+          <span class="tp-star-icon">★</span>
+          <span class="tp-wordmark">Trustpilot</span>
+        </div>
+        <div class="tp-review-card__score">
+          4.7 <span class="tp-stars-green">★★★★☆</span> <span class="tp-review-count">| 1,042 Reviews</span>
+        </div>
 
-    <div class="sp-cards">
-      <div class="sp-card reveal">
-        <span class="stars-gold">★★★★★</span>
-        <p class="quote">"I felt the difference within the first week. More energy. Better focus. Noticeably better mood."</p>
-        <p class="author">— Mark T.</p>
+        <div class="tp-mini-review">
+          <span class="tp-mini-stars">★★★★★</span>
+          <p class="tp-mini-quote">"I felt the difference within the first week. More energy. Better focus. Noticeably better mood."</p>
+          <p class="tp-mini-name">Mark T.</p>
+        </div>
+        <div class="tp-mini-review">
+          <span class="tp-mini-stars">★★★★★</span>
+          <p class="tp-mini-quote">"Finally found real shilajit that actually works. I tried three other brands and felt nothing."</p>
+          <p class="tp-mini-name">Sarah L.</p>
+        </div>
+        <div class="tp-mini-review">
+          <span class="tp-mini-stars">★★★★★</span>
+          <p class="tp-mini-quote">"Energy levels are way higher now. Sleeping better too. Worth every penny."</p>
+          <p class="tp-mini-name">James K.</p>
+        </div>
       </div>
-      <div class="sp-card reveal">
-        <span class="stars-gold">★★★★★</span>
-        <p class="quote">"Finally found real shilajit that actually works. I tried three other brands and felt nothing."</p>
-        <p class="author">— Sarah L.</p>
-      </div>
-      <div class="sp-card reveal">
-        <span class="stars-gold">★★★★★</span>
-        <p class="quote">"Energy levels are way higher now. Sleeping better too. Worth every penny."</p>
-        <p class="author">— James K.</p>
+
+      <div class="tp-review-text reveal">
+        <h2 class="sp-headline" style="text-align:left; margin:0 0 0.85rem;">7. Over 1,000 Verified Customers Report Real Results Within Days</h2>
+        <p class="tp-bold-line">PeakModo Himalayan Shilajit Resin has 1,042 Trustpilot reviews at 4.8 stars.</p>
+        <p class="tp-line">Here's what real customers say:</p>
+
+        <p class="tp-line"><span class="tp-inline-stars">★★★★★</span> "I felt the difference within the first week. More energy. Better focus. Noticeably better mood." – Mark T.</p>
+        <p class="tp-line"><span class="tp-inline-stars">★★★★★</span> "Finally found real shilajit that actually works. I tried three other brands and felt nothing." – Sarah L.</p>
+        <p class="tp-line"><span class="tp-inline-stars">★★★★★</span> "Energy levels are way higher now. Sleeping better too. Worth every penny." – James K.</p>
+
+        <p class="tp-line">Keep taking fake shilajit and nothing changes.</p>
+        <p class="tp-bold-line">Or switch to what over 1,000 people already trust.</p>
+        <p class="tp-line">Your choice. <strong>But this offer won't last.</strong></p>
       </div>
     </div>
   </div>
@@ -1000,7 +1004,7 @@ ul{margin:0;padding:0;list-style:none;}
         </ul>
       </div>
       <div class="cs-col good reveal">
-        <div class="cs-col-title">Mountaindrop</div>
+        <div class="cs-col-title">PeakModo Himalayan Shilajit Resin</div>
         <ul>
           <li><span class="icon">✅</span> Authentic Himalayan Source</li>
           <li><span class="icon">✅</span> Lab Tested Every Batch</li>
@@ -1019,9 +1023,9 @@ ul{margin:0;padding:0;list-style:none;}
   <div class="product-card">
 
     <div class="offer-card__tag">Limited Offer – Buy One Get One Free</div>
-    <img class="product-photo" src="images/mountaindrop-original-shilajit-himalayas-100g-mountaindrop.com.png" alt="Mountaindrop Original Himalayan Shilajit">
+    <img class="product-photo" src="images/mountaindrop-original-shilajit-himalayas-100g-mountaindrop.com.png" alt="PeakModo Himalayan Shilajit Resin">
     <div class="stars-line">★★★★★ Rated "Excellent" 4.8/5 on Trustpilot · 6+ Independent Lab Certificates</div>
-    <h3>Mountaindrop Original Himalayan Shilajit (2×45g)</h3>
+    <h3>PeakModo Himalayan Shilajit Resin (2×45g)</h3>
     <div class="offer-tag">Pre Order Now – Buy 1 Get 1 Free + 10% Off</div>
     <p class="price-row">
       <span class="compare" id="compare-price">210,00 €</span>
@@ -1084,7 +1088,7 @@ ul{margin:0;padding:0;list-style:none;}
   <h2 class="section-title">Frequently Asked Questions</h2>
   <div class="faq">
     <details class="faq-item" open>
-      <summary>How do I know Mountaindrop shilajit is real?</summary>
+      <summary>How do I know PeakModo Himalayan Shilajit Resin is real?</summary>
       <p>Every jar includes a lot number linking to published COA certificates. Real shilajit dissolves completely in water with no residue.</p>
     </details>
     <details class="faq-item">
@@ -1117,12 +1121,12 @@ ul{margin:0;padding:0;list-style:none;}
 <!-- FOOTER -->
 <footer class="site-footer">
   <div class="container">
-    <img src="images/logo_website.png" alt="Mountaindrop">
+    <img src="images/logo_website.png" alt="PeakModo Himalayan Shilajit Resin">
     <div class="foot-row">
       <span>Our Address: Medveščkova ulica 8, 1000 Ljubljana</span>
-      <span>Our Email Address: support@mountaindrop.com</span>
+      <span>Our Email Address: support@peakmodo.com</span>
     </div>
-    <p class="legal">© Mountaindrop. All rights reserved.</p>
+    <p class="legal">© PeakModo Himalayan Shilajit Resin. All rights reserved.</p>
   </div>
 </footer>
 
