@@ -718,6 +718,115 @@ ul{margin:0;padding:0;list-style:none;}
 @media (min-width:700px){ .stats-row{ grid-template-columns:repeat(3,1fr); } }
 .stat .num{ font-family:var(--font-heading); font-size:clamp(2.2rem,1.8rem+2vw,3rem); font-weight:800; color:var(--accent); }
 .stat .label{ font-size:0.85rem; color:var(--ink-soft); margin-top:0.35rem; }
+
+/* ---------- Donut ring stats (exact match) ---------- */
+.donut-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0.5rem;
+  max-width:40rem;
+  margin:1.5rem auto 0;
+}
+@media (max-width:600px){
+  .donut-row{ grid-template-columns:1fr; gap:2rem; max-width:14rem; }
+}
+.donut-stat{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+.donut-svg{ width:100%; max-width:9.5rem; aspect-ratio:1/1; transform:rotate(-90deg); }
+.donut-svg circle{ stroke-linecap:butt; }
+.donut-svg circle:first-of-type{ stroke-dasharray:2.2 2.4; }
+.donut-svg circle:nth-of-type(2){
+  stroke-dasharray:2.2 2.4;
+  stroke-dashoffset:0;
+  -webkit-mask-image:conic-gradient(from -90deg, #000 calc(var(--pct) * 1%), transparent calc(var(--pct) * 1%));
+  mask-image:conic-gradient(from -90deg, #000 calc(var(--pct) * 1%), transparent calc(var(--pct) * 1%));
+  transform-origin:60px 60px;
+}
+.donut-center{
+  position:absolute;
+  top:0; left:0; right:0;
+  height:calc(100% - 2.6rem);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.donut-pct{ font-family:var(--font-heading); font-size:clamp(1.6rem,1.3rem+1.2vw,2.1rem); font-weight:800; color:var(--ink); }
+.donut-label{ font-size:0.8rem; color:var(--ink-soft); margin-top:0.5rem; line-height:1.4; max-width:9rem; }
+
+/* ---------- Quote + mini review carousel (exact match) ---------- */
+.quote-reviews-section{ background:var(--bg); padding:2.5rem 0 3rem; }
+.quote-reviews-sub{
+  text-align:center;
+  font-size:0.85rem;
+  color:var(--accent);
+  max-width:32rem;
+  margin:0 auto 2rem;
+  line-height:1.6;
+}
+.mini-review-track{
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+  max-width:48rem;
+  margin:0 auto;
+}
+.mini-nav{
+  flex:0 0 auto;
+  width:2.25rem;
+  height:2.25rem;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:#fff;
+  font-size:1.2rem;
+  color:var(--ink-soft);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+.mini-review-cards{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
+  flex:1;
+  min-width:0;
+}
+@media (max-width:700px){
+  .mini-review-cards{ grid-template-columns:1fr; }
+}
+.mini-review-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:0.6rem;
+  padding:1.1rem 1.1rem 0.85rem;
+}
+.mini-review-card__top{ display:flex; align-items:flex-start; gap:0.6rem; margin-bottom:0.5rem; }
+.mini-avatar{
+  width:2rem; height:2rem; border-radius:50%;
+  background:#ffe2c7; color:#b9650f;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.7rem; font-weight:800; flex:0 0 auto;
+}
+.mini-avatar--alt{ background:#f3d8ec; color:#a2317f; }
+.mini-review-meta{ display:flex; flex-direction:column; flex:1; min-width:0; }
+.mini-name{ font-size:0.85rem; font-weight:700; color:var(--ink); }
+.mini-sub{ font-size:0.72rem; color:var(--ink-soft); }
+.mini-date{ font-size:0.7rem; color:var(--ink-soft); flex:0 0 auto; white-space:nowrap; }
+.mini-stars-row{ color:#00b67a; font-size:0.85rem; letter-spacing:0.05em; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.5rem; }
+.mini-stars-row .mini-verified{ color:var(--ink-soft); font-size:0.7rem; letter-spacing:0; font-weight:600; }
+.mini-title{ font-weight:700; font-size:0.85rem; margin-bottom:0.25rem; color:var(--ink); }
+.mini-text{ font-size:0.82rem; line-height:1.55; color:var(--ink-soft); margin-bottom:0.5rem; }
+.mini-text mark{ background:#fff3b0; color:var(--ink); padding:0 0.1rem; }
+.mini-date-bottom{ font-size:0.68rem; color:#999; }
+
+.mini-dots{ display:flex; justify-content:center; gap:0.4rem; margin-top:1.25rem; }
+.mini-dots .dot{ width:0.4rem; height:0.4rem; border-radius:50%; background:#d8d8d8; }
+.mini-dots .dot.is-active{ background:var(--ink); }
 .section-eyebrow{ text-align:center; font-size:0.78rem; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; color:var(--accent); margin-bottom:0.6rem; }
 .section-title{ text-align:center; font-size:clamp(1.3rem,1.1rem+1vw,1.8rem); max-width:38rem; margin:0 auto 2rem; }
 
@@ -1057,14 +1166,108 @@ ul{margin:0;padding:0;list-style:none;}
   </div>
 </section>
 
-<!-- STATS -->
+<!-- STATS — donut ring charts (exact match to original) -->
 <section class="container" style="padding:2rem 0 3rem;">
   <p class="section-eyebrow">The proof is in the numbers…</p>
-  <h2 class="section-title">"From all the Shilajit I ordered in the past 7 years… this one works the best…"</h2>
-  <div class="stats-row">
-    <div class="stat"><div class="num">94%</div><div class="label">achieve their desired results</div></div>
-    <div class="stat"><div class="num">89%</div><div class="label">experience significant benefits from regular use</div></div>
-    <div class="stat"><div class="num">97%</div><div class="label">would highly recommend to friends and colleagues</div></div>
+  <div class="donut-row">
+    <div class="donut-stat">
+      <svg viewBox="0 0 120 120" class="donut-svg">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#1c1c1c" stroke-width="10"></circle>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="url(#goldRing1)" stroke-width="10"
+          style="--pct:89;"></circle>
+        <defs>
+          <linearGradient id="goldRing1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--gold-1)"/>
+            <stop offset="50%" stop-color="var(--gold-3)"/>
+            <stop offset="100%" stop-color="var(--gold-1)"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="donut-center"><span class="donut-pct">89%</span></div>
+      <p class="donut-label">achieve their desired results</p>
+    </div>
+
+    <div class="donut-stat">
+      <svg viewBox="0 0 120 120" class="donut-svg">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#1c1c1c" stroke-width="10"></circle>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="url(#goldRing2)" stroke-width="10"
+          style="--pct:83;"></circle>
+        <defs>
+          <linearGradient id="goldRing2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--gold-1)"/>
+            <stop offset="50%" stop-color="var(--gold-3)"/>
+            <stop offset="100%" stop-color="var(--gold-1)"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="donut-center"><span class="donut-pct">83%</span></div>
+      <p class="donut-label">experience significant benefits from regular use</p>
+    </div>
+
+    <div class="donut-stat">
+      <svg viewBox="0 0 120 120" class="donut-svg">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#1c1c1c" stroke-width="10"></circle>
+        <circle cx="60" cy="60" r="52" fill="none" stroke="url(#goldRing3)" stroke-width="10"
+          style="--pct:79;"></circle>
+        <defs>
+          <linearGradient id="goldRing3" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--gold-1)"/>
+            <stop offset="50%" stop-color="var(--gold-3)"/>
+            <stop offset="100%" stop-color="var(--gold-1)"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="donut-center"><span class="donut-pct">79%</span></div>
+      <p class="donut-label">would highly recommend to friends and colleagues</p>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOMER QUOTE + MINI REVIEW CARDS CAROUSEL (exact match to original) -->
+<section class="quote-reviews-section">
+  <div class="container">
+    <h2 class="section-title">"From all the Shilajit I ordered in the past 7 years… this one works the best…"</h2>
+    <p class="quote-reviews-sub">Thousands of people are feeling REAL benefits after switching to PeakModo Himalayan Shilajit Resin:</p>
+
+    <div class="mini-review-track">
+      <button class="mini-nav mini-nav--prev" aria-label="Previous reviews" type="button">‹</button>
+      <div class="mini-review-cards">
+        <div class="mini-review-card">
+          <div class="mini-review-card__top">
+            <div class="mini-avatar">MD</div>
+            <div class="mini-review-meta">
+              <span class="mini-name">Michael Dalton</span>
+              <span class="mini-sub">It · 9 reviews</span>
+            </div>
+            <span class="mini-date">Jan 16, 2026</span>
+          </div>
+          <div class="mini-stars-row">★★★★★ <span class="mini-verified">✓ Verified</span></div>
+          <p class="mini-title">Mike</p>
+          <p class="mini-text"><mark>Great product really works</mark> and these people are proud of it and add offers to make sure many people can enjoy their range of top quality products.</p>
+          <span class="mini-date-bottom">January 16, 2026</span>
+        </div>
+
+        <div class="mini-review-card">
+          <div class="mini-review-card__top">
+            <div class="mini-avatar mini-avatar--alt">DE</div>
+            <div class="mini-review-meta">
+              <span class="mini-name">Dem</span>
+              <span class="mini-sub">CH · 7 reviews</span>
+            </div>
+            <span class="mini-date">Nov 27, 2025</span>
+          </div>
+          <div class="mini-stars-row">★★★★★ <span class="mini-verified">✓ Verified</span></div>
+          <p class="mini-title">Shilajit excellent</p>
+          <p class="mini-text"><mark>Shilajit excellent</mark>, impeccable quality and price. Fast delivery and information. I highly recommend both the product and the service.</p>
+          <span class="mini-date-bottom">November 26, 2025</span>
+        </div>
+      </div>
+      <button class="mini-nav mini-nav--next" aria-label="Next reviews" type="button">›</button>
+    </div>
+
+    <div class="mini-dots">
+      <span class="dot is-active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
   </div>
 </section>
 
