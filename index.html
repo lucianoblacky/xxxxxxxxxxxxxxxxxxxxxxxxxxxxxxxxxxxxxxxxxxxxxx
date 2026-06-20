@@ -388,55 +388,6 @@ ul{margin:0;padding:0;list-style:none;}
 .cs-col .icon{ flex:0 0 auto; font-size:1rem; line-height:1.4; }
 
 /* ---------- Section 4: Decision close ---------- */
-.decision-section{
-  background:linear-gradient(180deg,#1c1c1c,#0d0d0d);
-  padding:4rem 0;
-  text-align:center;
-}
-.dc-headline{
-  color:#fff;
-  font-size:clamp(1.6rem, 1.3rem + 1.5vw, 2.4rem);
-  font-weight:800;
-  max-width:36rem;
-  margin:0 auto 1rem;
-  letter-spacing:-0.02em;
-  line-height:1.2;
-}
-.dc-subhead{
-  color:#aaa;
-  font-size:1.02rem;
-  max-width:32rem;
-  margin:0 auto 2rem;
-  line-height:1.65;
-}
-.dc-urgency{
-  color:var(--gold-2);
-  font-weight:800;
-  font-size:1rem;
-  margin-bottom:0.3rem;
-}
-.dc-urgency-sub{
-  color:#777;
-  font-size:0.85rem;
-  margin-bottom:2rem;
-}
-.dc-cta{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,var(--gold-1) 0%,var(--gold-2) 35%,var(--gold-3) 50%,var(--gold-2) 65%,var(--gold-1) 100%);
-  color:#2a1f08;
-  font-weight:800;
-  font-size:1rem;
-  letter-spacing:0.03em;
-  text-transform:uppercase;
-  padding:1.2rem 3rem;
-  border-radius:0.9rem;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -2px 5px rgba(0,0,0,0.18), 0 10px 30px -6px rgba(122,90,35,0.5);
-  transition:transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease;
-}
-.dc-cta:hover{ transform:translateY(-2px) scale(1.02); box-shadow:inset 0 1px 0 rgba(255,255,255,0.4), inset 0 -2px 5px rgba(0,0,0,0.18), 0 16px 36px -6px rgba(122,90,35,0.6); }
-
 /* ---------- Sticky mobile CTA (Section 4 specific reinforcement) ---------- */
 @media (max-width:699px){
   .sticky-bar{ padding:0.6rem 0.85rem; }
@@ -592,19 +543,25 @@ ul{margin:0;padding:0;list-style:none;}
   display:grid;
   grid-template-columns:1fr;
   gap:1.75rem;
+  text-align:center;
 }
 @media (min-width:480px){
-  .brand-proof{ grid-template-columns:1.1fr 1fr; gap:2.5rem; align-items:start; }
+  .brand-proof{ grid-template-columns:1.1fr 1fr; gap:2.5rem; align-items:start; text-align:left; }
 }
 .brand-proof h2{
   font-size:clamp(1.3rem, 1.1rem + 1vw, 1.7rem);
-  margin-bottom:1rem;
+  margin:0 auto 1rem;
+  max-width:28rem;
+}
+@media (min-width:480px){
+  .brand-proof h2{ margin:0 0 1rem; max-width:none; }
 }
 .brand-proof p{
   font-size:0.92rem;
   color:var(--ink-soft);
   margin-bottom:0.85rem;
   line-height:1.6;
+  text-align:left;
 }
 .brand-proof strong{ color:var(--ink); }
 .brand-proof .stat-card img{
@@ -833,7 +790,7 @@ ul{margin:0;padding:0;list-style:none;}
 .mini-dots .dot{ width:0.4rem; height:0.4rem; border-radius:50%; background:#d8d8d8; cursor:pointer; }
 .mini-dots .dot.is-active{ background:var(--ink); }
 .section-eyebrow{ text-align:center; font-size:0.78rem; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; color:var(--accent); margin-bottom:0.6rem; }
-.section-title{ text-align:center; font-size:clamp(1.3rem,1.1rem+1vw,1.8rem); max-width:38rem; margin:0 auto 2rem; }
+.section-title{ text-align:center; font-size:clamp(1.3rem,1.1rem+1vw,1.8rem); max-width:38rem; width:100%; margin:0 auto 2rem; }
 
 /* ---------- FAQ ---------- */
 .faq{ max-width:40rem; margin:0 auto; }
@@ -843,6 +800,12 @@ ul{margin:0;padding:0;list-style:none;}
 .faq-item summary::after{ content:"+"; font-size:1.2rem; font-weight:400; flex:0 0 auto; margin-left:1rem; }
 .faq-item[open] summary::after{ content:"–"; }
 .faq-item p{ padding:0 0 1rem; color:var(--ink-soft); font-size:0.88rem; line-height:1.6; }
+
+/* ---------- Address / Email contact strip ---------- */
+.contact-strip{ background:var(--bg-soft, #f3f1ee); padding:1rem 0 2rem; }
+.contact-strip__row{ display:flex; justify-content:center; gap:3rem; flex-wrap:wrap; text-align:center; }
+.contact-strip__item{ display:flex; flex-direction:column; align-items:center; gap:0.5rem; font-weight:700; font-size:0.85rem; color:var(--ink); }
+.contact-strip__icon{ display:flex; align-items:center; justify-content:center; width:2.4rem; height:2.4rem; border-radius:50%; background:linear-gradient(135deg,var(--gold-1) 0%,var(--gold-2) 50%,var(--gold-3) 100%); font-size:1.1rem; }
 
 /* ---------- Footer ---------- */
 .site-footer{ background:#1a1a1a; color:#bbb; padding:2.5rem 0; text-align:center; font-size:0.82rem; }
@@ -1259,20 +1222,32 @@ ul{margin:0;padding:0;list-style:none;}
 </section>
 
 
-<!-- ====================================================================
-     SECTION 4 — DECISION CLOSE (premium redesign)
-     ==================================================================== -->
-<section class="decision-section">
-  <div class="container">
-    <h2 class="dc-headline reveal">Or Switch To What Over 1,000 People Already Trust.</h2>
-    <p class="dc-subhead reveal">Experience authentic Himalayan Shilajit backed by real customer results and a 50-day money-back guarantee.</p>
-
-    <p class="dc-urgency reveal">Your choice.</p>
-    <p class="dc-urgency-sub reveal">But this offer won't last.</p>
-
-    <a href="#offer" class="dc-cta reveal">Get This Offer Now</a>
+<!-- CERTIFICATE BADGE ROW (before FAQ) -->
+<div class="badge-carousel">
+  <div class="badge-carousel__track">
+    <img src="images/gempages_586400118794617629-1b5d742f-9d68-4736-83ee-0eba6a2fdff2.png" alt="IQNET Recognized Certification">
+    <img src="images/gempages_586400118794617629-7db4959e-499e-4741-8c11-4a6a39902f83.png" alt="ISO 9001 Certified">
+    <img src="images/gempages_586400118794617629-8e504600-928c-4961-bc32-fac72cd9a8ca.png" alt="Rated Excellent on Trustpilot">
+    <img src="images/gempages_586400118794617629-85d84ae9-5f26-4798-b9e2-c6fbc791ba22.png" alt="HACCP Food Safety Certified">
+    <img src="images/gempages_586400118794617629-511ad62d-9372-4c62-b2cf-0108497fb1ec.png" alt="D-U-N-S Registered">
+    <img src="images/gempages_586400118794617629-53284fa0-09b0-48c8-a475-9b521e3e065c.png" alt="AAA Highest Creditworthiness">
+    <img src="images/gempages_586400118794617629-ab27b8a5-abd9-40b0-84e5-c48d0dc90c3d.png" alt="GMP Certified">
+    <img src="images/GMP_Certified_Shilajit_-_image.png" alt="GMP Certified">
+    <img src="images/Heavy_Metal_Tested_Mountaindrop_Shilajit.png" alt="Heavy Metal Tested">
+    <img src="images/Himalaya_1.jpg" alt="Himalayan Sourced">
+    <!-- duplicate set for seamless loop -->
+    <img src="images/gempages_586400118794617629-1b5d742f-9d68-4736-83ee-0eba6a2fdff2.png" alt="IQNET Recognized Certification">
+    <img src="images/gempages_586400118794617629-7db4959e-499e-4741-8c11-4a6a39902f83.png" alt="ISO 9001 Certified">
+    <img src="images/gempages_586400118794617629-8e504600-928c-4961-bc32-fac72cd9a8ca.png" alt="Rated Excellent on Trustpilot">
+    <img src="images/gempages_586400118794617629-85d84ae9-5f26-4798-b9e2-c6fbc791ba22.png" alt="HACCP Food Safety Certified">
+    <img src="images/gempages_586400118794617629-511ad62d-9372-4c62-b2cf-0108497fb1ec.png" alt="D-U-N-S Registered">
+    <img src="images/gempages_586400118794617629-53284fa0-09b0-48c8-a475-9b521e3e065c.png" alt="AAA Highest Creditworthiness">
+    <img src="images/gempages_586400118794617629-ab27b8a5-abd9-40b0-84e5-c48d0dc90c3d.png" alt="GMP Certified">
+    <img src="images/GMP_Certified_Shilajit_-_image.png" alt="GMP Certified">
+    <img src="images/Heavy_Metal_Tested_Mountaindrop_Shilajit.png" alt="Heavy Metal Tested">
+    <img src="images/Himalaya_1.jpg" alt="Himalayan Sourced">
   </div>
-</section>
+</div>
 
 <!-- FAQ -->
 <section class="container" style="padding:1rem 0 3rem;">
@@ -1295,6 +1270,10 @@ ul{margin:0;padding:0;list-style:none;}
       <p>We offer a 50-day money-back guarantee. Try it risk-free.</p>
     </details>
     <details class="faq-item">
+      <summary>Why is PeakModo more expensive than Amazon brands?</summary>
+      <p>Most Amazon shilajit is diluted, factory-processed, and untested. PeakModo Himalayan Shilajit Resin is harvested above 5,000m, lab tested, and clinically studied — real potency costs more to source and verify.</p>
+    </details>
+    <details class="faq-item">
       <summary>How do I use this product?</summary>
       <p>Take one measuring spoon (0.2g/200mg) and dissolve in water, warm tea, juice, milk, or coffee (under 39°C). You can also take it directly. Use daily for best results.</p>
     </details>
@@ -1303,9 +1282,35 @@ ul{margin:0;padding:0;list-style:none;}
       <p>Yes. Our Himalayan Shilajit is properly purified, third-party tested with 6+ lab certificates, GMP certified, and tested for heavy metals. If you have medical conditions or take medications, consult your healthcare provider first.</p>
     </details>
     <details class="faq-item">
+      <summary>Is this only for men, or can women take it too?</summary>
+      <p>Shilajit is suitable for both men and women. It supports energy, focus, and overall vitality regardless of gender.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Can I take this with other supplements?</summary>
+      <p>Yes, shilajit generally combines well with other supplements. If you take medications or have a medical condition, check with your healthcare provider first.</p>
+    </details>
+    <details class="faq-item">
       <summary>How long will one jar last?</summary>
       <p>The 45g jar lasts about 2–3 months.</p>
     </details>
+    <details class="faq-item">
+      <summary>Does it need to be refrigerated?</summary>
+      <p>No. Store the jar in a cool, dry place away from direct sunlight. Refrigeration isn't necessary.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ADDRESS / EMAIL STRIP -->
+<section class="contact-strip">
+  <div class="container contact-strip__row">
+    <div class="contact-strip__item">
+      <span class="contact-strip__icon">📍</span>
+      <span>Our Address</span>
+    </div>
+    <div class="contact-strip__item">
+      <span class="contact-strip__icon">✉️</span>
+      <span>Our Email Address</span>
+    </div>
   </div>
 </section>
 
