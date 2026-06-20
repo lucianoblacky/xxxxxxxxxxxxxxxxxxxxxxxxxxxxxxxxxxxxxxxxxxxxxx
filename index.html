@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=5.0">
 <title>BOGO - 7 Reasons Most "Himalayan Shilajit" Is Fake</title>
 
-<!-- Same typefaces as the original: Instrument Sans (headings) + Nunito (body) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
@@ -14,7 +13,6 @@
   ============================================================
   PAYPAL CLIENT ID GOES HERE — replace YOUR_PAYPAL_CLIENT_ID_HERE
   Get it from: https://developer.paypal.com/dashboard/applications
-  This ID is meant to be public — PayPal's own SDK requires it here.
   ============================================================
 -->
 <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID_HERE&currency=EUR&intent=capture"></script>
@@ -26,10 +24,9 @@
   --ink:#1c1c1c;
   --ink-soft:#1c1c1cb3;
   --accent:#c0392b;
-  --accent-dark:#1c1c1c;
+  --gold:#cb9b51;
+  --gold-dark:#a87f3f;
   --line:#dcdcdc;
-  --gold:#1c1c1c;
-  --radius:0px;
   --container-max:71.875rem;
   --font-heading:"Instrument Sans", ui-sans-serif, system-ui, sans-serif;
   --font-body:"Nunito", ui-sans-serif, system-ui, sans-serif;
@@ -48,13 +45,14 @@ img{max-width:100%;display:block;}
 h1,h2,h3,h4{
   font-family:var(--font-heading);
   margin:0;
-  font-weight:700;
+  font-weight:800;
   letter-spacing:-0.01em;
   line-height:1.15;
 }
 p{margin:0;}
 a{color:inherit;text-decoration:none;}
-button{font-family:var(--font-body);cursor:pointer;border:none;}
+button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
+ul{margin:0;padding:0;list-style:none;}
 
 .container{
   max-width:var(--container-max);
@@ -62,640 +60,634 @@ button{font-family:var(--font-body);cursor:pointer;border:none;}
   padding:0 1.25rem;
 }
 @media (min-width:700px){ .container{padding:0 2rem;} }
-@media (min-width:1000px){ .container{padding:0 3rem;} }
+@media (min-width:1000px){ .container{padding:0 2.5rem;} }
 
-.section{ padding:2.5rem 0; }
-@media (min-width:1000px){ .section{ padding:4rem 0; } }
-.section--tight{ padding:1.5rem 0; }
-
-/* ---------- Announcement bar ---------- */
-.announce-bar{
-  background:var(--ink);
-  color:#fff;
-  overflow:hidden;
-  white-space:nowrap;
-  padding:0.55rem 0;
-}
-.announce-bar__track{
-  display:inline-flex;
-  animation:scrollbar 22s linear infinite;
-}
-.announce-bar__item{
-  padding:0 2.5rem;
-  font-size:0.8125rem;
-  font-weight:700;
-  letter-spacing:0.03em;
+/* ---------- Gold offer bar (top, repeated) ---------- */
+.gold-bar{
+  display:block;
+  background:linear-gradient(90deg,#b8862e,#d4af6a,#b8862e);
+  color:#1c1c1c;
+  text-align:center;
+  padding:0.7rem 1rem;
+  font-size:0.78rem;
+  font-weight:800;
+  letter-spacing:0.04em;
   text-transform:uppercase;
 }
-@keyframes scrollbar{
-  from{ transform:translateX(0); }
-  to{ transform:translateX(-50%); }
-}
+.gold-bar:hover{ filter:brightness(1.04); }
 
-/* ---------- Header ---------- */
+/* ---------- Site header / sticky promo ---------- */
 .site-header{
   background:#fff;
-  border-bottom:1px solid var(--line);
-  padding:1rem 0;
+  padding:0.6rem 0;
 }
 .site-header .container{
   display:flex;
   align-items:center;
   justify-content:center;
+  gap:0.5rem;
 }
-.site-header img{ height:34px; width:auto; }
+.site-header img{ height:26px; width:auto; }
+
+.promo-strip{
+  background:#e9f7ef;
+  padding:0.6rem 0;
+}
+.promo-strip .container{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.promo-strip__left{
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
+  font-size:0.78rem;
+  font-weight:800;
+  letter-spacing:0.02em;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+.promo-strip__left img{ height:20px; }
+.promo-strip__center{
+  font-size:0.95rem;
+  font-weight:800;
+  letter-spacing:0.02em;
+  text-transform:uppercase;
+}
+.promo-strip__center .strike{
+  color:#999;
+  text-decoration:line-through;
+  margin-right:0.4rem;
+}
+.promo-strip__center .red{ color:#d32f2f; }
+.promo-strip__cta{
+  background:#f0b429;
+  color:#1c1c1c;
+  font-size:0.78rem;
+  font-weight:800;
+  letter-spacing:0.02em;
+  text-transform:uppercase;
+  padding:0.55rem 1.1rem;
+  border-radius:999px;
+  white-space:nowrap;
+}
 
 /* ---------- Hero ---------- */
 .hero{
-  padding:2.5rem 0 1.5rem;
-  text-align:center;
+  background:var(--bg);
+  padding:1.75rem 0 2rem;
 }
-.hero__eyebrow{
-  display:inline-flex;
+.hero-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.75rem;
   align-items:center;
-  gap:0.4rem;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:0.35rem 0.9rem;
-  font-size:0.75rem;
-  font-weight:700;
-  letter-spacing:0.04em;
-  text-transform:uppercase;
-  margin-bottom:1.25rem;
+}
+@media (min-width:480px){
+  .hero-grid{ grid-template-columns:1.05fr 1fr; gap:2.5rem; }
 }
 .hero h1{
-  font-size:clamp(1.75rem, 1.4rem + 2vw, 3rem);
-  max-width:46rem;
-  margin:0 auto 1.25rem;
+  font-size:clamp(1.15rem, 0.95rem + 1vw, 1.55rem);
+  margin-bottom:0.6rem;
 }
 .hero h1 .accent{ color:var(--accent); }
 
-/* ---------- Trust strip ---------- */
-.trust-strip{
+.hero-badge-row{
   display:flex;
-  flex-wrap:wrap;
   align-items:center;
-  justify-content:center;
-  gap:0.6rem 1.5rem;
-  font-size:0.8125rem;
+  gap:0.6rem;
+  margin-bottom:0.85rem;
+}
+.tp-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:0.4rem;
+  font-size:0.78rem;
   font-weight:700;
+}
+.tp-stars{
+  background:#00b67a;
+  color:#fff;
+  font-size:0.7rem;
+  font-weight:800;
+  letter-spacing:0.03em;
+  padding:0.15rem 0.4rem;
+  border-radius:0.2rem;
+}
+
+.hero-guarantee{
+  font-size:0.8rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0.02em;
+  margin-bottom:0.75rem;
+}
+.hero p.lead{
+  font-size:0.95rem;
   color:var(--ink-soft);
-  margin:1.5rem 0;
+  margin-bottom:0.6rem;
+  line-height:1.55;
 }
-.trust-strip span{ display:inline-flex; align-items:center; gap:0.4rem; }
-.trust-strip .dot{ color:#cfcfcf; }
+.hero p.lead strong{ color:var(--ink); }
 
-/* ---------- Rating badge ---------- */
-.rating-badge{
-  display:flex;
-  align-items:center;
-  gap:0.85rem;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:0.5rem;
-  padding:0.85rem 1.25rem;
-  max-width:fit-content;
-  margin:1.5rem auto;
-}
-.rating-badge__score{
-  font-family:var(--font-heading);
-  font-size:1.6rem;
-  font-weight:700;
-}
-.rating-badge__stars{ color:#1c1c1c; letter-spacing:0.05em; }
-.rating-badge__text{ font-size:0.75rem; color:var(--ink-soft); text-align:left; }
-.rating-badge__text strong{ display:block; color:var(--ink); font-size:0.85rem; }
-
-/* ---------- CTA button ---------- */
 .btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  background:var(--accent);
-  color:#fff;
-  font-weight:700;
-  font-size:0.95rem;
-  letter-spacing:0.02em;
+  background:linear-gradient(90deg,#b8862e,#d4af6a,#b8862e);
+  color:#1c1c1c;
+  font-weight:800;
+  font-size:0.82rem;
+  letter-spacing:0.03em;
   text-transform:uppercase;
-  padding:1.05rem 2rem;
+  padding:0.85rem 1.5rem;
   border-radius:0.4rem;
   width:100%;
   max-width:26rem;
-  transition:transform .15s ease, background .15s ease;
+  transition:transform .15s ease, filter .15s ease;
 }
-.btn:hover{ background:#a73225; transform:translateY(-1px); }
-.btn-wrap{ display:flex; justify-content:center; margin:1.5rem 0; }
+.btn:hover{ filter:brightness(1.05); transform:translateY(-1px); }
+.btn-wrap{ display:flex; margin:1.1rem 0; }
 
-/* ---------- Testimonials carousel-style strip ---------- */
-.reviews-strip{ background:#fff; padding:2.5rem 0; }
-.reviews-strip__head{
-  text-align:center;
-  margin-bottom:1.75rem;
-}
-.reviews-strip__head .stars{ font-size:1.5rem; letter-spacing:0.1em; }
-.reviews-strip__head h3{ font-size:1.1rem; margin-top:0.5rem; }
-.reviews-strip__head p{ font-size:0.85rem; color:var(--ink-soft); margin-top:0.25rem; }
-
-.reviews-track{
+.hero-tp-row2{
   display:flex;
-  gap:1.25rem;
-  overflow-x:auto;
-  padding:0.25rem 0 1rem;
-  scroll-snap-type:x proximate;
-  -webkit-overflow-scrolling:touch;
-}
-.reviews-track::-webkit-scrollbar{ height:6px; }
-.reviews-track::-webkit-scrollbar-thumb{ background:#ddd; border-radius:99px; }
-
-.review-card{
-  flex:0 0 auto;
-  width:18.5rem;
-  background:var(--bg);
-  border-radius:0.6rem;
-  padding:1.25rem;
-  scroll-snap-align:start;
-}
-.review-card__tag{ font-weight:700; font-size:0.85rem; margin-bottom:0.35rem; }
-.review-card__stars{ color:#1c1c1c; font-size:0.85rem; margin-bottom:0.5rem; display:block; }
-.review-card__text{ font-size:0.85rem; color:var(--ink-soft); line-height:1.55; }
-.review-card__name{ font-weight:700; font-size:0.85rem; margin-top:0.85rem; }
-.review-card__loc{ font-size:0.75rem; color:var(--ink-soft); }
-
-/* ---------- Generic two-col content block ---------- */
-.split{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:2rem;
   align-items:center;
-}
-@media (min-width:800px){
-  .split{ grid-template-columns:1fr 1fr; gap:3rem; }
-  .split.reverse{ direction:rtl; }
-  .split.reverse > *{ direction:ltr; }
-}
-.split img{ border-radius:0.5rem; width:100%; }
-.split h2{ font-size:clamp(1.4rem, 1.2rem + 1vw, 2rem); margin-bottom:1rem; }
-.split p{ color:var(--ink-soft); margin-bottom:0.85rem; font-size:1rem; line-height:1.6; }
-.split p strong{ color:var(--ink); }
-
-.reason-eyebrow{
-  display:inline-block;
+  gap:0.5rem;
+  margin:1rem 0 0.6rem;
   font-size:0.8rem;
   font-weight:700;
-  letter-spacing:0.04em;
-  text-transform:uppercase;
-  color:var(--accent);
-  margin-bottom:0.75rem;
 }
-
-/* ---------- Clinical study banner ---------- */
-.study-banner{
-  background:var(--ink);
-  color:#fff;
-  text-align:center;
-  padding:3rem 0;
-}
-.study-banner h2{
-  color:#fff;
-  font-size:clamp(1.4rem,1.2rem + 1vw, 2.1rem);
-  max-width:48rem;
-  margin:0 auto 1rem;
-}
-.study-banner p{
-  color:#d8d8d8;
-  max-width:42rem;
-  margin:0 auto 0.5rem;
-  font-size:1rem;
-  line-height:1.6;
-}
-.study-banner .highlight{ color:#fff; font-weight:700; }
-
-/* ---------- Trust badges row ---------- */
-.badges-row{
+.hero-checklist{
   display:flex;
   flex-wrap:wrap;
-  justify-content:center;
-  gap:1.5rem 2.5rem;
-  padding:1.5rem 0;
+  gap:0.4rem 1.1rem;
+  font-size:0.72rem;
+  font-weight:700;
+  color:var(--ink-soft);
 }
-.badges-row .badge{
+
+.hero-image img{
+  border-radius:0.6rem;
+  width:100%;
+  object-fit:cover;
+  aspect-ratio:1/1.05;
+}
+
+/* ---------- Trust icons row ---------- */
+.trust-icons{
+  background:var(--bg);
+  padding:1.5rem 0 2rem;
+}
+.trust-icons ul{
+  display:flex;
+  justify-content:space-between;
+  gap:0.4rem;
+}
+.trust-icons li{
+  flex:1;
+  min-width:0;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:0.5rem;
   text-align:center;
-  font-size:0.75rem;
-  font-weight:700;
-  letter-spacing:0.02em;
-  max-width:7rem;
+  gap:0.4rem;
 }
-.badges-row .badge img{ width:48px; height:48px; object-fit:contain; }
+.trust-icons img{ width:32px; height:32px; }
+.trust-icons span{
+  font-size:0.55rem;
+  font-weight:700;
+  color:var(--gold-dark);
+  letter-spacing:0.01em;
+  line-height:1.2;
+}
+@media (min-width:700px){
+  .trust-icons img{ width:42px; height:42px; }
+  .trust-icons span{ font-size:0.68rem; }
+}
 
-/* ---------- BOGO offer card ---------- */
-.offer-card{
+/* ---------- "Only Brand" two column section ---------- */
+.section{ padding:2rem 0; }
+@media (min-width:1000px){ .section{ padding:3rem 0; } }
+
+.brand-proof{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.75rem;
+}
+@media (min-width:480px){
+  .brand-proof{ grid-template-columns:1.1fr 1fr; gap:2.5rem; align-items:start; }
+}
+.brand-proof h2{
+  font-size:clamp(1.3rem, 1.1rem + 1vw, 1.7rem);
+  margin-bottom:1rem;
+}
+.brand-proof p{
+  font-size:0.92rem;
+  color:var(--ink-soft);
+  margin-bottom:0.85rem;
+  line-height:1.6;
+}
+.brand-proof strong{ color:var(--ink); }
+.brand-proof .stat-card img{
+  border-radius:0.5rem;
+  width:100%;
+}
+
+/* ---------- Reason blocks ---------- */
+.reason{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.5rem;
+  align-items:center;
+  padding:1.75rem 0;
+}
+@media (min-width:480px){
+  .reason{ grid-template-columns:1fr 1fr; gap:2.5rem; }
+  .reason.img-right .reason-img{ order:2; }
+  .reason.img-right .reason-text{ order:1; }
+}
+.reason-img img{
+  border-radius:0.5rem;
+  width:100%;
+}
+.reason-text h2{
+  font-size:clamp(1.15rem, 1rem + 0.7vw, 1.4rem);
+  margin-bottom:0.75rem;
+}
+.reason-text p{
+  font-size:0.92rem;
+  color:var(--ink-soft);
+  margin-bottom:0.7rem;
+  line-height:1.6;
+}
+.reason-text p strong{ color:var(--ink); }
+
+/* ---------- BOGO black section ---------- */
+.bogo-section{
+  background:#1a1a1a;
+  padding:2.5rem 0;
+}
+.bogo-section .bogo-title{
+  text-align:center;
+  margin-bottom:2rem;
+}
+.bogo-section .bogo-title h2{
+  color:var(--gold);
+  font-size:clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+  margin-bottom:0.3rem;
+}
+.bogo-section .bogo-title p{
+  color:#bbb;
+  font-size:0.85rem;
+}
+.bogo-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.5rem;
+  align-items:center;
+}
+@media (min-width:480px){
+  .bogo-grid{ grid-template-columns:1fr 1fr; gap:2.5rem; }
+}
+.bogo-grid h3{
+  color:#fff;
+  font-size:clamp(1.1rem, 1rem + 0.6vw, 1.35rem);
+  margin-bottom:0.75rem;
+}
+.bogo-grid p{
+  color:#bbb;
+  font-size:0.9rem;
+  margin-bottom:0.65rem;
+  line-height:1.6;
+}
+.bogo-grid p strong{ color:#fff; }
+.bogo-grid img{ border-radius:0.5rem; width:100%; }
+
+/* ---------- Reason 7 (Trustpilot screenshot) ---------- */
+.reason7{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.5rem;
+  align-items:start;
+  padding:1.75rem 0;
+}
+@media (min-width:480px){ .reason7{ grid-template-columns:1fr 1fr; gap:2.5rem; } }
+.reason7 img{ border-radius:0.5rem; width:100%; }
+.reason7 h2{
+  font-size:clamp(1.15rem, 1rem + 0.7vw, 1.4rem);
+  margin-bottom:0.75rem;
+}
+.reason7 p{
+  font-size:0.92rem;
+  color:var(--ink-soft);
+  margin-bottom:0.7rem;
+  line-height:1.6;
+}
+
+/* ---------- Product offer card ---------- */
+.offer-wrap{ padding:2.5rem 0; }
+.product-card{
   background:#fff;
-  border:2px solid var(--ink);
   border-radius:0.75rem;
   padding:2rem;
-  text-align:center;
-  max-width:32rem;
+  max-width:28rem;
   margin:0 auto;
+  text-align:center;
 }
 .offer-card__tag{
   display:inline-block;
   background:var(--accent);
   color:#fff;
-  font-size:0.75rem;
-  font-weight:700;
+  font-size:0.72rem;
+  font-weight:800;
   letter-spacing:0.03em;
   text-transform:uppercase;
   padding:0.35rem 0.85rem;
   border-radius:999px;
   margin-bottom:1rem;
 }
-.offer-card h3{ font-size:1.5rem; margin-bottom:0.35rem; }
-.offer-card .price{ font-size:0.95rem; color:var(--ink-soft); margin-bottom:1.25rem; }
-.offer-card .price strike{ color:#b3b3b3; margin-right:0.4rem; }
-.offer-card .price strong{ color:var(--accent); font-size:1.2rem; }
+.product-card img.product-photo{ max-width:13rem; margin:0 auto 1.1rem; }
+.product-card .stars-line{ font-size:0.8rem; margin-bottom:0.5rem; color:var(--ink-soft); }
+.product-card h3{ font-size:1.2rem; margin-bottom:0.5rem; }
+.product-card .offer-tag{ color:var(--accent); font-weight:800; font-size:0.82rem; margin-bottom:0.3rem; }
+.product-card .price-row{ font-size:0.95rem; margin-bottom:0.3rem; }
+.product-card .price-row .compare{ color:#b3b3b3; text-decoration:line-through; margin-right:0.5rem; }
+.product-card .price-row .current{ color:var(--accent); font-weight:800; font-size:1.15rem; }
+.product-card .deadline{ font-size:0.75rem; color:var(--ink-soft); margin-bottom:1.25rem; }
+.qty-controls{ display:flex; align-items:center; justify-content:center; gap:1rem; margin-bottom:1.1rem; }
+.qty-controls button{ width:2.1rem; height:2.1rem; border:1px solid var(--line); background:#fff; border-radius:0.3rem; font-size:1.05rem; }
+.qty-controls span{ font-weight:800; min-width:1.5rem; text-align:center; }
+.divider-or{ display:flex; align-items:center; gap:0.75rem; margin:1rem 0; font-size:0.75rem; color:var(--ink-soft); }
+.divider-or span{ flex:1; height:1px; background:var(--line); }
+.offer-trust-row{ margin-top:1.4rem; display:flex; flex-wrap:wrap; justify-content:center; gap:0.4rem 1.1rem; font-size:0.7rem; font-weight:700; color:var(--ink-soft); }
 
 /* ---------- Stats ---------- */
-.stats-row{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:1.5rem;
-  text-align:center;
-}
+.stats-row{ display:grid; grid-template-columns:1fr; gap:1.5rem; text-align:center; }
 @media (min-width:700px){ .stats-row{ grid-template-columns:repeat(3,1fr); } }
-.stat .num{
-  font-family:var(--font-heading);
-  font-size:clamp(2.5rem,2rem + 2vw,3.5rem);
-  font-weight:700;
-  color:var(--accent);
-}
-.stat .label{ font-size:0.9rem; color:var(--ink-soft); margin-top:0.35rem; }
-
-/* ---------- Mini review quote cards (reasons 7) ---------- */
-.quote-card{
-  background:#fff;
-  border-radius:0.5rem;
-  padding:1rem 1.25rem;
-  font-size:0.9rem;
-  margin-bottom:0.75rem;
-  line-height:1.5;
-}
-.quote-card .stars{ display:block; margin-bottom:0.35rem; }
+.stat .num{ font-family:var(--font-heading); font-size:clamp(2.2rem,1.8rem+2vw,3rem); font-weight:800; color:var(--accent); }
+.stat .label{ font-size:0.85rem; color:var(--ink-soft); margin-top:0.35rem; }
+.section-eyebrow{ text-align:center; font-size:0.78rem; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; color:var(--accent); margin-bottom:0.6rem; }
+.section-title{ text-align:center; font-size:clamp(1.3rem,1.1rem+1vw,1.8rem); max-width:38rem; margin:0 auto 2rem; }
 
 /* ---------- FAQ ---------- */
-.faq{ max-width:42rem; margin:0 auto; }
-.faq-item{
-  border-bottom:1px solid var(--line);
-}
-.faq-item summary{
-  list-style:none;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:1.1rem 0;
-  font-weight:700;
-  font-size:1rem;
-  cursor:pointer;
-}
+.faq{ max-width:40rem; margin:0 auto; }
+.faq-item{ border-bottom:1px solid var(--line); }
+.faq-item summary{ list-style:none; display:flex; align-items:center; justify-content:space-between; padding:1rem 0; font-weight:700; font-size:0.95rem; cursor:pointer; }
 .faq-item summary::-webkit-details-marker{ display:none; }
-.faq-item summary::after{
-  content:"+";
-  font-size:1.3rem;
-  font-weight:400;
-  flex:0 0 auto;
-  margin-left:1rem;
-  transition:transform .2s ease;
-}
+.faq-item summary::after{ content:"+"; font-size:1.2rem; font-weight:400; flex:0 0 auto; margin-left:1rem; }
 .faq-item[open] summary::after{ content:"–"; }
-.faq-item p{ padding:0 0 1.1rem; color:var(--ink-soft); font-size:0.92rem; line-height:1.6; }
-
-/* ---------- Sticky add-to-cart bar ---------- */
-.product-card{
-  background:#fff;
-  border-radius:0.75rem;
-  padding:2rem;
-  max-width:30rem;
-  margin:0 auto;
-  text-align:center;
-}
-.product-card img{ max-width:14rem; margin:0 auto 1.25rem; }
-.product-card .stars-line{ font-size:0.85rem; margin-bottom:0.5rem; color:var(--ink-soft); }
-.product-card h3{ font-size:1.3rem; margin-bottom:0.5rem; }
-.product-card .offer-tag{ color:var(--accent); font-weight:700; font-size:0.85rem; margin-bottom:0.25rem; }
-.product-card .deadline{ font-size:0.78rem; color:var(--ink-soft); margin-bottom:1.25rem; }
-.qty-controls{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:1rem;
-  margin-bottom:1rem;
-}
-.qty-controls button{
-  width:2.25rem;height:2.25rem;
-  border:1px solid var(--line);
-  background:#fff;
-  border-radius:0.3rem;
-  font-size:1.1rem;
-}
-.qty-controls span{ font-weight:700; min-width:1.5rem; text-align:center; }
+.faq-item p{ padding:0 0 1rem; color:var(--ink-soft); font-size:0.88rem; line-height:1.6; }
 
 /* ---------- Footer ---------- */
-.site-footer{
-  background:var(--ink);
-  color:#d8d8d8;
-  padding:3rem 0 2rem;
-  text-align:center;
-  font-size:0.85rem;
-}
-.site-footer img{ height:30px; margin:0 auto 1.25rem; filter:brightness(0) invert(1); }
-.site-footer .foot-row{
-  display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem 2rem;
-  margin-bottom:1.5rem;
-}
-.site-footer .legal{ color:#8a8a8a; font-size:0.75rem; }
+.site-footer{ background:#1a1a1a; color:#bbb; padding:2.5rem 0; text-align:center; font-size:0.82rem; }
+.site-footer img{ height:24px; margin:0 auto 1rem; filter:brightness(0) invert(1); }
+.site-footer .foot-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:0.4rem 1.5rem; margin-bottom:1.2rem; }
+.site-footer .legal{ color:#777; font-size:0.72rem; }
 
-.text-center{text-align:center;}
-.muted{color:var(--ink-soft);}
-.section-eyebrow{
-  text-align:center;
-  font-size:0.8rem;
-  font-weight:700;
-  letter-spacing:0.04em;
-  text-transform:uppercase;
-  color:var(--accent);
-  margin-bottom:0.6rem;
-}
-.section-title{
-  text-align:center;
-  font-size:clamp(1.5rem,1.2rem + 1.2vw,2.25rem);
-  max-width:42rem;
-  margin:0 auto 2.5rem;
-}
+/* ---------- Sticky bottom bar ---------- */
+.sticky-bar{ position:sticky; bottom:0; background:#fff; border-top:1px solid var(--line); padding:0.7rem 1rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; z-index:50; }
+.sticky-bar .info{ font-size:0.72rem; font-weight:800; line-height:1.3; }
+.sticky-bar .info .red{ color:var(--accent); }
+.sticky-bar .btn{ width:auto; padding:0.75rem 1.25rem; font-size:0.72rem; max-width:none; }
 </style>
 </head>
 <body>
 
-<!-- ANNOUNCEMENT BAR -->
-<div class="announce-bar">
-  <div class="announce-bar__track">
-    <span class="announce-bar__item">PRE-SUMMER SALE: FREE SHIPPING + BUY ONE GET ONE FREE</span>
-    <span class="announce-bar__item">PRE-SUMMER SALE: FREE SHIPPING + BUY ONE GET ONE FREE</span>
-    <span class="announce-bar__item">PRE-SUMMER SALE: FREE SHIPPING + BUY ONE GET ONE FREE</span>
-    <span class="announce-bar__item">PRE-SUMMER SALE: FREE SHIPPING + BUY ONE GET ONE FREE</span>
-  </div>
-</div>
+<a href="#offer" class="gold-bar">VIEW THE LIMITED TIME OFFER</a>
 
-<!-- HEADER -->
 <header class="site-header">
   <div class="container">
     <img src="images/logo_website.png" alt="Mountaindrop">
   </div>
 </header>
 
+<div class="promo-strip">
+  <div class="container">
+    <div class="promo-strip__left">
+      <img src="images/logo_website.png" alt="">
+      <span>New customer discount</span>
+    </div>
+    <div class="promo-strip__center">
+      <span class="red">BUY ONE GET ONE FREE</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:0.6rem;">
+      <span style="font-size:0.7rem; font-weight:700; color:var(--ink-soft); white-space:nowrap;">50-Day Money-Back Guarantee</span>
+      <a href="#offer" class="promo-strip__cta">GET THIS OFFER NOW</a>
+    </div>
+  </div>
+</div>
+
 <!-- HERO -->
-<section class="hero container">
-  <h1>7 Reasons Most <span class="accent">"Himalayan Shilajit"</span> Is Fake (And How to Get the Real Thing With MountainDrop)</h1>
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <h1>7 Reasons Most <span class="accent">"Himalayan Shilajit"</span> Is Fake (And How to Get the Real Thing With MountainDrop)</h1>
 
-  <div class="rating-badge">
-    <div class="rating-badge__score">4.8 ★</div>
-    <div class="rating-badge__text">
-      <strong>Rated Excellent on Trustpilot</strong>
-      Verified customer feedback
+      <div class="hero-badge-row">
+        <span class="tp-badge">Rated "Excellent" 4.8 <span class="tp-stars">★★★★★</span> On Trustpilot</span>
+      </div>
+
+      <div class="hero-guarantee">50-Day Money-Back Guarantee</div>
+
+      <p class="lead">Real shilajit supports energy, focus, mood, libido, and long-term vitality.</p>
+      <p class="lead">The problem is most products sold as "Himalayan shilajit" were never capable of delivering those benefits.</p>
+      <p class="lead">Here's how to tell the difference and <strong>where to get real shilajit without overpaying.</strong></p>
+
+      <div class="btn-wrap">
+        <a href="#offer" class="btn">View The Limited Time Offer</a>
+      </div>
+
+      <div class="hero-tp-row2">
+        <span class="tp-badge">Rated "Excellent" 4.8 <span class="tp-stars">★★★★★</span> On Trustpilot</span>
+      </div>
+      <div class="hero-checklist">
+        <span>✓ 50-Day Money-Back Guarantee</span>
+        <span>✓ Harvested above 5,000m</span>
+        <span>✓ Lab Tested every batch</span>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <img src="images/If_You_Did_Not_Feel_A_Difference_You_Never_Took_Shilajit_-_Mountaindrop_Shilajit_Works_Instantly.webp" alt="Man working out with Mountaindrop Shilajit">
     </div>
   </div>
 </section>
 
-<!-- REVIEWS STRIP (reusable block, included twice like original) -->
-<section class="reviews-strip">
+<!-- TRUST ICONS ROW -->
+<section class="trust-icons">
   <div class="container">
-    <div class="reviews-strip__head">
-      <div class="stars">★★★★★</div>
-      <h3>Rated Excellent on Trustpilot</h3>
-      <p>Customer comments highlighting results from Mountaindrop</p>
+    <ul>
+      <li><img src="images/GMP_Certified_Shilajit_-_image.webp" alt="GMP Certified"><span>GMP CERTIFIED</span></li>
+      <li><img src="images/Lab_Tested_And_Purified_Shilajit_Mountaindrop.webp" alt="EU Lab Tested"><span>EU LAB TESTED</span></li>
+      <li><img src="images/50_Day_Moneyback_Guarantee_On_Mountaindrop_Shilajit.webp" alt="Money-Back Guarantee"><span>MONEY-BACK GUARANTEE</span></li>
+      <li><img src="images/No_Additives_In_Mountaindrop_Shilajit.webp" alt="No Additives"><span>NO ADDITIVES</span></li>
+      <li><img src="images/Heavy_Metal_Tested_Mountaindrop_Shilajit.webp" alt="Heavy Metals Tested"><span>HEAVY METALS TESTED</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- THE ONLY BRAND IN THE WORLD -->
+<section class="section container">
+  <div class="brand-proof">
+    <div>
+      <h2>The Only Brand In The World That Was Brave Enough To Test It</h2>
+      <p>The market was full of shilajit claims. Mountaindrop came in with proof.</p>
+      <p>By putting its own <strong>Himalayan Shilajit through a real clinical study</strong> at J.S. Hamilton Poland, Mountaindrop became the first brand in the world to turn ancient shilajit wisdom into modern medical evidence.</p>
+      <p>That's why Mountaindrop doesn't just compete – it dominates. While other brands sell stories, <strong>Mountaindrop sells tested, measurable results.</strong></p>
     </div>
-    <div class="reviews-track" id="reviews-track-1"></div>
-  </div>
-</section>
-
-<!-- PROBLEM / TRANSITION -->
-<section class="section container text-center" style="max-width:46rem;">
-  <div class="trust-strip">
-    <span>✓ 50-Day Money-Back Guarantee</span>
-    <span class="dot">•</span>
-    <span>✓ Harvested above 5,000m</span>
-    <span class="dot">•</span>
-    <span>✓ Lab Tested every batch</span>
-  </div>
-  <h2 style="font-size:clamp(1.4rem,1.2rem + 1vw,2.1rem); margin-bottom:1rem;">
-    Real shilajit supports energy, focus, mood, libido, and long-term vitality.
-  </h2>
-  <p class="muted" style="font-size:1.05rem; margin-bottom:0.5rem;">
-    The problem is most products sold as "Himalayan shilajit" were never capable of delivering those benefits.
-  </p>
-  <p class="muted" style="font-size:1.05rem;">
-    Here's how to tell the difference and where to get real shilajit without overpaying.
-  </p>
-  <div class="btn-wrap">
-    <a href="#offer" class="btn">View The Limited Time Offer</a>
-  </div>
-</section>
-
-<!-- TRUST BADGES -->
-<section class="section--tight container">
-  <div class="badges-row">
-    <div class="badge"><img src="images/9212ba75cdb3bf47e382445e9a2d582cdd8f9140.png" alt="GMP Certified"><span>GMP Certified</span></div>
-    <div class="badge"><img src="images/830b181cb60f19f36a241ae3f1409d6f6e45ae9e.png" alt="EU Lab Tested"><span>EU Lab Tested</span></div>
-    <div class="badge"><img src="images/95a4d4bff9bafa02aeee9c4663d288924126f9bd.png" alt="Money-Back Guarantee"><span>Money-Back Guarantee</span></div>
-    <div class="badge"><img src="images/6acf72f2a55874302bfaeddbdcadf6e577a92c3d.png" alt="No Additives"><span>No Additives</span></div>
-    <div class="badge"><img src="images/50724716c680e0ed24701c0028c8ec89d99d3240.png" alt="Heavy Metals Tested"><span>Heavy Metals Tested</span></div>
-  </div>
-</section>
-
-<!-- CLINICAL STUDY BANNER -->
-<section class="study-banner">
-  <div class="container">
-    <h2>The Only Brand In The World That Was Brave Enough To Test It</h2>
-    <p>The market was full of shilajit claims. Mountaindrop came in with proof.</p>
-    <p>By putting its own <span class="highlight">Himalayan Shilajit through a real clinical study</span> at J.S. Hamilton Poland, Mountaindrop became the first brand in the world to turn ancient shilajit wisdom into modern medical evidence.</p>
-    <p>That's why Mountaindrop doesn't just compete – it dominates. While other brands sell stories, <span class="highlight">Mountaindrop sells tested, measurable results</span>.</p>
+    <div class="stat-card">
+      <img src="images/Mountaindrop_Is_The_Only_Clinically_Tested_Shilajit_In_EU.webp" alt="Clinically tested and verified - 93% reported better sleep quality">
+    </div>
   </div>
 </section>
 
 <!-- REASON 1 -->
-<section class="section container">
-  <div class="split">
-    <div>
-      <img src="images/2024-04-11-09-41-47-TemplateJSHPL-EN-525266-23-slv-z2__2_-1_1.jpg" alt="Lab certificate">
+<section class="container">
+  <div class="reason img-right">
+    <div class="reason-img">
+      <img src="images/Himalayan_Shilajit_Resin_Is_The_Most_Potent.webp" alt="Pills versus real shilajit resin dissolving in water">
     </div>
-    <div>
-      <span class="reason-eyebrow">Reason 1</span>
-      <h2>Most Shilajit Products Aren't Actually Shilajit</h2>
+    <div class="reason-text">
+      <h2>1. Most Shilajit Products Aren't Actually Shilajit</h2>
       <p>If you've tried shilajit and felt nothing, you're not alone. Most people never experience what real shilajit does because what they bought wasn't real.</p>
       <p>Capsules. Powders. Gummies. Factory extracts designed for profit, not results.</p>
       <p><strong>Real shilajit is a sticky resin that fully dissolves in water.</strong> If yours doesn't, it won't work.</p>
       <p>Thousands who switch to Mountaindrop report feeling the difference within days: more energy, sharper focus, better mood, stronger drive.</p>
       <p><strong>You weren't doing it wrong. You were sold the wrong thing.</strong></p>
-      <div class="btn-wrap" style="justify-content:flex-start; margin-left:0;">
-        <a href="#offer" class="btn" style="max-width:20rem;">View The Limited Time Offer</a>
-      </div>
     </div>
   </div>
 </section>
+
+<a href="#offer" class="gold-bar" style="display:block;">VIEW THE LIMITED TIME OFFER</a>
 
 <!-- REASON 2 -->
-<section class="section container">
-  <div class="split reverse">
-    <div>
+<section class="container" style="background:#fff;">
+  <div class="reason img-right">
+    <div class="reason-img">
       <img src="images/Mountaindrop_Shilajit_Is_Not_Manufactured_In_China.webp" alt="Not manufactured in China">
     </div>
-    <div>
-      <span class="reason-eyebrow">Reason 2</span>
-      <h2>Most Brands Hide That They Source From Chinese Factories</h2>
+    <div class="reason-text">
+      <h2>2. Most Brands Hide That They Source From Chinese Factories</h2>
       <p>Many brands import processed shilajit from Chinese factories, relabel it as "Himalayan," and charge premium prices.</p>
       <p>This isn't disclosed. Most buyers never know. Factory shilajit is often diluted, contaminated, or mixed with fillers.</p>
-      <p><strong>Mountaindrop is not manufactured in China.</strong> Not extracted there. Not processed there. Not packaged there.</p>
-      <p>That's why people who switch notice real energy, focus, and drive within days.</p>
-      <div class="btn-wrap" style="justify-content:flex-start; margin-left:0;">
-        <a href="#offer" class="btn" style="max-width:20rem;">View The Limited Time Offer</a>
-      </div>
+      <p><strong>Mountaindrop is not manufactured in China.</strong></p>
+      <p>Not extracted there. Not processed there. Not packaged there.</p>
+      <p><strong>That's why people who switch notice real energy, focus, and drive within days.</strong></p>
     </div>
   </div>
 </section>
 
+<a href="#offer" class="gold-bar" style="display:block;">VIEW THE LIMITED TIME OFFER</a>
+
 <!-- REASON 3 -->
-<section class="section container">
-  <div class="split">
-    <div>
+<section class="container">
+  <div class="reason">
+    <div class="reason-img">
       <img src="images/Low_Altitude_Shialjit_Is_Contaminated_While_Mountaindrop_Shilajit_Is_Not.webp" alt="Low altitude shilajit is contaminated">
     </div>
-    <div>
-      <span class="reason-eyebrow">Reason 3</span>
-      <h2>Low-Altitude Shilajit Is Contaminated and Weak</h2>
+    <div class="reason-text">
+      <h2>3. Low-Altitude Shilajit Is Contaminated and Weak</h2>
       <p>Real Himalayan shilajit forms above 5,000 meters, where the air is clean and the resin stays pure.</p>
       <p>Most brands source it lower to save money, scraping it near roads and settlements with machinery.</p>
       <p>Lower altitude means more pollution, weaker minerals, higher contamination risk.</p>
-      <p><strong>With shilajit, altitude isn't marketing.</strong> It's the difference between something that works and something that doesn't.</p>
-      <div class="btn-wrap" style="justify-content:flex-start; margin-left:0;">
-        <a href="#offer" class="btn" style="max-width:20rem;">View The Limited Time Offer</a>
-      </div>
+      <p><strong>With shilajit, altitude isn't marketing.</strong></p>
+      <p><strong>It's the difference between something that works and something that doesn't.</strong></p>
     </div>
   </div>
 </section>
+
+<a href="#offer" class="gold-bar" style="display:block;">VIEW THE LIMITED TIME OFFER</a>
 
 <!-- REASON 4 -->
-<section class="section container">
-  <div class="split reverse">
-    <div>
+<section class="container" style="background:#fff;">
+  <div class="reason img-right">
+    <div class="reason-img">
       <img src="images/Image_1_-_Man_Working_Out_With_Mountaindrop_Shilajit.webp" alt="Energy upgrade over 30 days">
     </div>
-    <div>
-      <span class="reason-eyebrow">Reason 4</span>
-      <h2>Real Shilajit Upgrades Your Baseline Energy in 30 Days</h2>
+    <div class="reason-text">
+      <h2>4. Real Shilajit Upgrades Your Baseline Energy in 30 Days</h2>
       <p>When shilajit is real, the changes are clear.</p>
       <p><strong>Week 1:</strong> More consistent energy, better mood, sharper focus that lasts all day.</p>
-      <p><strong>Week 2–3:</strong> Sustained energy without crashes. Better stress tolerance. Deeper sleep. Noticeable drive and libido increase.</p>
+      <p><strong>Week 2-3:</strong> Sustained energy without crashes. Better stress tolerance. Deeper sleep. Noticeable drive and libido increase.</p>
       <p><strong>Week 4+:</strong> Your baseline is higher. You wake up stronger. You handle stress better. You perform at a level that feels effortless.</p>
-      <p>This isn't a stimulant rush. It's a biological upgrade — that's what real shilajit does when it's pure, properly sourced, and tested for safety.</p>
-      <div class="btn-wrap" style="justify-content:flex-start; margin-left:0;">
-        <a href="#offer" class="btn" style="max-width:20rem;">View The Limited Time Offer</a>
-      </div>
+      <p>This isn't a stimulant rush. It's a biological upgrade.</p>
+      <p>That's what real shilajit does when it's pure, properly sourced, and tested for safety.</p>
     </div>
   </div>
 </section>
 
+<a href="#offer" class="gold-bar" style="display:block;">VIEW THE LIMITED TIME OFFER</a>
+
 <!-- REASON 5 -->
-<section class="section container">
-  <div class="split">
-    <div>
-      <img src="images/Lab_Tested_And_Purified_Shilajit_Mountaindrop.webp" alt="Lab tested and purified">
+<section class="container">
+  <div class="reason">
+    <div class="reason-img">
+      <img src="images/Mountaindrop_Shilajit_has_the_highest_Fulvic_Acid_in_the_Europian_Market.webp" alt="81.67% Fulvic Acid Content - laboratory tested and verified">
     </div>
-    <div>
-      <span class="reason-eyebrow">Reason 5</span>
-      <h2>Most "Lab Tested" Claims Are Never Verified After the First Batch</h2>
+    <div class="reason-text">
+      <h2>5. Most "Lab Tested" Claims Are Never Verified After the First Batch</h2>
       <p>Most brands advertise "lab tested" but never test again after the first batch. Some never test at all.</p>
       <p>Shilajit is a raw mineral resin. Its heavy metal content, microbial load, and mineral profile change with every harvest.</p>
       <p><strong>Mountaindrop tests every single batch and publishes the certificates by lot number.</strong></p>
       <p>If you can't verify your exact jar, you're not buying shilajit. You're buying a claim.</p>
-      <div class="btn-wrap" style="justify-content:flex-start; margin-left:0;">
-        <a href="#offer" class="btn" style="max-width:20rem;">View The Limited Time Offer</a>
+    </div>
+  </div>
+</section>
+
+<a href="#offer" class="gold-bar" style="display:block;">VIEW THE LIMITED TIME OFFER</a>
+
+<!-- BOGO BLACK SECTION (REASON 6) -->
+<section class="bogo-section">
+  <div class="container">
+    <div class="bogo-title">
+      <h2>Buy One Get One Free</h2>
+      <p>2 jars for a price of one. 6-month supply</p>
+    </div>
+    <div class="bogo-grid">
+      <div>
+        <h3>6. This BOGO Offer Only Exists Because of a Rare Harvest Surplus</h3>
+        <p>Shilajit is harvested once per season at extreme altitude.</p>
+        <p>We secured a larger-than-normal harvest this year, which allows us to offer this <strong>Buy One Get One Free</strong> deal for new customers.</p>
+        <p><strong>2 jars. 6-month supply. 94.5€ instead of 210€.</strong></p>
+        <p>But once this batch sells out, we can't restock until next season. If this page disappears, the offer is gone.</p>
+      </div>
+      <div>
+        <img src="images/PRE_ORDER_EUR_Shilajit_BOGO.webp" alt="Buy one get one free - 210€ now 0,53€ per day">
       </div>
     </div>
   </div>
 </section>
 
-<!-- REASON 6 / BOGO -->
-<section class="section container">
-  <div class="split reverse">
-    <div>
-      <img src="images/PRE_ORDER_EUR_Shilajit_BOGO.webp" alt="Buy one get one free">
-    </div>
-    <div>
-      <span class="reason-eyebrow">Reason 6</span>
-      <h2>This BOGO Offer Only Exists Because of a Rare Harvest Surplus</h2>
-      <p>Shilajit is harvested once per season at extreme altitude.</p>
-      <p>We secured a larger-than-normal harvest this year, which allows us to offer this <strong>Buy One Get One Free</strong> deal for new customers.</p>
-      <p><strong>2 jars. 6-month supply. 94.5€ instead of 210€.</strong></p>
-      <p>But once this batch sells out, we can't restock until next season. If this page disappears, the offer is gone.</p>
-      <div class="btn-wrap" style="justify-content:flex-start; margin-left:0;">
-        <a href="#offer" class="btn" style="max-width:20rem;">View The Limited Time Offer</a>
-      </div>
-    </div>
-  </div>
-</section>
+<a href="#offer" class="gold-bar" style="display:block;">VIEW THE LIMITED TIME OFFER</a>
 
 <!-- REASON 7 -->
-<section class="section container" style="max-width:46rem;">
-  <span class="reason-eyebrow" style="display:block; text-align:center;">Reason 7</span>
-  <h2 class="text-center" style="margin-bottom:0.75rem;">Over 1,000 Verified Customers Report Real Results Within Days</h2>
-  <p class="muted text-center" style="margin-bottom:1.5rem;">Mountaindrop has 1,042 Trustpilot reviews at 4.8 stars. Here's what real customers say:</p>
-
-  <div class="quote-card">
-    <span class="stars">⭐⭐⭐⭐⭐</span>
-    "I felt the difference within the first week. More energy. Better focus. Noticeably better mood." — Mark T.
-  </div>
-  <div class="quote-card">
-    <span class="stars">⭐⭐⭐⭐⭐</span>
-    "Finally found real shilajit that actually works. I tried three other brands and felt nothing." — Sarah L.
-  </div>
-  <div class="quote-card">
-    <span class="stars">⭐⭐⭐⭐⭐</span>
-    "Energy levels are way higher now. Sleeping better too. Worth every penny." — James K.
-  </div>
-
-  <p class="muted text-center" style="margin-top:1.5rem;">Keep taking fake shilajit and nothing changes. Or switch to what over 1,000 people already trust.</p>
-  <p class="text-center" style="margin-top:0.35rem; font-weight:700;">Your choice. But this offer won't last.</p>
-
-  <div class="btn-wrap">
-    <a href="#offer" class="btn">Buy One Get One Free</a>
+<section class="container">
+  <div class="reason7">
+    <img src="images/Mountaindrop_Shilajit_Has_The_Most_5_Star_Reviews_On_The_Planet.webp" alt="Trustpilot 4.7 stars, 1042 reviews, with customer testimonials">
+    <div>
+      <h2>7. Over 1,000 Verified Customers Report Real Results Within Days</h2>
+      <p>Mountaindrop has 1,042 Trustpilot reviews at 4.8 stars.</p>
+      <p>Here's what real customers say:</p>
+    </div>
   </div>
 </section>
 
-<!-- BADGES ROW (repeat) -->
-<section class="section--tight container">
-  <div class="badges-row">
-    <div class="badge"><img src="images/9212ba75cdb3bf47e382445e9a2d582cdd8f9140.png" alt="GMP Certified"><span>GMP Certified</span></div>
-    <div class="badge"><img src="images/830b181cb60f19f36a241ae3f1409d6f6e45ae9e.png" alt="EU Lab Tested"><span>EU Lab Tested</span></div>
-    <div class="badge"><img src="images/95a4d4bff9bafa02aeee9c4663d288924126f9bd.png" alt="Money-Back Guarantee"><span>Money-Back Guarantee</span></div>
-    <div class="badge"><img src="images/6acf72f2a55874302bfaeddbdcadf6e577a92c3d.png" alt="No Additives"><span>No Additives</span></div>
-    <div class="badge"><img src="images/50724716c680e0ed24701c0028c8ec89d99d3240.png" alt="Heavy Metals Tested"><span>Heavy Metals Tested</span></div>
-  </div>
-</section>
+<a href="#offer" class="gold-bar" style="display:block;">VIEW THE LIMITED TIME OFFER</a>
 
-<!-- MAIN OFFER / PRODUCT CARD -->
-<section class="section container" id="offer" style="background:#fff; border-radius:0.75rem;">
+<!-- PRODUCT OFFER / CHECKOUT -->
+<section class="offer-wrap container" id="offer">
   <div class="product-card">
     <div class="offer-card__tag">Limited Offer – Buy One Get One Free</div>
-    <img src="images/mountaindrop-original-shilajit-himalayas-100g-mountaindrop.com.png" alt="Mountaindrop Original Himalayan Shilajit">
+    <img class="product-photo" src="images/mountaindrop-original-shilajit-himalayas-100g-mountaindrop.com.png" alt="Mountaindrop Original Himalayan Shilajit">
     <div class="stars-line">★★★★★ Rated "Excellent" 4.8/5 on Trustpilot · 6+ Independent Lab Certificates</div>
     <h3>Mountaindrop Original Himalayan Shilajit (2×45g)</h3>
     <div class="offer-tag">Pre Order Now – Buy 1 Get 1 Free + 10% Off</div>
-    <p style="font-size:0.95rem; margin-bottom:0.25rem;">
-      <span style="color:#b3b3b3; text-decoration:line-through; margin-right:0.5rem;" id="compare-price">210,00 €</span>
-      <strong style="color:var(--accent); font-size:1.2rem;" id="current-price">94,50 €</strong>
+    <p class="price-row">
+      <span class="compare" id="compare-price">210,00 €</span>
+      <span class="current" id="current-price">94,50 €</span>
     </p>
     <div class="deadline">This offer lasts until the 1st of July · Orders ship on the 14th of July</div>
 
@@ -705,71 +697,37 @@ button{font-family:var(--font-body);cursor:pointer;border:none;}
       <button type="button" id="qty-increase" aria-label="Increase quantity">+</button>
     </div>
 
-    <!-- STRIPE: card / Apple Pay / Google Pay via Stripe Checkout -->
-    <button type="button" id="stripe-checkout-btn" class="btn" style="width:100%;">
+    <button type="button" id="stripe-checkout-btn" class="btn" style="max-width:none;">
       Pay with Card / Apple Pay / Google Pay
     </button>
-    <p id="stripe-error" style="display:none; color:#c0392b; font-size:0.78rem; margin-top:0.5rem;"></p>
+    <p id="stripe-error" style="display:none; color:#c0392b; font-size:0.75rem; margin-top:0.5rem;"></p>
 
-    <div style="display:flex; align-items:center; gap:0.75rem; margin:1rem 0; font-size:0.78rem; color:var(--ink-soft);">
-      <span style="flex:1; height:1px; background:var(--line);"></span>
-      or
-      <span style="flex:1; height:1px; background:var(--line);"></span>
-    </div>
+    <div class="divider-or"><span></span>or<span></span></div>
 
-    <!-- PAYPAL: Smart Buttons -->
     <div id="paypal-button-container"></div>
-    <p id="paypal-error" style="display:none; color:#c0392b; font-size:0.78rem; margin-top:0.5rem;"></p>
+    <p id="paypal-error" style="display:none; color:#c0392b; font-size:0.75rem; margin-top:0.5rem;"></p>
 
-    <div class="trust-strip" style="margin-top:1.5rem; justify-content:center;">
+    <div class="offer-trust-row">
       <span>Lab Tested &amp; Certified</span>
-      <span class="dot">•</span>
       <span>Moneyback Guarantee</span>
-      <span class="dot">•</span>
       <span>Approved By Over 50K Customers</span>
     </div>
   </div>
 </section>
 
 <!-- STATS -->
-<section class="section container">
+<section class="container" style="padding:2rem 0 3rem;">
   <p class="section-eyebrow">The proof is in the numbers…</p>
   <h2 class="section-title">"From all the Shilajit I ordered in the past 7 years… this one works the best…"</h2>
   <div class="stats-row">
-    <div class="stat">
-      <div class="num">94%</div>
-      <div class="label">achieve their desired results</div>
-    </div>
-    <div class="stat">
-      <div class="num">89%</div>
-      <div class="label">experience significant benefits from regular use</div>
-    </div>
-    <div class="stat">
-      <div class="num">97%</div>
-      <div class="label">would highly recommend to friends and colleagues</div>
-    </div>
-  </div>
-</section>
-
-<!-- THOUSANDS FEELING BENEFITS -->
-<section class="section container text-center" style="max-width:42rem;">
-  <h2 class="section-title" style="margin-bottom:0;">Thousands of people are feeling REAL benefits after switching to Mountaindrop Himalayan Shilajit:</h2>
-</section>
-
-<!-- SECOND REVIEWS STRIP -->
-<section class="reviews-strip">
-  <div class="container">
-    <div class="reviews-strip__head">
-      <div class="stars">★★★★★</div>
-      <h3>Rated Excellent on Trustpilot</h3>
-      <p>Customer comments highlighting results from Mountaindrop</p>
-    </div>
-    <div class="reviews-track" id="reviews-track-2"></div>
+    <div class="stat"><div class="num">94%</div><div class="label">achieve their desired results</div></div>
+    <div class="stat"><div class="num">89%</div><div class="label">experience significant benefits from regular use</div></div>
+    <div class="stat"><div class="num">97%</div><div class="label">would highly recommend to friends and colleagues</div></div>
   </div>
 </section>
 
 <!-- FAQ -->
-<section class="section container">
+<section class="container" style="padding:1rem 0 3rem;">
   <h2 class="section-title">Frequently Asked Questions</h2>
   <div class="faq">
     <details class="faq-item" open>
@@ -789,32 +747,16 @@ button{font-family:var(--font-body);cursor:pointer;border:none;}
       <p>We offer a 50-day money-back guarantee. Try it risk-free.</p>
     </details>
     <details class="faq-item">
-      <summary>Why is Mountaindrop more expensive than Amazon brands?</summary>
-      <p>Because we harvest at extreme altitude, test every batch, and never cut corners on purity. The difference is noticeable.</p>
-    </details>
-    <details class="faq-item">
       <summary>How do I use this product?</summary>
-      <p>Take one measuring spoon (0.2g/200mg) and dissolve in water, warm tea, juice, milk, or coffee (under 39°C). You can also take it directly. Use daily for best results — Shilajit works as a slow-acting adaptogen over time.</p>
+      <p>Take one measuring spoon (0.2g/200mg) and dissolve in water, warm tea, juice, milk, or coffee (under 39°C). You can also take it directly. Use daily for best results.</p>
     </details>
     <details class="faq-item">
       <summary>Is Shilajit safe to use?</summary>
-      <p>Yes. Our Himalayan Shilajit is properly purified, third-party tested with 6+ lab certificates, GMP certified, and tested for heavy metals. Research shows purified Shilajit is well-tolerated even at high doses. If you have medical conditions or take medications, consult your healthcare provider first.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Is this only for men, or can women take it too?</summary>
-      <p>Shilajit is beneficial for both men and women. Recent scientific research debunks the "men only" myth. It supports bone health, metabolic function, energy production, cognitive enhancement, and overall vitality in all adults. Women particularly benefit from energy support, stress resilience, and healthy aging.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Can I take this with other supplements?</summary>
-      <p>Yes. Shilajit actually enhances the absorption of other nutrients by 60-80% thanks to fulvic acid. Many customers combine it with omega-3s, vitamin D, or magnesium. Avoid taking with blood thinners or if you have hemochromatosis (iron overload) — consult your doctor.</p>
+      <p>Yes. Our Himalayan Shilajit is properly purified, third-party tested with 6+ lab certificates, GMP certified, and tested for heavy metals. If you have medical conditions or take medications, consult your healthcare provider first.</p>
     </details>
     <details class="faq-item">
       <summary>How long will one jar last?</summary>
       <p>The 45g jar lasts about 2–3 months.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Does it need to be refrigerated?</summary>
-      <p>No. Store in a cool, dry place. Our violet glass container protects the resin from light degradation and preserves its potency naturally.</p>
     </details>
   </div>
 </section>
@@ -831,46 +773,16 @@ button{font-family:var(--font-body);cursor:pointer;border:none;}
   </div>
 </footer>
 
-<!-- STICKY BOTTOM CTA -->
-<div style="position:sticky; bottom:0; background:#fff; border-top:1px solid var(--line); padding:0.75rem 1rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; z-index:50;">
-  <div style="font-size:0.75rem; font-weight:700; line-height:1.3;">
-    🔬 6 Lab Certificates | ⭐ 4.8/5 (915 Reviews)<br>
-    <span style="color:var(--accent);">Limited Time Offer</span>
+<!-- STICKY BOTTOM BAR -->
+<div class="sticky-bar">
+  <div class="info">
+    🔬 6 Lab Certificates | ⭐ 4.8/5 (1,042 Reviews)<br>
+    <span class="red">Limited Time Offer</span>
   </div>
-  <a href="#offer" class="btn" style="width:auto; padding:0.85rem 1.5rem; max-width:none;">Buy One Get One Free</a>
+  <a href="#offer" class="btn">Buy One Get One Free</a>
 </div>
 
 <script>
-const reviews = [
-  {tag:"Prime + Altai Shilajit", text:"I started with Prime Testosterone Booster and it made me understand how people like Alexander the Great, Ghengis Khan, or Napoleon were able to conquer the world. I felt it after my first dose like a lion was awoken within me and the effects built over time. I was able to work with more focus and intensity than I have before. I started supplementing with the Altai Shilajit and that has made me feel very powerful again.", name:"Holden Andrews", loc:"United States · Verified customer"},
-  {tag:"Shilajit + Prime T-Booster", text:"I was blown away by the quality and presentation of the products after unboxing. Both the Shilajit and Prime T-Booster came stored in heavy-duty and high-quality metal containers. I noticed my energy levels increased significantly after a few days of consistent use.", name:"Zan S", loc:"Slovenia · Verified customer"},
-  {tag:"Altai + Himalaya", text:"I have been using shilajit for years, and I have bought and tried many companies, their products and qualities... I have found what I was looking for. So far I have made two orders — both excellent! Thank you for doing what you do!", name:"Orel Mieussens", loc:"Spain · Verified customer"},
-  {tag:"Flourish — life changing", text:"Flourish is amazing, like magic. I bought it for my mother who is 45 years old. After she started using Flourish she started gaining more energy, she started losing less hair, feeling better — she even started training every day. Life changing product!", name:"Arbi", loc:"Norway · Customer review"},
-  {tag:"4 years of use · Brain fog", text:"I have been taking the original Shilajit products for close to 4 years now. It definitely has helped me in dealing with the post-covid 'brain fog' issue, and I believe has also totally eradicated the conditions.", name:"Lim", loc:"Singapore · Verified customer"},
-  {tag:"Altai + Himalayan · 8 months", text:"Amazing product I'm using it around eight months now — best quality ⭐ Experience of everyday life changed dramatically: mood, weight, focus etc. Highly recommend!", name:"Dagmara Jastrzebska", loc:"Ireland · Verified customer"},
-  {tag:"Genius supplement · Focus", text:"I started taking the Genius food supplement and let me just say WOW. I feel much more calm, focused and energetic. It's like my brain said thank you. Worth every penny.", name:"Verified customer", loc:"Customer review"},
-  {tag:"Outstanding quality", text:"The quality of their Shilajit is visibly top notch from the very moment you open the jar, and the effect right after taking it confirms that as well. Glad to have found a trusted local supplier.", name:"Roberto", loc:"Australia · Customer review"},
-  {tag:"Female Balance Mix", text:"I have taken Shilajit before — now I get to try the female balance mix. I'm so excited because the way I felt with regular Shilajit was amazing: cognitive, healing, recovery, mental health, energy! Love MountainDrop!", name:"Shila Schell", loc:"United States · Verified customer"},
-  {tag:"My favourite is the Altai", text:"My favourite is the Altai. I like the taste and the smell so much. Post is always fast and I follow the company on social media. Overall the shilajit is very good. Thank you — Beata", name:"Beata Racz", loc:"Great Britain · Verified customer"},
-  {tag:"Flourish · Delivery", text:"I purchased the MountainDrop Flourish product and I am very satisfied. The delivery was on time and the package arrived in perfect condition. Reliable service, definitely recommended!", name:"Vesna Hrovatin", loc:"Italy · Verified customer"}
-];
-
-function renderReviews(targetId){
-  const el = document.getElementById(targetId);
-  if(!el) return;
-  el.innerHTML = reviews.map(r => `
-    <div class="review-card">
-      <div class="review-card__tag">${r.tag}</div>
-      <span class="review-card__stars">★★★★★</span>
-      <div class="review-card__text">"${r.text}"</div>
-      <div class="review-card__name">${r.name}</div>
-      <div class="review-card__loc">${r.loc}</div>
-    </div>
-  `).join('');
-}
-renderReviews('reviews-track-1');
-renderReviews('reviews-track-2');
-
 // ---------- quantity + price ----------
 const UNIT_PRICE = 94.50;
 const UNIT_COMPARE_PRICE = 210.00;
@@ -879,13 +791,11 @@ let quantity = 1;
 function formatEUR(value) {
   return value.toFixed(2).replace('.', ',') + ' €';
 }
-
 function updatePriceDisplay() {
   document.getElementById('qty-display').textContent = quantity;
   document.getElementById('current-price').textContent = formatEUR(UNIT_PRICE * quantity);
   document.getElementById('compare-price').textContent = formatEUR(UNIT_COMPARE_PRICE * quantity);
 }
-
 document.getElementById('qty-decrease').addEventListener('click', () => {
   quantity = Math.max(1, quantity - 1);
   updatePriceDisplay();
@@ -900,12 +810,10 @@ document.getElementById('qty-increase').addEventListener('click', () => {
 // ---------- Stripe checkout ----------
 const stripeBtn = document.getElementById('stripe-checkout-btn');
 const stripeError = document.getElementById('stripe-error');
-
 stripeBtn.addEventListener('click', async () => {
   stripeError.style.display = 'none';
   stripeBtn.disabled = true;
   stripeBtn.textContent = 'Redirecting…';
-
   try {
     const response = await fetch('/.netlify/functions/create-checkout', {
       method: 'POST',
@@ -913,11 +821,7 @@ stripeBtn.addEventListener('click', async () => {
       body: JSON.stringify({ quantity }),
     });
     const data = await response.json();
-
-    if (!response.ok || !data.url) {
-      throw new Error(data.error || 'Could not start checkout.');
-    }
-
+    if (!response.ok || !data.url) throw new Error(data.error || 'Could not start checkout.');
     window.location.href = data.url;
   } catch (err) {
     console.error(err);
@@ -934,13 +838,11 @@ function renderPayPalButton() {
   const errorEl = document.getElementById('paypal-error');
   container.innerHTML = '';
   errorEl.style.display = 'none';
-
   if (typeof paypal === 'undefined') {
-    errorEl.textContent = 'PayPal is not configured. Add NEXT_PUBLIC PayPal Client ID in the script tag below.';
+    errorEl.textContent = 'PayPal is not configured. Add your PayPal Client ID in the script tag in <head>.';
     errorEl.style.display = 'block';
     return;
   }
-
   paypal.Buttons({
     style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
     createOrder: async () => {
@@ -951,9 +853,7 @@ function renderPayPalButton() {
         body: JSON.stringify({ quantity }),
       });
       const data = await response.json();
-      if (!response.ok || !data.id) {
-        throw new Error(data.error || 'Could not create PayPal order.');
-      }
+      if (!response.ok || !data.id) throw new Error(data.error || 'Could not create PayPal order.');
       return data.id;
     },
     onApprove: async (data) => {
@@ -983,7 +883,6 @@ function renderPayPalButton() {
 
 updatePriceDisplay();
 renderPayPalButton();
-
 </script>
 
 </body>
