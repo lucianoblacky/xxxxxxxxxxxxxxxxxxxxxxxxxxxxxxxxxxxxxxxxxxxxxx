@@ -89,51 +89,322 @@ ul{margin:0;padding:0;list-style:none;}
 }
 .site-header img{ height:26px; width:auto; }
 
-.promo-strip{
-  background:#e9f7ef;
-  padding:0.6rem 0;
+/* ====================================================================
+   PREMIUM REDESIGN — Sections 1-4 (Offer&Trust / Social Proof / Contrast / Close)
+   ==================================================================== */
+
+/* ---------- Section 1: Offer & Trust card ---------- */
+.offer-trust-section{
+  background:var(--bg);
+  padding:2.5rem 0 1rem;
 }
-.promo-strip .container{
+.offer-trust-card{
+  background:#fff;
+  border-radius:1.5rem;
+  box-shadow:0 1px 2px rgba(0,0,0,0.04), 0 24px 48px -12px rgba(0,0,0,0.12);
+  padding:2.5rem 1.5rem;
+  max-width:40rem;
+  margin:0 auto;
+  text-align:center;
+}
+@media (min-width:700px){ .offer-trust-card{ padding:3.5rem 3rem; } }
+
+.ot-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  font-size:0.72rem;
+  font-weight:800;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--accent);
+  background:rgba(192,57,43,0.08);
+  padding:0.4rem 1rem;
+  border-radius:999px;
+  margin-bottom:1.25rem;
+}
+.ot-headline{
+  font-size:clamp(1.9rem, 1.5rem + 2vw, 2.75rem);
+  font-weight:800;
+  letter-spacing:-0.02em;
+  margin-bottom:0.9rem;
+  background:linear-gradient(135deg,#1c1c1c 0%,#3a3a3a 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.ot-subhead{
+  font-size:1.05rem;
+  color:var(--ink-soft);
+  max-width:30rem;
+  margin:0 auto 1.75rem;
+  line-height:1.6;
+}
+.ot-guarantee-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  font-size:0.8rem;
+  font-weight:700;
+  color:#1a7a4c;
+  background:#e9f7ef;
+  border:1px solid #c8ecd9;
+  padding:0.5rem 1.1rem;
+  border-radius:999px;
+  margin-bottom:1.75rem;
+}
+.ot-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:0.6rem;
+  background:linear-gradient(135deg,#b8862e,#d4af6a 50%,#b8862e);
+  color:#1c1c1c;
+  font-weight:800;
+  font-size:0.95rem;
+  letter-spacing:0.03em;
+  text-transform:uppercase;
+  padding:1.1rem 2.5rem;
+  border-radius:0.85rem;
+  width:100%;
+  max-width:24rem;
+  box-shadow:0 8px 24px -6px rgba(184,134,46,0.55);
+  transition:transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease;
+}
+.ot-cta:hover{ transform:translateY(-2px) scale(1.01); box-shadow:0 12px 28px -6px rgba(184,134,46,0.65); }
+.ot-cta:active{ transform:translateY(0) scale(0.99); }
+
+.ot-divider{ height:1px; background:var(--line); margin:2rem 0 1.5rem; }
+
+.ot-trustpilot{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  gap:1rem;
+  justify-content:center;
+  gap:0.6rem;
+  margin-bottom:1.5rem;
   flex-wrap:wrap;
 }
-.promo-strip__left{
+.ot-trustpilot .tp-score{ font-weight:800; font-size:1.05rem; }
+.ot-trustpilot .tp-stars-gold{ color:#F5B301; font-size:1.1rem; letter-spacing:0.08em; }
+.ot-trustpilot .tp-label{ font-size:0.85rem; color:var(--ink-soft); font-weight:600; }
+
+.ot-trustpoints{
+  display:flex;
+  flex-direction:column;
+  gap:0.85rem;
+  max-width:24rem;
+  margin:0 auto;
+  text-align:left;
+}
+.ot-trustpoints .point{
   display:flex;
   align-items:center;
-  gap:0.6rem;
-  font-size:0.78rem;
-  font-weight:800;
-  letter-spacing:0.02em;
-  text-transform:uppercase;
+  gap:0.75rem;
+  font-size:0.92rem;
+  font-weight:600;
   color:var(--ink);
 }
-.promo-strip__left img{ height:20px; }
-.promo-strip__center{
-  font-size:0.95rem;
+.ot-trustpoints .point .check{
+  flex:0 0 auto;
+  width:1.5rem;
+  height:1.5rem;
+  border-radius:50%;
+  background:#e9f7ef;
+  color:#1a7a4c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:0.8rem;
   font-weight:800;
-  letter-spacing:0.02em;
-  text-transform:uppercase;
 }
-.promo-strip__center .strike{
+
+/* ---------- Section 2: Social proof ---------- */
+.social-proof-section{
+  padding:3.5rem 0;
+  background:var(--bg);
+}
+.sp-headline{
+  text-align:center;
+  font-size:clamp(1.5rem, 1.2rem + 1.3vw, 2.2rem);
+  font-weight:800;
+  max-width:42rem;
+  margin:0 auto 0.85rem;
+  letter-spacing:-0.01em;
+}
+.sp-subhead{
+  text-align:center;
+  font-size:1rem;
+  color:var(--ink-soft);
+  max-width:36rem;
+  margin:0 auto 2.5rem;
+  line-height:1.6;
+}
+.sp-cards{
+  display:flex;
+  gap:1.25rem;
+  overflow-x:auto;
+  padding:0.25rem 1.25rem 1rem;
+  margin:0 -1.25rem;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+}
+.sp-cards::-webkit-scrollbar{ display:none; }
+@media (min-width:860px){
+  .sp-cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    overflow:visible;
+    padding:0.25rem 0 1rem;
+    margin:0;
+    max-width:71.875rem;
+    margin-inline:auto;
+    padding-inline:2.5rem;
+  }
+}
+.sp-card{
+  flex:0 0 85%;
+  scroll-snap-align:center;
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.6);
+  border-radius:1.25rem;
+  box-shadow:0 1px 1px rgba(0,0,0,0.02), 0 16px 32px -12px rgba(0,0,0,0.10);
+  padding:1.75rem;
+  position:relative;
+  overflow:hidden;
+}
+@media (min-width:860px){ .sp-card{ flex:none; } }
+.sp-card::before{
+  content:"";
+  position:absolute;
+  top:0; left:0; right:0;
+  height:3px;
+  background:linear-gradient(90deg,#b8862e,#F5B301,#b8862e);
+}
+.sp-card .stars-gold{ color:#F5B301; font-size:1.05rem; letter-spacing:0.1em; display:block; margin-bottom:0.85rem; }
+.sp-card p.quote{ font-size:0.98rem; line-height:1.6; color:var(--ink); margin-bottom:1rem; font-weight:500; }
+.sp-card .author{ font-size:0.85rem; font-weight:800; color:var(--ink-soft); }
+
+/* ---------- Section 3: Contrast (dark) ---------- */
+.contrast-section{
+  background:#141414;
+  padding:3.5rem 0;
+}
+.cs-headline{
+  text-align:center;
+  color:#fff;
+  font-size:clamp(1.5rem, 1.2rem + 1.3vw, 2.2rem);
+  font-weight:800;
+  max-width:38rem;
+  margin:0 auto 0.85rem;
+  letter-spacing:-0.01em;
+}
+.cs-subhead{
+  text-align:center;
   color:#999;
-  text-decoration:line-through;
-  margin-right:0.4rem;
+  font-size:1rem;
+  max-width:32rem;
+  margin:0 auto 2.5rem;
+  line-height:1.6;
 }
-.promo-strip__center .red{ color:#d32f2f; }
-.promo-strip__cta{
-  background:#f0b429;
-  color:#1c1c1c;
+.cs-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.25rem;
+  max-width:48rem;
+  margin:0 auto;
+}
+@media (min-width:700px){ .cs-grid{ grid-template-columns:1fr 1fr; gap:1.5rem; } }
+.cs-col{
+  border-radius:1.1rem;
+  padding:1.75rem;
+}
+.cs-col.bad{ background:rgba(192,57,43,0.08); border:1px solid rgba(192,57,43,0.25); }
+.cs-col.good{ background:rgba(245,179,1,0.08); border:1px solid rgba(245,179,1,0.3); }
+.cs-col .cs-col-title{
   font-size:0.78rem;
   font-weight:800;
-  letter-spacing:0.02em;
+  letter-spacing:0.08em;
   text-transform:uppercase;
-  padding:0.55rem 1.1rem;
-  border-radius:999px;
-  white-space:nowrap;
+  margin-bottom:1.1rem;
 }
+.cs-col.bad .cs-col-title{ color:#e57368; }
+.cs-col.good .cs-col-title{ color:#F5B301; }
+.cs-col ul{ display:flex; flex-direction:column; gap:0.9rem; }
+.cs-col li{
+  display:flex;
+  align-items:flex-start;
+  gap:0.65rem;
+  font-size:0.95rem;
+  font-weight:600;
+}
+.cs-col.bad li{ color:#d8a8a3; }
+.cs-col.good li{ color:#f0ddb0; }
+.cs-col .icon{ flex:0 0 auto; font-size:1rem; line-height:1.4; }
+
+/* ---------- Section 4: Decision close ---------- */
+.decision-section{
+  background:linear-gradient(180deg,#1c1c1c,#0d0d0d);
+  padding:4rem 0;
+  text-align:center;
+}
+.dc-headline{
+  color:#fff;
+  font-size:clamp(1.6rem, 1.3rem + 1.5vw, 2.4rem);
+  font-weight:800;
+  max-width:36rem;
+  margin:0 auto 1rem;
+  letter-spacing:-0.02em;
+  line-height:1.2;
+}
+.dc-subhead{
+  color:#aaa;
+  font-size:1.02rem;
+  max-width:32rem;
+  margin:0 auto 2rem;
+  line-height:1.65;
+}
+.dc-urgency{
+  color:#F5B301;
+  font-weight:800;
+  font-size:1rem;
+  margin-bottom:0.3rem;
+}
+.dc-urgency-sub{
+  color:#777;
+  font-size:0.85rem;
+  margin-bottom:2rem;
+}
+.dc-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#b8862e,#F5B301 50%,#b8862e);
+  color:#1c1c1c;
+  font-weight:800;
+  font-size:1rem;
+  letter-spacing:0.03em;
+  text-transform:uppercase;
+  padding:1.2rem 3rem;
+  border-radius:0.9rem;
+  box-shadow:0 10px 30px -6px rgba(245,179,1,0.45);
+  transition:transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease;
+}
+.dc-cta:hover{ transform:translateY(-2px) scale(1.02); box-shadow:0 16px 36px -6px rgba(245,179,1,0.55); }
+
+/* ---------- Sticky mobile CTA (Section 4 specific reinforcement) ---------- */
+@media (max-width:699px){
+  .sticky-bar{ padding:0.6rem 0.85rem; }
+}
+
+/* ---------- Scroll-reveal animation (no-JS friendly, IO enhanced) ---------- */
+.reveal{
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1);
+}
+.reveal.is-visible{ opacity:1; transform:translateY(0); }
 
 /* ---------- Hero ---------- */
 .hero{
@@ -464,21 +735,38 @@ ul{margin:0;padding:0;list-style:none;}
   </div>
 </header>
 
-<div class="promo-strip">
+<!-- ====================================================================
+     SECTION 1 — OFFER & TRUST (premium redesign)
+     ==================================================================== -->
+<section class="offer-trust-section">
   <div class="container">
-    <div class="promo-strip__left">
-      <img src="images/logo_website.png" alt="">
-      <span>New customer discount</span>
-    </div>
-    <div class="promo-strip__center">
-      <span class="red">BUY ONE GET ONE FREE</span>
-    </div>
-    <div style="display:flex; align-items:center; gap:0.6rem;">
-      <span style="font-size:0.7rem; font-weight:700; color:var(--ink-soft); white-space:nowrap;">50-Day Money-Back Guarantee</span>
-      <a href="#offer" class="promo-strip__cta">GET THIS OFFER NOW</a>
+    <div class="offer-trust-card reveal">
+      <span class="ot-eyebrow">New Customer Discount</span>
+      <h2 class="ot-headline">Buy One Get One Free</h2>
+      <p class="ot-subhead">Get double the premium Himalayan Shilajit for the same price today.</p>
+
+      <span class="ot-guarantee-pill">🛡️ 50-Day Money-Back Guarantee</span>
+
+      <div class="btn-wrap" style="margin:0 0 0.5rem;">
+        <a href="#offer" class="ot-cta">Get This Offer Now</a>
+      </div>
+
+      <div class="ot-divider"></div>
+
+      <div class="ot-trustpilot">
+        <span class="tp-score">Rated "Excellent" 4.8</span>
+        <span class="tp-stars-gold">★★★★★</span>
+        <span class="tp-label">On Trustpilot</span>
+      </div>
+
+      <div class="ot-trustpoints">
+        <div class="point"><span class="check">✓</span> 50-Day Money-Back Guarantee</div>
+        <div class="point"><span class="check">✓</span> Harvested Above 5,000m Altitude</div>
+        <div class="point"><span class="check">✓</span> Every Batch Independently Lab Tested</div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- HERO -->
 <section class="hero">
@@ -663,14 +951,63 @@ ul{margin:0;padding:0;list-style:none;}
 
 <a href="#offer" class="gold-bar" style="display:block;">VIEW THE LIMITED TIME OFFER</a>
 
-<!-- REASON 7 -->
-<section class="container">
-  <div class="reason7">
-    <img src="images/Mountaindrop_Shilajit_Has_The_Most_5_Star_Reviews_On_The_Planet.webp" alt="Trustpilot 4.7 stars, 1042 reviews, with customer testimonials">
-    <div>
-      <h2>7. Over 1,000 Verified Customers Report Real Results Within Days</h2>
-      <p>Mountaindrop has 1,042 Trustpilot reviews at 4.8 stars.</p>
-      <p>Here's what real customers say:</p>
+<!-- ====================================================================
+     SECTION 2 — SOCIAL PROOF (premium redesign)
+     ==================================================================== -->
+<section class="social-proof-section">
+  <div class="container" style="max-width:none; padding:0;">
+    <div style="max-width:71.875rem; margin:0 auto; padding:0 1.25rem;">
+      <h2 class="sp-headline reveal">Over 1,000 Verified Customers Report Real Results Within Days</h2>
+      <p class="sp-subhead reveal">Mountaindrop has 1,042 verified Trustpilot reviews with an average rating of 4.8 stars.</p>
+    </div>
+
+    <div class="sp-cards">
+      <div class="sp-card reveal">
+        <span class="stars-gold">★★★★★</span>
+        <p class="quote">"I felt the difference within the first week. More energy. Better focus. Noticeably better mood."</p>
+        <p class="author">— Mark T.</p>
+      </div>
+      <div class="sp-card reveal">
+        <span class="stars-gold">★★★★★</span>
+        <p class="quote">"Finally found real shilajit that actually works. I tried three other brands and felt nothing."</p>
+        <p class="author">— Sarah L.</p>
+      </div>
+      <div class="sp-card reveal">
+        <span class="stars-gold">★★★★★</span>
+        <p class="quote">"Energy levels are way higher now. Sleeping better too. Worth every penny."</p>
+        <p class="author">— James K.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     SECTION 3 — CONTRAST (premium redesign, dark)
+     ==================================================================== -->
+<section class="contrast-section">
+  <div class="container">
+    <h2 class="cs-headline reveal">Keep Taking Fake Shilajit And Nothing Changes.</h2>
+    <p class="cs-subhead reveal">Most brands sell diluted, low-quality resin with little or no active fulvic acid.</p>
+
+    <div class="cs-grid">
+      <div class="cs-col bad reveal">
+        <div class="cs-col-title">Other Brands</div>
+        <ul>
+          <li><span class="icon">❌</span> Low Potency</li>
+          <li><span class="icon">❌</span> Unknown Source</li>
+          <li><span class="icon">❌</span> No Lab Testing</li>
+          <li><span class="icon">❌</span> Weak Results</li>
+        </ul>
+      </div>
+      <div class="cs-col good reveal">
+        <div class="cs-col-title">Mountaindrop</div>
+        <ul>
+          <li><span class="icon">✅</span> Authentic Himalayan Source</li>
+          <li><span class="icon">✅</span> Lab Tested Every Batch</li>
+          <li><span class="icon">✅</span> Maximum Potency</li>
+          <li><span class="icon">✅</span> Trusted By 1,000+ Customers</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -680,6 +1017,7 @@ ul{margin:0;padding:0;list-style:none;}
 <!-- PRODUCT OFFER / CHECKOUT -->
 <section class="offer-wrap container" id="offer">
   <div class="product-card">
+
     <div class="offer-card__tag">Limited Offer – Buy One Get One Free</div>
     <img class="product-photo" src="images/mountaindrop-original-shilajit-himalayas-100g-mountaindrop.com.png" alt="Mountaindrop Original Himalayan Shilajit">
     <div class="stars-line">★★★★★ Rated "Excellent" 4.8/5 on Trustpilot · 6+ Independent Lab Certificates</div>
@@ -723,6 +1061,21 @@ ul{margin:0;padding:0;list-style:none;}
     <div class="stat"><div class="num">94%</div><div class="label">achieve their desired results</div></div>
     <div class="stat"><div class="num">89%</div><div class="label">experience significant benefits from regular use</div></div>
     <div class="stat"><div class="num">97%</div><div class="label">would highly recommend to friends and colleagues</div></div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     SECTION 4 — DECISION CLOSE (premium redesign)
+     ==================================================================== -->
+<section class="decision-section">
+  <div class="container">
+    <h2 class="dc-headline reveal">Or Switch To What Over 1,000 People Already Trust.</h2>
+    <p class="dc-subhead reveal">Experience authentic Himalayan Shilajit backed by real customer results and a 50-day money-back guarantee.</p>
+
+    <p class="dc-urgency reveal">Your choice.</p>
+    <p class="dc-urgency-sub reveal">But this offer won't last.</p>
+
+    <a href="#offer" class="dc-cta reveal">Get This Offer Now</a>
   </div>
 </section>
 
@@ -883,6 +1236,21 @@ function renderPayPalButton() {
 
 updatePriceDisplay();
 renderPayPalButton();
+
+// ---------- scroll-reveal animations ----------
+if ('IntersectionObserver' in window) {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+}
 </script>
 
 </body>
