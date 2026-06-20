@@ -1,9 +1,24 @@
-{
-  "name": "peakmodo-bogo-page",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Static BOGO landing page with Stripe + PayPal checkout via Netlify Functions.",
-  "dependencies": {
-    "stripe": "^17.0.0"
-  }
-}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment successful</title>
+<style>
+  body{font-family:ui-sans-serif,system-ui,sans-serif;background:#efefef;color:#1c1c1c;margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+  .card{background:#fff;border-radius:0.75rem;padding:2.5rem;max-width:26rem;text-align:center;}
+  .icon{font-size:2.5rem;margin-bottom:0.5rem;}
+  h1{font-size:1.5rem;margin:0 0 0.75rem;}
+  p{color:#1c1c1cb3;margin:0 0 1.5rem;line-height:1.5;}
+  a{display:inline-block;background:#c0392b;color:#fff;text-decoration:none;font-weight:700;text-transform:uppercase;font-size:0.85rem;letter-spacing:0.02em;padding:0.85rem 1.75rem;border-radius:0.4rem;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">✅</div>
+    <h1>Payment successful</h1>
+    <p>Thank you for your order. A confirmation email is on its way to your inbox.</p>
+    <a href="/">Back to the page</a>
+  </div>
+</body>
+</html>

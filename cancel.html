@@ -1,95 +1,24 @@
-// netlify/functions/paypal-capture-order.js
-//
-// Captures (finalizes) a previously created PayPal order once the
-// shopper approves it in the PayPal popup.
-//
-// Required environment variables (set in Netlify dashboard):
-//   PAYPAL_CLIENT_ID
-//   PAYPAL_CLIENT_SECRET
-//   PAYPAL_ENVIRONMENT
-
-function getApiBase() {
-  return process.env.PAYPAL_ENVIRONMENT === "live"
-    ? "https://api-m.paypal.com"
-    : "https://api-m.sandbox.paypal.com";
-}
-
-async function getAccessToken() {
-  const clientId = process.env.PAYPAL_CLIENT_ID;
-  const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
-
-  if (!clientId || !clientSecret) {
-    throw new Error("Missing PAYPAL_CLIENT_ID or PAYPAL_CLIENT_SECRET.");
-  }
-
-  const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
-
-  const response = await fetch(`${getApiBase()}/v1/oauth2/token`, {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${basicAuth}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: "grant_type=client_credentials",
-  });
-
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`PayPal auth failed: ${response.status} ${text}`);
-  }
-
-  const data = await response.json();
-  return data.access_token;
-}
-
-exports.handler = async (event) => {
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
-  }
-
-  try {
-    const body = event.body ? JSON.parse(event.body) : {};
-    const orderID = body.orderID;
-
-    if (!orderID) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: "Missing orderID." }),
-      };
-    }
-
-    const accessToken = await getAccessToken();
-
-    const response = await fetch(
-      `${getApiBase()}/v2/checkout/orders/${orderID}/capture`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error("PayPal capture error:", data);
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: "Unable to capture PayPal order." }),
-      };
-    }
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ status: data.status, id: data.id }),
-    };
-  } catch (error) {
-    console.error("PayPal capture-order error:", error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: "Unable to capture PayPal order." }),
-    };
-  }
-};
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout cancelled</title>
+<style>
+  body{font-family:ui-sans-serif,system-ui,sans-serif;background:#efefef;color:#1c1c1c;margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+  .card{background:#fff;border-radius:0.75rem;padding:2.5rem;max-width:26rem;text-align:center;}
+  .icon{font-size:2.5rem;margin-bottom:0.5rem;}
+  h1{font-size:1.5rem;margin:0 0 0.75rem;}
+  p{color:#1c1c1cb3;margin:0 0 1.5rem;line-height:1.5;}
+  a{display:inline-block;background:#c0392b;color:#fff;text-decoration:none;font-weight:700;text-transform:uppercase;font-size:0.85rem;letter-spacing:0.02em;padding:0.85rem 1.75rem;border-radius:0.4rem;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">⚠️</div>
+    <h1>Checkout cancelled</h1>
+    <p>No payment was taken. You can try again whenever you're ready.</p>
+    <a href="/#offer">Back to the offer</a>
+  </div>
+</body>
+</html>
