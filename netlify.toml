@@ -1,0 +1,8 @@
+# Local Netlify folder
+.netlify
+
+# dependencies
+node_modules/
+
+# misc
+.DS_Store
