@@ -90,30 +90,29 @@ ul{margin:0;padding:0;list-style:none;}
 /* ---------- Certificate badge carousel ---------- */
 .badge-carousel{
   background:#fff;
-  padding:1rem 0;
   overflow:hidden;
+  white-space:nowrap;
   border-bottom:1px solid var(--line);
+  padding:0.9rem 0;
 }
+
 .badge-carousel__track{
-  display:flex;
+  display:inline-flex;
   align-items:center;
   gap:2.25rem;
-  width:max-content;
-  animation:badgeScroll 28s linear infinite;
+  animation:badge-scroll 28s linear infinite;
 }
-.badge-carousel:hover .badge-carousel__track{ animation-play-state:paused; }
-.badge-carousel__track img{
-  height:56px;
-  width:56px;
-  border-radius:50%;
-  object-fit:contain;
+
+.badge-carousel img{
+  height:2.6rem;
+  width:auto;
   flex:0 0 auto;
 }
-@keyframes badgeScroll{
+
+@keyframes badge-scroll{
   from{ transform:translateX(0); }
   to{ transform:translateX(-50%); }
 }
-
 /* ---------- Site header / sticky promo ---------- */
 .site-header{
   background:#fff;
@@ -1139,23 +1138,22 @@ ul{margin:0;padding:0;list-style:none;}
 <!-- CERTIFICATE BADGE ROW (before FAQ) -->
 <div class="badge-carousel">
   <div class="badge-carousel__track">
-    <img src="images/gempages_586400118794617629-1b5d742f-9d68-4736-83ee-0eba6a2fdff2.png" alt="IQNET Recognized Certification">
-    <img src="images/gempages_586400118794617629-7db4959e-499e-4741-8c11-4a6a39902f83.png" alt="ISO 9001 Certified">
-    <img src="images/gempages_586400118794617629-8e504600-928c-4961-bc32-fac72cd9a8ca.png" alt="Rated Excellent on Trustpilot">
-    <img src="images/gempages_586400118794617629-85d84ae9-5f26-4798-b9e2-c6fbc791ba22.png" alt="HACCP Food Safety Certified">
-    <img src="images/gempages_586400118794617629-511ad62d-9372-4c62-b2cf-0108497fb1ec.png" alt="D-U-N-S Registered">
-    <img src="images/gempages_586400118794617629-53284fa0-09b0-48c8-a475-9b521e3e065c.png" alt="AAA Highest Creditworthiness">
-    <img src="images/gempages_586400118794617629-ab27b8a5-abd9-40b0-84e5-c48d0dc90c3d.png" alt="GMP Certified">
-    <img src="images/Himalaya_1.jpg" alt="Himalayan Sourced">
-    <!-- duplicate set for seamless loop -->
-    <img src="images/gempages_586400118794617629-1b5d742f-9d68-4736-83ee-0eba6a2fdff2.png" alt="IQNET Recognized Certification">
-    <img src="images/gempages_586400118794617629-7db4959e-499e-4741-8c11-4a6a39902f83.png" alt="ISO 9001 Certified">
-    <img src="images/gempages_586400118794617629-8e504600-928c-4961-bc32-fac72cd9a8ca.png" alt="Rated Excellent on Trustpilot">
-    <img src="images/gempages_586400118794617629-85d84ae9-5f26-4798-b9e2-c6fbc791ba22.png" alt="HACCP Food Safety Certified">
-    <img src="images/gempages_586400118794617629-511ad62d-9372-4c62-b2cf-0108497fb1ec.png" alt="D-U-N-S Registered">
-    <img src="images/gempages_586400118794617629-53284fa0-09b0-48c8-a475-9b521e3e065c.png" alt="AAA Highest Creditworthiness">
-    <img src="images/gempages_586400118794617629-ab27b8a5-abd9-40b0-84e5-c48d0dc90c3d.png" alt="GMP Certified">
-    <img src="images/Himalaya_1.jpg" alt="Himalayan Sourced">
+   <img src="images/Awards.webp" alt="Awards">
+<img src="images/Healthline_Logo_2019.png" alt="Healthline">
+<img src="images/Mens_Health_logo_orange_bg.png" alt="Men's Health">
+<img src="images/Cleveland-Clinic-Logo.jpg" alt="Cleveland Clinic">
+<img src="images/WebMD_logo.png" alt="WebMD">
+<img src="images/Examine_logo.png" alt="Examine">
+<img src="images/medical-news-today-logo.png" alt="Medical News Today">
+
+<!-- duplicate set -->
+<img src="images/Awards.webp" alt="Awards">
+<img src="images/Healthline_Logo_2019.png" alt="Healthline">
+<img src="images/Mens_Health_logo_orange_bg.png" alt="Men's Health">
+<img src="images/Cleveland-Clinic-Logo.jpg" alt="Cleveland Clinic">
+<img src="images/WebMD_logo.png" alt="WebMD">
+<img src="images/Examine_logo.png" alt="Examine">
+<img src="images/medical-news-today-logo.png" alt="Medical News Today">
   </div>
 </div>
 
