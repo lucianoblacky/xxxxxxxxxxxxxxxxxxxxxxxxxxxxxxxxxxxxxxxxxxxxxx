@@ -12,7 +12,7 @@ No Next.js, no build step for the page itself — just upload and deploy.
 Open `index.html`, near the top (inside `<head>`), find this line:
 
 ```html
-<script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID_HERE&currency=EUR&intent=capture"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=ATdpIv0p_QiZrdxq9FnwU4rPithjiIB9Wr25h4GyfakNRB_NNDI5FScWm4EYiNPbuqj_WXVwHYd8RnQ_&currency=EUR&intent=capture"></script>
 ```
 
 Replace `YOUR_PAYPAL_CLIENT_ID_HERE` with your real PayPal Client ID.
