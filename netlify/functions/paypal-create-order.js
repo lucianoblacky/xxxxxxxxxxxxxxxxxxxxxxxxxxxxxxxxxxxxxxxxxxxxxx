@@ -2,9 +2,13 @@
 //
 // Creates a PayPal order via the REST Orders v2 API.
 //
-// Now accepts a cart of multiple line items (main product + upsell
-// bundles) instead of a single quantity. Prices are always resolved
-// server-side from _catalog.js — never trust client-supplied prices.
+// The shopper's shipping address is collected ONCE, in the Delivery
+// form on checkout.html — we pass it to PayPal here as a fixed address
+// (shipping_preference: SET_PROVIDED_ADDRESS) so PayPal does not ask
+// for it again.
+//
+// Prices are always resolved server-side from _catalog.js — never
+// trust client-supplied prices.
 //
 // Required environment variables (set in Netlify dashboard):
 //   PAYPAL_CLIENT_ID
@@ -74,6 +78,48 @@ exports.handler = async (event) => {
 
     const accessToken = await getAccessToken();
 
+    const shipping = body.shipping || {};
+    const hasAddress = shipping.name && shipping.address && shipping.city;
+
+    const purchaseUnit = {
+      description,
+      amount: {
+        currency_code: "EUR",
+        value: totalEUR.toFixed(2),
+        breakdown: {
+          item_total: {
+            currency_code: "EUR",
+            value: totalEUR.toFixed(2),
+          },
+        },
+      },
+      items: lineItems.map((item) => ({
+        name: item.name.slice(0, 127),
+        unit_amount: {
+          currency_code: "EUR",
+          value: item.unitPrice.toFixed(2),
+        },
+        quantity: String(item.quantity),
+        category: "PHYSICAL_GOODS",
+      })),
+    };
+
+    // If we already have the shipping address from the on-page Delivery
+    // form, pass it through as a fixed address so PayPal's own popup
+    // does not ask the shopper for it a second time.
+    if (hasAddress) {
+      purchaseUnit.shipping = {
+        name: { full_name: shipping.name },
+        address: {
+          address_line_1: shipping.address,
+          address_line_2: shipping.address2 || undefined,
+          admin_area_2: shipping.city,
+          postal_code: shipping.zip || undefined,
+          country_code: shipping.countryCode || "DE",
+        },
+      };
+    }
+
     const response = await fetch(`${getApiBase()}/v2/checkout/orders`, {
       method: "POST",
       headers: {
@@ -82,32 +128,11 @@ exports.handler = async (event) => {
       },
       body: JSON.stringify({
         intent: "CAPTURE",
-        purchase_units: [
-          {
-            description,
-            amount: {
-              currency_code: "EUR",
-              value: totalEUR.toFixed(2),
-              breakdown: {
-                item_total: {
-                  currency_code: "EUR",
-                  value: totalEUR.toFixed(2),
-                },
-              },
-            },
-            items: lineItems.map((item) => ({
-              name: item.name.slice(0, 127),
-              unit_amount: {
-                currency_code: "EUR",
-                value: item.unitPrice.toFixed(2),
-              },
-              quantity: String(item.quantity),
-              category: "PHYSICAL_GOODS",
-            })),
-          },
-        ],
+        purchase_units: [purchaseUnit],
         application_context: {
-          shipping_preference: "GET_FROM_FILE",
+          shipping_preference: hasAddress
+            ? "SET_PROVIDED_ADDRESS"
+            : "GET_FROM_FILE",
           user_action: "PAY_NOW",
         },
       }),

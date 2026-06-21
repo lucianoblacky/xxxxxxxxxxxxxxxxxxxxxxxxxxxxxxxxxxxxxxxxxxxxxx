@@ -18,16 +18,6 @@ const CATALOG = {
     unitPrice: 39,
     maxQty: 1,
   },
-  "upsell-family": {
-    name: "Family Pack — Add 4 Extra Shilajit Jars",
-    unitPrice: 59,
-    maxQty: 1,
-  },
-  "upsell-ultimate": {
-    name: "Ultimate Supply — Add 10 Extra Shilajit Jars",
-    unitPrice: 129,
-    maxQty: 1,
-  },
 };
 
 // Validates and normalizes the `items` array sent from the cart.
