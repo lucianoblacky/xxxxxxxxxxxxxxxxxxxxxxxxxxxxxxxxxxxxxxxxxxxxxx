@@ -5,6 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=5.0">
 <title>BOGO - 7 Reasons Most "Himalayan Shilajit" Is Fake</title>
 
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '876944531341744');
+fbq('track', 'PageView');
+fbq('track', 'ViewContent', {
+  content_name: 'Himalayan Shilajit 45g (Buy 1 Get 1 Free)',
+  content_ids: ['main'],
+  content_type: 'product',
+  value: 94.50,
+  currency: 'EUR'
+});
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=876944531341744&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
@@ -1074,10 +1099,14 @@ ul{margin:0;padding:0;list-style:none;}
 }
 
 .cart-upsell-card{
-  border:1px solid var(--line); border-radius:0.6rem; padding:0.85rem;
-  margin-bottom:0.7rem; background:var(--bg);
+  border:1.5px solid #8fb8f6; border-radius:0.6rem; padding:0.85rem;
+  margin-bottom:0.7rem; background:#ffffff;
 }
 .cart-upsell-card__top{ display:flex; align-items:flex-start; justify-content:space-between; gap:0.6rem; }
+.cart-upsell-card__img{
+  width:3.4rem; height:3.4rem; border-radius:0.45rem; object-fit:cover; flex:0 0 auto;
+  border:1px solid var(--line); background:#fff;
+}
 .cart-upsell-card__label{ font-size:0.85rem; font-weight:800; color:var(--ink); margin-bottom:0.35rem; }
 .cart-upsell-card__desc{ font-size:0.76rem; color:var(--ink-soft); margin-bottom:0.45rem; line-height:1.4; }
 .cart-upsell-card__prices{ font-size:0.78rem; }
@@ -1695,7 +1724,17 @@ const UPSELLS = [
     price: 39,
     comparePrice: 94.50,
     save: 55.50,
-    image: 'images/shilajit-resin-6-pack.png',
+    image: null,
+  },
+  {
+    id: 'upsell-titan',
+    badge: '💪',
+    label: 'The Testosterone Titan',
+    desc: 'Soomiig Shilajit Complex — 6550mg, 120 Vegan Capsules',
+    price: 188.61,
+    comparePrice: 244.95,
+    save: 56.34,
+    image: 'images/testosterone-titan-shilajit.png',
   },
 ];
 
@@ -1753,6 +1792,15 @@ document.getElementById('add-to-cart-btn').addEventListener('click', () => {
       unitComparePrice: MAIN_PRODUCT.unitComparePrice,
       qty: buyBoxQty,
       isUpsell: false,
+    });
+  }
+  if (typeof fbq === 'function') {
+    fbq('track', 'AddToCart', {
+      content_name: MAIN_PRODUCT.name,
+      content_ids: [MAIN_PRODUCT.id],
+      content_type: 'product',
+      value: MAIN_PRODUCT.unitPrice * buyBoxQty,
+      currency: 'EUR',
     });
   }
   renderCart();
@@ -1813,6 +1861,7 @@ function renderUpsells() {
     return `
       <div class="cart-upsell-card">
         <div class="cart-upsell-card__top">
+          <img class="cart-upsell-card__img" src="${u.image}" alt="${u.label}">
           <div>
             <div class="cart-upsell-card__label">${u.badge} ${u.label}</div>
             <div class="cart-upsell-card__desc">${u.desc}</div>
@@ -1849,6 +1898,15 @@ function renderUpsells() {
         qty: 1,
         isUpsell: true,
       });
+      if (typeof fbq === 'function') {
+        fbq('track', 'AddToCart', {
+          content_name: upsell.label,
+          content_ids: [upsell.id],
+          content_type: 'product',
+          value: upsell.price,
+          currency: 'EUR',
+        });
+      }
       renderCart();
     });
   });
@@ -1909,6 +1967,15 @@ const CART_STORAGE_KEY = 'peakmodo_checkout_cart';
 document.getElementById('cart-checkout-btn').addEventListener('click', () => {
   if (cart.items.length === 0) return;
   sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart.items));
+  if (typeof fbq === 'function') {
+    fbq('track', 'InitiateCheckout', {
+      content_ids: cart.items.map((i) => i.id),
+      content_type: 'product',
+      num_items: cartTotalQty(),
+      value: cartSubtotal(),
+      currency: 'EUR',
+    });
+  }
   window.location.href = '/checkout.html';
 });
 

@@ -18,6 +18,11 @@ const CATALOG = {
     unitPrice: 39,
     maxQty: 1,
   },
+  "upsell-titan": {
+    name: "The Testosterone Titan",
+    unitPrice: 188.61,
+    maxQty: 1,
+  },
 };
 
 // Validates and normalizes the `items` array sent from the cart.

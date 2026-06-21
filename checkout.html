@@ -5,6 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout — PeakModo Himalayan Shilajit Resin</title>
 
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '876944531341744');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=876944531341744&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
@@ -100,14 +118,14 @@ input{font-family:var(--font-body);font-size:0.95rem;}
 .express-label{ text-align:center; font-size:0.78rem; color:var(--ink-soft); font-weight:700; margin:1.8rem 0 0.8rem; }
 .express-row{ display:flex; flex-direction:column; gap:0.7rem; margin-bottom:1.5rem; }
 #checkout-stripe-btn{
-  display:flex; align-items:center; justify-content:center; gap:0.5rem;
-  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 25%,var(--gold-3) 50%,var(--gold-2) 75%,var(--gold-1) 100%);
-  color:#2a1f08; font-weight:800; font-size:0.85rem; letter-spacing:0.02em; text-transform:uppercase;
+  display:flex; align-items:center; justify-content:center; gap:0.55rem;
+  background:var(--ink);
+  color:#ffffff; font-weight:700; font-size:0.92rem; letter-spacing:0; text-transform:none;
   padding:0.9rem 1rem; border-radius:0.5rem; width:100%;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -2px 4px rgba(0,0,0,0.15);
 }
-#checkout-stripe-btn:hover{ filter:brightness(1.06); }
+#checkout-stripe-btn:hover{ filter:brightness(1.15); }
 #checkout-stripe-btn:disabled{ opacity:0.6; filter:none; cursor:default; }
+#checkout-stripe-btn svg{ flex:0 0 auto; }
 
 .checkout-divider{ display:flex; align-items:center; gap:0.75rem; margin:0.5rem 0 1.4rem; font-size:0.78rem; color:var(--ink-soft); }
 .checkout-divider span{ flex:1; height:1px; background:var(--line); }
@@ -221,7 +239,13 @@ input{font-family:var(--font-body);font-size:0.95rem;}
     <p class="express-label">Choose how to pay</p>
 
     <div class="express-row">
-      <button type="button" id="checkout-stripe-btn">Pay with Card / Apple Pay / Google Pay</button>
+      <button type="button" id="checkout-stripe-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/>
+          <line x1="2" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="1.8"/>
+        </svg>
+        Pay per Link Apple Pay Google Pay
+      </button>
     </div>
     <p id="checkout-stripe-error" class="checkout-error"></p>
 
@@ -268,9 +292,8 @@ input{font-family:var(--font-body);font-size:0.95rem;}
 <script>
 const CATALOG = {
   main: { name: 'Himalayan Shilajit 45g (Buy 1 Get 1 Free)', image: 'images/EUR_Pre_Order_Red.png' },
-  'upsell-power': { name: 'Performance Pack — Add 2 Extra Shilajit Jars', image: 'images/EUR_Pre_Order_Red.png' },
-  'upsell-family': { name: 'Family Pack — Add 4 Extra Shilajit Jars', image: 'images/EUR_Pre_Order_Red.png' },
-  'upsell-ultimate': { name: 'Ultimate Supply — Add 10 Extra Shilajit Jars', image: 'images/EUR_Pre_Order_Red.png' },
+  'upsell-power': { name: 'Performance Pack — Add 2 Extra Shilajit Jars', image: 'images/shilajit-resin-6-pack.png' },
+  'upsell-titan': { name: 'The Testosterone Titan', image: 'images/testosterone-titan-shilajit.png' },
 };
 
 const CART_STORAGE_KEY = 'peakmodo_checkout_cart';
@@ -343,11 +366,35 @@ function renderSummary() {
 }
 renderSummary();
 
+if (cartItems.length > 0 && typeof fbq === 'function') {
+  const totalValue = cartItems.reduce((sum, i) => sum + i.unitPrice * i.qty, 0);
+  fbq('track', 'InitiateCheckout', {
+    content_ids: cartItems.map((i) => i.id),
+    content_type: 'product',
+    num_items: cartItems.reduce((sum, i) => sum + i.qty, 0),
+    value: totalValue,
+    currency: 'EUR',
+  });
+}
+
 function buildCheckoutItemsPayload() {
   return cartItems.map((item) => ({
     id: item.id,
     quantity: item.qty,
   }));
+}
+
+function trackPurchase(orderId) {
+  if (typeof fbq !== 'function') return;
+  const totalValue = cartItems.reduce((sum, i) => sum + i.unitPrice * i.qty, 0);
+  fbq('track', 'Purchase', {
+    content_ids: cartItems.map((i) => i.id),
+    content_type: 'product',
+    num_items: cartItems.reduce((sum, i) => sum + i.qty, 0),
+    value: totalValue,
+    currency: 'EUR',
+    order_id: orderId,
+  });
 }
 
 // ====== DELIVERY FORM — single source of address for both Stripe & PayPal ======
@@ -478,6 +525,7 @@ stripePayNowBtn.addEventListener('click', async () => {
       throw new Error(result.error.message || 'Payment could not be completed.');
     }
 
+    trackPurchase(result.paymentIntent.id);
     sessionStorage.removeItem(CART_STORAGE_KEY);
     window.location.href = '/success.html?provider=stripe&payment_intent=' + result.paymentIntent.id;
   } catch (err) {
@@ -530,6 +578,7 @@ function renderPayPalButton() {
         if (!response.ok) {
           throw new Error(result.error || 'Payment could not be captured.');
         }
+        trackPurchase(data.orderID);
         sessionStorage.removeItem(CART_STORAGE_KEY);
         window.location.href = '/success.html?provider=paypal&order_id=' + data.orderID;
       } catch (err) {
