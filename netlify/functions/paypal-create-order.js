@@ -2,13 +2,16 @@
 //
 // Creates a PayPal order via the REST Orders v2 API.
 //
+// Now accepts a cart of multiple line items (main product + upsell
+// bundles) instead of a single quantity. Prices are always resolved
+// server-side from _catalog.js — never trust client-supplied prices.
+//
 // Required environment variables (set in Netlify dashboard):
 //   PAYPAL_CLIENT_ID
 //   PAYPAL_CLIENT_SECRET
 //   PAYPAL_ENVIRONMENT   ("sandbox" while testing, "live" once ready)
 
-const PRICE_EUR = 94.5; // keep in sync with index.html and create-checkout.js
-const PRODUCT_NAME = "Original Himalayan Shilajit (2x45g) - Buy One Get One Free";
+const { resolveLineItems } = require("./_catalog");
 
 function getApiBase() {
   return process.env.PAYPAL_ENVIRONMENT === "live"
@@ -51,11 +54,23 @@ exports.handler = async (event) => {
 
   try {
     const body = event.body ? JSON.parse(event.body) : {};
-    const quantity = Math.min(
-      Math.max(parseInt(body.quantity, 10) || 1, 1),
-      10
-    );
-    const totalValue = (PRICE_EUR * quantity).toFixed(2);
+
+    let lineItems, totalEUR;
+    try {
+      const resolved = resolveLineItems(body.items);
+      lineItems = resolved.lineItems;
+      totalEUR = resolved.totalEUR;
+    } catch (validationErr) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: validationErr.message }),
+      };
+    }
+
+    const description = lineItems
+      .map((item) => `${item.name} x${item.quantity}`)
+      .join(", ")
+      .slice(0, 127);
 
     const accessToken = await getAccessToken();
 
@@ -69,11 +84,26 @@ exports.handler = async (event) => {
         intent: "CAPTURE",
         purchase_units: [
           {
-            description: PRODUCT_NAME.slice(0, 127),
+            description,
             amount: {
               currency_code: "EUR",
-              value: totalValue,
+              value: totalEUR.toFixed(2),
+              breakdown: {
+                item_total: {
+                  currency_code: "EUR",
+                  value: totalEUR.toFixed(2),
+                },
+              },
             },
+            items: lineItems.map((item) => ({
+              name: item.name.slice(0, 127),
+              unit_amount: {
+                currency_code: "EUR",
+                value: item.unitPrice.toFixed(2),
+              },
+              quantity: String(item.quantity),
+              category: "PHYSICAL_GOODS",
+            })),
           },
         ],
         application_context: {

@@ -5,14 +5,15 @@
 // buttons when the shopper's browser/device supports them — no extra
 // code needed for that part.
 //
+// Now accepts a cart of multiple line items (main product + upsell
+// bundles) instead of a single quantity. Prices are always resolved
+// server-side from _catalog.js — never trust client-supplied prices.
+//
 // Required environment variable (set in Netlify dashboard):
 //   STRIPE_SECRET_KEY
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
-const PRICE_EUR_CENTS = 9450; // 94.50 EUR — keep in sync with index.html
-const COMPARE_AT_EUR_CENTS = 21000; // 210.00 EUR, shown struck-through
-const PRODUCT_NAME = "Original Himalayan Shilajit (2x45g) - Buy One Get One Free";
+const { resolveLineItems } = require("./_catalog");
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
@@ -30,32 +31,40 @@ exports.handler = async (event) => {
 
   try {
     const body = event.body ? JSON.parse(event.body) : {};
-    const quantity = Math.min(
-      Math.max(parseInt(body.quantity, 10) || 1, 1),
-      10
-    );
+
+    let lineItemsResolved;
+    try {
+      lineItemsResolved = resolveLineItems(body.items).lineItems;
+    } catch (validationErr) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: validationErr.message }),
+      };
+    }
 
     const origin =
       event.headers.origin ||
       `https://${event.headers.host}` ||
       "http://localhost:8888";
 
+    const stripeLineItems = lineItemsResolved.map((item) => ({
+      quantity: item.quantity,
+      price_data: {
+        currency: "eur",
+        unit_amount: Math.round(item.unitPrice * 100),
+        product_data: {
+          name: item.name,
+          images: [
+            `${origin}/images/mountaindrop-original-shilajit-himalayas-100g-mountaindrop.com.png`,
+          ],
+        },
+      },
+    }));
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
-      line_items: [
-        {
-          quantity,
-          price_data: {
-            currency: "eur",
-            unit_amount: PRICE_EUR_CENTS,
-            product_data: {
-              name: PRODUCT_NAME,
-              images: [`${origin}/images/mountaindrop-original-shilajit-himalayas-100g-mountaindrop.com.png`],
-            },
-          },
-        },
-      ],
+      line_items: stripeLineItems,
       shipping_address_collection: {
         allowed_countries: ["DE", "AT", "CH", "FR", "BE", "NL", "LU", "ES", "IT", "PT"],
       },

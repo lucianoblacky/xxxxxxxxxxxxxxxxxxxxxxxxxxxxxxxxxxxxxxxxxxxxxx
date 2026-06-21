@@ -980,6 +980,168 @@ ul{margin:0;padding:0;list-style:none;}
 
 /* ---------- Sticky bottom bar ---------- */
 .sticky-bar{ position:sticky; bottom:0; background:#fff; border-top:1px solid var(--line); padding:0.7rem 1rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; z-index:50; }
+
+/* ====================================================================
+   CART DRAWER
+   ==================================================================== */
+.cart-overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,0.45);
+  opacity:0; pointer-events:none; transition:opacity .25s ease;
+  z-index:998;
+}
+.cart-overlay.is-open{ opacity:1; pointer-events:auto; }
+
+.cart-drawer{
+  position:fixed; top:0; right:0; height:100%;
+  width:100%; max-width:420px;
+  background:#fff;
+  box-shadow:-12px 0 32px rgba(0,0,0,0.18);
+  transform:translateX(100%);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1);
+  z-index:999;
+  display:flex; flex-direction:column;
+}
+.cart-drawer.is-open{ transform:translateX(0); }
+
+.cart-drawer__header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1.1rem 1.25rem 0.9rem;
+  border-bottom:1px solid var(--line);
+  flex:0 0 auto;
+}
+.cart-drawer__title{
+  font-size:0.78rem; font-weight:800; letter-spacing:0.05em;
+  text-transform:uppercase; color:var(--ink);
+}
+.cart-drawer__header-actions{ display:flex; align-items:center; gap:0.6rem; }
+.cart-login-btn{
+  background:var(--ink); color:#fff; font-size:0.78rem; font-weight:800;
+  padding:0.45rem 0.9rem; border-radius:0.35rem; letter-spacing:0.02em;
+}
+.cart-close-btn{
+  width:1.9rem; height:1.9rem; display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem; color:var(--ink); border-radius:50%;
+}
+.cart-close-btn:hover{ background:var(--bg-soft); }
+
+.cart-shipping-bar{
+  height:6px; background:var(--line); flex:0 0 auto; position:relative; overflow:hidden;
+}
+.cart-shipping-bar__fill{
+  position:absolute; left:0; top:0; bottom:0; width:0%;
+  background:linear-gradient(90deg,#3ea869,#5fc987);
+  transition:width .35s ease;
+}
+.cart-shipping-msg{
+  font-size:0.78rem; text-align:center; padding:0.6rem 1rem 0;
+  color:#1a7a4c; font-weight:700; flex:0 0 auto;
+}
+.cart-shipping-msg.is-pending{ color:var(--ink-soft); font-weight:600; }
+
+.cart-drawer__body{
+  flex:1 1 auto; overflow-y:auto; padding:0.9rem 1.25rem 1.25rem;
+}
+
+.cart-empty{
+  text-align:center; padding:3rem 1rem; color:var(--ink-soft); font-size:0.9rem;
+}
+
+.cart-line-item{
+  display:flex; gap:0.8rem; padding:0.9rem 0; border-bottom:1px solid var(--line);
+}
+.cart-line-item__img{
+  width:3.6rem; height:3.6rem; border-radius:0.45rem; object-fit:cover; flex:0 0 auto;
+  border:1px solid var(--line); background:#f4f2ed;
+}
+.cart-line-item__info{ flex:1 1 auto; min-width:0; }
+.cart-line-item__name{ font-size:0.85rem; font-weight:800; margin-bottom:0.3rem; line-height:1.3; }
+.cart-line-item__qty-row{ display:flex; align-items:center; gap:0.6rem; margin-top:0.4rem; }
+.cart-qty-stepper{
+  display:flex; align-items:center; border:1px solid var(--line); border-radius:0.3rem; overflow:hidden;
+}
+.cart-qty-stepper button{
+  width:1.7rem; height:1.7rem; font-size:0.9rem; color:var(--ink); background:#fff;
+}
+.cart-qty-stepper button:hover{ background:var(--bg-soft); }
+.cart-qty-stepper span{ width:1.8rem; text-align:center; font-size:0.8rem; font-weight:700; }
+.cart-line-item__remove{
+  font-size:0.72rem; color:var(--ink-soft); text-decoration:underline; margin-left:auto;
+}
+.cart-line-item__remove:hover{ color:var(--accent); }
+.cart-line-item__prices{ text-align:right; flex:0 0 auto; }
+.cart-line-item__price{ font-weight:800; color:var(--ink); font-size:0.85rem; }
+.cart-line-item__compare{ color:#b3b3b3; text-decoration:line-through; font-size:0.72rem; display:block; }
+
+.cart-upsell-heading{
+  font-size:0.78rem; font-weight:800; text-align:center; text-transform:uppercase;
+  letter-spacing:0.03em; color:var(--ink-soft); margin:1.1rem 0 0.8rem;
+}
+
+.cart-upsell-card{
+  border:1px solid var(--line); border-radius:0.6rem; padding:0.85rem;
+  margin-bottom:0.7rem; background:var(--bg);
+}
+.cart-upsell-card__top{ display:flex; align-items:flex-start; justify-content:space-between; gap:0.6rem; }
+.cart-upsell-card__label{ font-size:0.85rem; font-weight:800; color:var(--ink); margin-bottom:0.35rem; }
+.cart-upsell-card__desc{ font-size:0.76rem; color:var(--ink-soft); margin-bottom:0.45rem; line-height:1.4; }
+.cart-upsell-card__prices{ font-size:0.78rem; }
+.cart-upsell-card__prices .compare{ color:#b3b3b3; text-decoration:line-through; margin-right:0.4rem; }
+.cart-upsell-card__prices .now{ color:var(--accent); font-weight:800; }
+.cart-upsell-card__save{ font-size:0.72rem; color:#1a7a4c; font-weight:700; margin-top:0.2rem; }
+.cart-upsell-card__btn{
+  flex:0 0 auto; background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 25%,var(--gold-3) 50%,var(--gold-2) 75%,var(--gold-1) 100%);
+  color:#2a1f08; font-weight:800; font-size:0.72rem; letter-spacing:0.03em; text-transform:uppercase;
+  padding:0.5rem 1rem; border-radius:0.35rem;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -2px 4px rgba(0,0,0,0.15);
+  white-space:nowrap;
+}
+.cart-upsell-card__btn:hover{ filter:brightness(1.06); }
+.cart-upsell-card__btn:disabled{ opacity:0.5; filter:none; cursor:default; }
+
+.cart-guarantee{
+  display:flex; gap:0.7rem; align-items:flex-start;
+  background:#e9f7ef; border:1px solid #c8ecd9; border-radius:0.6rem;
+  padding:0.85rem; margin-top:1rem;
+}
+.cart-guarantee__icon{ font-size:1.3rem; line-height:1; flex:0 0 auto; }
+.cart-guarantee__title{ font-size:0.82rem; font-weight:800; color:#1a7a4c; margin-bottom:0.2rem; }
+.cart-guarantee__text{ font-size:0.75rem; color:#2f5e45; line-height:1.4; }
+
+.cart-drawer__footer{
+  flex:0 0 auto; border-top:1px solid var(--line); padding:1rem 1.25rem 1.25rem; background:#fff;
+}
+.cart-subtotal-row{
+  display:flex; align-items:baseline; justify-content:space-between; margin-bottom:0.8rem;
+}
+.cart-subtotal-row__label{ font-size:0.85rem; font-weight:700; color:var(--ink); }
+.cart-subtotal-row__prices .compare{ color:#b3b3b3; text-decoration:line-through; margin-right:0.5rem; font-size:0.85rem; }
+.cart-subtotal-row__prices .now{ color:#1a7a4c; font-weight:800; font-size:1rem; }
+.cart-checkout-btn{
+  display:flex; align-items:center; justify-content:center; gap:0.4rem;
+  width:100%; background:var(--ink); color:#fff; font-weight:800; font-size:0.88rem;
+  padding:0.9rem 1rem; border-radius:0.4rem; margin-bottom:0.6rem;
+}
+.cart-checkout-btn:hover{ filter:brightness(1.15); }
+.cart-continue-btn{
+  display:block; width:100%; text-align:center; background:#fff; color:#2a6ed4;
+  border:1px solid var(--line); font-weight:700; font-size:0.85rem;
+  padding:0.75rem 1rem; border-radius:0.4rem;
+}
+.cart-continue-btn:hover{ background:var(--bg-soft); }
+
+/* Cart payment step (shown after clicking Checkout) */
+.cart-payment-step{ display:none; }
+.cart-payment-step.is-active{ display:block; }
+.cart-payment-step .btn{ max-width:none; margin-bottom:0; }
+.cart-back-link{
+  display:inline-flex; align-items:center; gap:0.3rem; font-size:0.78rem; color:var(--ink-soft);
+  margin-bottom:0.7rem; font-weight:700;
+}
+.cart-back-link:hover{ color:var(--ink); }
+
+@media (max-width:480px){
+  .cart-drawer{ max-width:100%; }
+}
 .sticky-bar .info{ font-size:0.72rem; font-weight:800; line-height:1.3; }
 .sticky-bar .info .red{ color:var(--accent); }
 .sticky-bar .btn{ width:auto; padding:0.75rem 1.25rem; font-size:0.72rem; max-width:none; }
@@ -1288,15 +1450,9 @@ ul{margin:0;padding:0;list-style:none;}
       <button type="button" id="qty-increase" aria-label="Increase quantity">+</button>
     </div>
 
-    <button type="button" id="stripe-checkout-btn" class="btn" style="max-width:none;">
-      Pay with Card / Apple Pay / Google Pay
+    <button type="button" id="add-to-cart-btn" class="btn" style="max-width:none;">
+      Add to Cart
     </button>
-    <p id="stripe-error" style="display:none; color:#c0392b; font-size:0.75rem; margin-top:0.5rem;"></p>
-
-    <div class="divider-or"><span></span>or<span></span></div>
-
-    <div id="paypal-button-container"></div>
-    <p id="paypal-error" style="display:none; color:#c0392b; font-size:0.75rem; margin-top:0.5rem;"></p>
 
     <div class="offer-trust-row">
       <span>Lab Tested &amp; Certified</span>
@@ -1486,35 +1642,359 @@ ul{margin:0;padding:0;list-style:none;}
   <a href="#offer" class="btn">Buy One Get One Free</a>
 </div>
 
+<!-- CART OVERLAY + DRAWER -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
+
+  <div class="cart-drawer__header">
+    <span class="cart-drawer__title">Your Cart</span>
+    <div class="cart-drawer__header-actions">
+      <button type="button" class="cart-login-btn" id="cart-login-btn">Login</button>
+      <button type="button" class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">✕</button>
+    </div>
+  </div>
+
+  <div class="cart-shipping-bar"><div class="cart-shipping-bar__fill" id="cart-shipping-fill"></div></div>
+  <p class="cart-shipping-msg" id="cart-shipping-msg"></p>
+
+  <!-- CART LIST VIEW -->
+  <div class="cart-drawer__body" id="cart-view-list">
+    <div id="cart-line-items"></div>
+
+    <div id="cart-upsell-section"></div>
+
+    <div class="cart-guarantee">
+      <span class="cart-guarantee__icon">🛡️</span>
+      <div>
+        <p class="cart-guarantee__title">50-Day Money Back Guarantee</p>
+        <p class="cart-guarantee__text">Try Himalayan Shilajit risk-free. If you are not satisfied within 50 days, contact us for a full refund.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT STEP VIEW (existing Stripe / PayPal flow) -->
+  <div class="cart-drawer__body cart-payment-step" id="cart-view-payment">
+    <button type="button" class="cart-back-link" id="cart-back-to-list">← Back to cart</button>
+
+    <p style="font-size:0.8rem; font-weight:700; margin-bottom:0.8rem;">Choose how you'd like to pay:</p>
+
+    <button type="button" id="stripe-checkout-btn" class="btn" style="max-width:none;">
+      Pay with Card / Apple Pay / Google Pay
+    </button>
+    <p id="stripe-error" style="display:none; color:#c0392b; font-size:0.75rem; margin-top:0.5rem;"></p>
+
+    <div class="divider-or"><span></span>or<span></span></div>
+
+    <div id="paypal-button-container"></div>
+    <p id="paypal-error" style="display:none; color:#c0392b; font-size:0.75rem; margin-top:0.5rem;"></p>
+  </div>
+
+  <div class="cart-drawer__footer" id="cart-view-list-footer">
+    <div class="cart-subtotal-row">
+      <span class="cart-subtotal-row__label">Subtotal (<span id="cart-item-count">0</span> items)</span>
+      <span class="cart-subtotal-row__prices">
+        <span class="compare" id="cart-subtotal-compare">0,00 €</span>
+        <span class="now" id="cart-subtotal-now">0,00 €</span>
+      </span>
+    </div>
+    <button type="button" class="cart-checkout-btn" id="cart-checkout-btn">Checkout →</button>
+    <button type="button" class="cart-continue-btn" id="cart-continue-btn">Continue Shopping</button>
+  </div>
+
+</aside>
+
 <script>
-// ---------- quantity + price ----------
-const UNIT_PRICE = 94.50;
-const UNIT_COMPARE_PRICE = 210.00;
-let quantity = 1;
+// ====================================================================
+// CART SYSTEM
+// ====================================================================
+
+const MAIN_PRODUCT = {
+  id: 'main',
+  name: 'Himalayan Shilajit 45g (Buy 1 Get 1 Free)',
+  image: 'images/EUR_Pre_Order_Red.png',
+  unitPrice: 94.50,
+  unitComparePrice: 210.00,
+};
+
+const FREE_SHIPPING_THRESHOLD = 0; // already always free in current design; kept for future use
+
+const UPSELLS = [
+  {
+    id: 'upsell-power',
+    badge: '🏆',
+    label: 'Performance Pack',
+    desc: 'Add 2 Extra Shilajit Jars',
+    price: 39,
+    comparePrice: 94.50,
+    save: 55.50,
+  },
+  {
+    id: 'upsell-family',
+    badge: '👑',
+    label: 'Family Pack',
+    desc: 'Add 4 Extra Shilajit Jars',
+    price: 59,
+    comparePrice: 189,
+    save: 130,
+  },
+  {
+    id: 'upsell-ultimate',
+    badge: '🔥',
+    label: 'Ultimate Supply',
+    desc: 'Add 10 Extra Shilajit Jars',
+    price: 129,
+    comparePrice: 472.50,
+    save: 343.50,
+  },
+];
+
+// cart.items: array of { id, name, image, unitPrice, unitComparePrice, qty, isUpsell }
+const cart = {
+  items: [],
+};
 
 function formatEUR(value) {
   return value.toFixed(2).replace('.', ',') + ' €';
 }
-function updatePriceDisplay() {
-  document.getElementById('qty-display').textContent = quantity;
-  document.getElementById('current-price').textContent = formatEUR(UNIT_PRICE * quantity);
-  document.getElementById('compare-price').textContent = formatEUR(UNIT_COMPARE_PRICE * quantity);
+
+function findCartItem(id) {
+  return cart.items.find((i) => i.id === id);
+}
+
+function cartTotalQty() {
+  return cart.items.reduce((sum, i) => sum + i.qty, 0);
+}
+function cartSubtotal() {
+  return cart.items.reduce((sum, i) => sum + i.unitPrice * i.qty, 0);
+}
+function cartCompareSubtotal() {
+  return cart.items.reduce((sum, i) => sum + i.unitComparePrice * i.qty, 0);
+}
+
+// ---------- Main product qty selector (in buy box, before adding to cart) ----------
+let buyBoxQty = 1;
+function updateBuyBoxPriceDisplay() {
+  document.getElementById('qty-display').textContent = buyBoxQty;
+  document.getElementById('current-price').textContent = formatEUR(MAIN_PRODUCT.unitPrice * buyBoxQty);
+  document.getElementById('compare-price').textContent = formatEUR(MAIN_PRODUCT.unitComparePrice * buyBoxQty);
 }
 document.getElementById('qty-decrease').addEventListener('click', () => {
-  quantity = Math.max(1, quantity - 1);
-  updatePriceDisplay();
-  renderPayPalButton();
+  buyBoxQty = Math.max(1, buyBoxQty - 1);
+  updateBuyBoxPriceDisplay();
 });
 document.getElementById('qty-increase').addEventListener('click', () => {
-  quantity = Math.min(10, quantity + 1);
-  updatePriceDisplay();
+  buyBoxQty = Math.min(10, buyBoxQty + 1);
+  updateBuyBoxPriceDisplay();
+});
+updateBuyBoxPriceDisplay();
+
+// ---------- Add main product to cart ----------
+document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+  const existing = findCartItem(MAIN_PRODUCT.id);
+  if (existing) {
+    existing.qty = Math.min(10, existing.qty + buyBoxQty);
+  } else {
+    cart.items.push({
+      id: MAIN_PRODUCT.id,
+      name: MAIN_PRODUCT.name,
+      image: MAIN_PRODUCT.image,
+      unitPrice: MAIN_PRODUCT.unitPrice,
+      unitComparePrice: MAIN_PRODUCT.unitComparePrice,
+      qty: buyBoxQty,
+      isUpsell: false,
+    });
+  }
+  renderCart();
+  openCart();
+});
+
+// ---------- Render cart line items ----------
+function renderLineItems() {
+  const wrap = document.getElementById('cart-line-items');
+  if (cart.items.length === 0) {
+    wrap.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
+    return;
+  }
+  wrap.innerHTML = cart.items.map((item) => `
+    <div class="cart-line-item" data-id="${item.id}">
+      <img class="cart-line-item__img" src="${item.image}" alt="${item.name}">
+      <div class="cart-line-item__info">
+        <div class="cart-line-item__name">${item.name}</div>
+        <div class="cart-line-item__qty-row">
+          <div class="cart-qty-stepper">
+            <button type="button" data-action="dec" data-id="${item.id}" aria-label="Decrease quantity">–</button>
+            <span>${item.qty}</span>
+            <button type="button" data-action="inc" data-id="${item.id}" aria-label="Increase quantity">+</button>
+          </div>
+          <button type="button" class="cart-line-item__remove" data-action="remove" data-id="${item.id}">Remove</button>
+        </div>
+      </div>
+      <div class="cart-line-item__prices">
+        <span class="cart-line-item__compare">${formatEUR(item.unitComparePrice * item.qty)}</span>
+        <span class="cart-line-item__price">${formatEUR(item.unitPrice * item.qty)}</span>
+      </div>
+    </div>
+  `).join('');
+
+  wrap.querySelectorAll('button[data-action]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-id');
+      const action = btn.getAttribute('data-action');
+      const item = findCartItem(id);
+      if (!item) return;
+      if (action === 'inc') item.qty = Math.min(10, item.qty + 1);
+      if (action === 'dec') item.qty = Math.max(1, item.qty - 1);
+      if (action === 'remove') cart.items = cart.items.filter((i) => i.id !== id);
+      renderCart();
+    });
+  });
+}
+
+// ---------- Render upsell offers ----------
+function renderUpsells() {
+  const wrap = document.getElementById('cart-upsell-section');
+  if (cart.items.length === 0) {
+    wrap.innerHTML = '';
+    return;
+  }
+  const cardsHtml = UPSELLS.map((u) => {
+    const inCart = !!findCartItem(u.id);
+    return `
+      <div class="cart-upsell-card">
+        <div class="cart-upsell-card__top">
+          <div>
+            <div class="cart-upsell-card__label">${u.badge} ${u.label}</div>
+            <div class="cart-upsell-card__desc">${u.desc}</div>
+            <div class="cart-upsell-card__prices">
+              <span class="compare">${formatEUR(u.comparePrice)}</span>
+              <span class="now">${formatEUR(u.price)}</span>
+            </div>
+            <div class="cart-upsell-card__save">Save ${formatEUR(u.save)}</div>
+          </div>
+          <button type="button" class="cart-upsell-card__btn" data-upsell-id="${u.id}" ${inCart ? 'disabled' : ''}>
+            ${inCart ? 'Added' : 'Add'}
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  wrap.innerHTML = `
+    <p class="cart-upsell-heading">🔥 Special Offers For You</p>
+    ${cardsHtml}
+  `;
+
+  wrap.querySelectorAll('button[data-upsell-id]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-upsell-id');
+      const upsell = UPSELLS.find((u) => u.id === id);
+      if (!upsell || findCartItem(id)) return;
+      cart.items.push({
+        id: upsell.id,
+        name: `${upsell.label} — ${upsell.desc}`,
+        image: MAIN_PRODUCT.image,
+        unitPrice: upsell.price,
+        unitComparePrice: upsell.comparePrice,
+        qty: 1,
+        isUpsell: true,
+      });
+      renderCart();
+    });
+  });
+}
+
+// ---------- Render shipping bar ----------
+function renderShippingBar() {
+  const fill = document.getElementById('cart-shipping-fill');
+  const msg = document.getElementById('cart-shipping-msg');
+  if (cart.items.length === 0) {
+    fill.style.width = '0%';
+    msg.textContent = '';
+    return;
+  }
+  fill.style.width = '100%';
+  msg.classList.remove('is-pending');
+  msg.textContent = "🎉 Congrats! You've unlocked FREE SHIPPING!";
+}
+
+// ---------- Render subtotal / footer ----------
+function renderFooter() {
+  document.getElementById('cart-item-count').textContent = cartTotalQty();
+  document.getElementById('cart-subtotal-compare').textContent = formatEUR(cartCompareSubtotal());
+  document.getElementById('cart-subtotal-now').textContent = formatEUR(cartSubtotal());
+  const checkoutBtn = document.getElementById('cart-checkout-btn');
+  checkoutBtn.disabled = cart.items.length === 0;
+  checkoutBtn.style.opacity = cart.items.length === 0 ? '0.5' : '1';
+}
+
+function renderCart() {
+  renderLineItems();
+  renderUpsells();
+  renderShippingBar();
+  renderFooter();
+}
+
+// ---------- Drawer open / close ----------
+const cartDrawer = document.getElementById('cart-drawer');
+const cartOverlay = document.getElementById('cart-overlay');
+
+function openCart() {
+  showCartListView();
+  cartDrawer.classList.add('is-open');
+  cartOverlay.classList.add('is-open');
+  cartDrawer.setAttribute('aria-hidden', 'false');
+}
+function closeCart() {
+  cartDrawer.classList.remove('is-open');
+  cartOverlay.classList.remove('is-open');
+  cartDrawer.setAttribute('aria-hidden', 'true');
+}
+document.getElementById('cart-close-btn').addEventListener('click', closeCart);
+document.getElementById('cart-overlay').addEventListener('click', closeCart);
+document.getElementById('cart-continue-btn').addEventListener('click', closeCart);
+
+// ---------- List view <-> Payment view ----------
+const viewList = document.getElementById('cart-view-list');
+const viewPayment = document.getElementById('cart-view-payment');
+const viewListFooter = document.getElementById('cart-view-list-footer');
+
+function showCartListView() {
+  viewList.style.display = 'block';
+  viewPayment.classList.remove('is-active');
+  viewListFooter.style.display = 'block';
+}
+function showPaymentView() {
+  viewList.style.display = 'none';
+  viewPayment.classList.add('is-active');
+  viewListFooter.style.display = 'none';
+}
+document.getElementById('cart-checkout-btn').addEventListener('click', () => {
+  if (cart.items.length === 0) return;
+  showPaymentView();
   renderPayPalButton();
 });
+document.getElementById('cart-back-to-list').addEventListener('click', showCartListView);
+
+// Login button is a placeholder for now — wire up to your account system later.
+document.getElementById('cart-login-btn').addEventListener('click', () => {
+  window.location.href = '/account.html';
+});
+
+// ---------- Build line items payload for backend ----------
+function buildCheckoutItemsPayload() {
+  return cart.items.map((item) => ({
+    id: item.id,
+    name: item.name,
+    unitPrice: item.unitPrice,
+    quantity: item.qty,
+  }));
+}
 
 // ---------- Stripe checkout ----------
 const stripeBtn = document.getElementById('stripe-checkout-btn');
 const stripeError = document.getElementById('stripe-error');
 stripeBtn.addEventListener('click', async () => {
+  if (cart.items.length === 0) return;
   stripeError.style.display = 'none';
   stripeBtn.disabled = true;
   stripeBtn.textContent = 'Redirecting…';
@@ -1522,7 +2002,7 @@ stripeBtn.addEventListener('click', async () => {
     const response = await fetch('/.netlify/functions/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ quantity }),
+      body: JSON.stringify({ items: buildCheckoutItemsPayload() }),
     });
     const data = await response.json();
     if (!response.ok || !data.url) throw new Error(data.error || 'Could not start checkout.');
@@ -1547,6 +2027,7 @@ function renderPayPalButton() {
     errorEl.style.display = 'block';
     return;
   }
+  if (cart.items.length === 0) return;
   paypal.Buttons({
     style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
     createOrder: async () => {
@@ -1554,7 +2035,7 @@ function renderPayPalButton() {
       const response = await fetch('/.netlify/functions/paypal-create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quantity }),
+        body: JSON.stringify({ items: buildCheckoutItemsPayload() }),
       });
       const data = await response.json();
       if (!response.ok || !data.id) throw new Error(data.error || 'Could not create PayPal order.');
@@ -1585,8 +2066,8 @@ function renderPayPalButton() {
   }).render('#paypal-button-container');
 }
 
-updatePriceDisplay();
-renderPayPalButton();
+renderCart();
+
 
 // ---------- review screenshot carousel ----------
 (function () {
