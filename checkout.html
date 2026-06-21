@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — PeakModo Himalayan Shilajit Resin</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+<!--
+  ============================================================
+  PAYPAL CLIENT ID — keep in sync with the one in index.html
+  ============================================================
+-->
+<script src="https://www.paypal.com/sdk/js?client-id=ATdpIv0p_QiZrdxq9FnwU4rPithjiIB9Wr25h4GyfakNRB_NNDI5FScWm4EYiNPbuqj_WXVwHYd8RnQ_&currency=EUR&intent=capture"></script>
+
+<style>
+:root{
+  --bg:#f4f2ed;
+  --bg-rich:#10100e;
+  --bg-soft:#ece7dc;
+  --card-bg:#ffffff;
+  --ink:#1c1c1c;
+  --ink-soft:#1c1c1cb3;
+  --ink-muted:#5f5a51;
+  --accent:#c0392b;
+  --gold:#9c7a3a;
+  --gold-1:#7a5a23;
+  --gold-2:#caa544;
+  --gold-3:#f0d889;
+  --line:#dcdcdc;
+  --font-heading:"Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body:"Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:#fff;
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+h1,h2,h3{ font-family:var(--font-heading); margin:0; font-weight:800; letter-spacing:-0.01em; }
+p{margin:0;}
+a{color:inherit;text-decoration:none;}
+button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
+input{font-family:var(--font-body);font-size:0.95rem;}
+
+.checkout-topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1rem 1.5rem; border-bottom:1px solid var(--line);
+}
+.checkout-topbar img{ height:1.7rem; }
+.checkout-back{ font-size:0.82rem; color:var(--ink-soft); font-weight:700; display:flex; align-items:center; gap:0.3rem; }
+.checkout-back:hover{ color:var(--ink); }
+
+.checkout-layout{
+  display:grid;
+  grid-template-columns:1fr;
+  max-width:75rem;
+  margin:0 auto;
+}
+@media (min-width:900px){
+  .checkout-layout{ grid-template-columns:1.1fr 1fr; min-height:100vh; }
+  .checkout-summary{ border-left:1px solid var(--line); }
+}
+
+.checkout-main{ padding:2rem 1.5rem 4rem; }
+@media (min-width:900px){ .checkout-main{ padding:2.5rem 3.5rem 4rem; max-width:34rem; margin-left:auto; } }
+
+.checkout-summary{ background:#faf8f4; padding:2rem 1.5rem 3rem; }
+@media (min-width:900px){ .checkout-summary{ padding:2.5rem 3rem; } }
+
+/* ---------- Express pay row ---------- */
+.express-label{ text-align:center; font-size:0.78rem; color:var(--ink-soft); font-weight:700; margin-bottom:0.8rem; }
+.express-row{ display:flex; flex-direction:column; gap:0.7rem; margin-bottom:1.5rem; }
+#checkout-stripe-btn{
+  display:flex; align-items:center; justify-content:center; gap:0.5rem;
+  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 25%,var(--gold-3) 50%,var(--gold-2) 75%,var(--gold-1) 100%);
+  color:#2a1f08; font-weight:800; font-size:0.85rem; letter-spacing:0.02em; text-transform:uppercase;
+  padding:0.9rem 1rem; border-radius:0.5rem; width:100%;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -2px 4px rgba(0,0,0,0.15);
+}
+#checkout-stripe-btn:hover{ filter:brightness(1.06); }
+#checkout-stripe-btn:disabled{ opacity:0.6; filter:none; cursor:default; }
+
+.checkout-divider{ display:flex; align-items:center; gap:0.75rem; margin:0.5rem 0 1.4rem; font-size:0.78rem; color:var(--ink-soft); }
+.checkout-divider span{ flex:1; height:1px; background:var(--line); }
+
+#checkout-paypal-container{ min-height:3rem; }
+
+.checkout-error{ display:none; color:#c0392b; font-size:0.8rem; margin-top:0.5rem; }
+
+/* ---------- Form sections ---------- */
+.checkout-section{ margin-bottom:1.75rem; }
+.checkout-section h2{
+  font-size:0.95rem; font-weight:800; margin-bottom:0.8rem; display:flex; align-items:center; justify-content:space-between;
+}
+.checkout-section h2 a{ font-size:0.8rem; color:#2a6ed4; font-weight:700; }
+
+.field{ margin-bottom:0.7rem; }
+.field input{
+  width:100%; padding:0.8rem 0.9rem; border:1px solid var(--line); border-radius:0.4rem;
+  background:#fff; color:var(--ink);
+}
+.field input::placeholder{ color:#9a9588; }
+.field input:focus{ outline:2px solid var(--gold-2); outline-offset:1px; }
+.field-row{ display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; }
+
+.checkout-submit-btn{
+  display:flex; align-items:center; justify-content:center; gap:0.5rem;
+  width:100%; background:var(--ink); color:#fff; font-weight:800; font-size:0.92rem;
+  padding:0.95rem 1rem; border-radius:0.5rem; margin-top:0.5rem;
+}
+.checkout-submit-btn:hover{ filter:brightness(1.15); }
+.checkout-submit-btn:disabled{ opacity:0.6; filter:none; cursor:default; }
+
+.checkout-note{ font-size:0.74rem; color:var(--ink-soft); margin-top:0.7rem; line-height:1.5; }
+
+/* ---------- Guarantee block (above order summary) ---------- */
+.checkout-guarantee{
+  display:flex; gap:0.7rem; align-items:flex-start;
+  background:#e9f7ef; border:1px solid #c8ecd9; border-radius:0.6rem;
+  padding:0.95rem; margin-bottom:1.5rem;
+}
+.checkout-guarantee__icon{ font-size:1.3rem; line-height:1; flex:0 0 auto; }
+.checkout-guarantee__title{ font-size:0.85rem; font-weight:800; color:#1a7a4c; margin-bottom:0.25rem; }
+.checkout-guarantee__text{ font-size:0.78rem; color:#2f5e45; line-height:1.45; }
+
+/* ---------- Order summary ---------- */
+.summary-line-item{ display:flex; gap:0.8rem; padding:0.8rem 0; border-bottom:1px solid var(--line); }
+.summary-line-item__img{
+  width:3.4rem; height:3.4rem; border-radius:0.4rem; object-fit:cover; flex:0 0 auto;
+  border:1px solid var(--line); background:#fff;
+}
+.summary-line-item__name{ font-size:0.85rem; font-weight:700; line-height:1.35; }
+.summary-line-item__qty{ font-size:0.75rem; color:var(--ink-soft); margin-top:0.2rem; }
+.summary-line-item__price{ margin-left:auto; font-size:0.85rem; font-weight:800; flex:0 0 auto; align-self:center; }
+
+.summary-totals{ margin-top:1.1rem; padding-top:0.2rem; }
+.summary-totals__row{ display:flex; justify-content:space-between; font-size:0.85rem; padding:0.45rem 0; color:var(--ink-soft); }
+.summary-totals__row.grand{ font-size:1rem; font-weight:800; color:var(--ink); border-top:1px solid var(--line); margin-top:0.4rem; padding-top:0.8rem; }
+.summary-totals__row.grand .now{ color:var(--ink); }
+
+.checkout-empty{ text-align:center; padding:3rem 1rem; color:var(--ink-soft); font-size:0.9rem; }
+</style>
+</head>
+<body>
+
+<div class="checkout-topbar">
+  <img src="images/logo_website.png" alt="PeakModo">
+  <a href="/index.html" class="checkout-back">← Back to cart</a>
+</div>
+
+<div class="checkout-layout">
+
+  <div class="checkout-main">
+
+    <p class="express-label">Express checkout</p>
+    <div class="express-row">
+      <button type="button" id="checkout-stripe-btn">Pay with Card / Apple Pay / Google Pay</button>
+    </div>
+    <p id="checkout-stripe-error" class="checkout-error"></p>
+
+    <div class="checkout-divider"><span></span>or<span></span></div>
+
+    <div id="checkout-paypal-container"></div>
+    <p id="checkout-paypal-error" class="checkout-error"></p>
+
+    <div class="checkout-section" style="margin-top:2rem;">
+      <h2>Contact <a href="#" id="checkout-signin-link">Sign in</a></h2>
+      <div class="field">
+        <input type="email" id="checkout-email" placeholder="Email" autocomplete="email">
+      </div>
+    </div>
+
+    <div class="checkout-section">
+      <h2>Delivery</h2>
+      <div class="field">
+        <input type="text" id="checkout-country" placeholder="Country/Region" value="Germany" autocomplete="country-name">
+      </div>
+      <div class="field field-row">
+        <input type="text" id="checkout-firstname" placeholder="First name" autocomplete="given-name">
+        <input type="text" id="checkout-lastname" placeholder="Last name" autocomplete="family-name">
+      </div>
+      <div class="field">
+        <input type="text" id="checkout-address" placeholder="Address" autocomplete="address-line1">
+      </div>
+      <div class="field">
+        <input type="text" id="checkout-address2" placeholder="Apartment, suite, etc. (optional)" autocomplete="address-line2">
+      </div>
+      <div class="field field-row">
+        <input type="text" id="checkout-city" placeholder="City" autocomplete="address-level2">
+        <input type="text" id="checkout-zip" placeholder="Postal code" autocomplete="postal-code">
+      </div>
+    </div>
+
+    <button type="button" class="checkout-submit-btn" id="checkout-submit-btn">Continue to Payment</button>
+    <p class="checkout-note">Your order will be processed securely via Stripe or PayPal. You'll be redirected to complete payment after this step.</p>
+
+  </div>
+
+  <div class="checkout-summary">
+
+    <div class="checkout-guarantee">
+      <span class="checkout-guarantee__icon">🛡️</span>
+      <div>
+        <p class="checkout-guarantee__title">50-Day Money Back Guarantee</p>
+        <p class="checkout-guarantee__text">Your order is protected by a 50-Day Money-Back Guarantee.</p>
+      </div>
+    </div>
+
+    <div id="checkout-summary-items"></div>
+
+    <div class="summary-totals" id="checkout-summary-totals"></div>
+
+  </div>
+
+</div>
+
+<script>
+const CATALOG = {
+  main: { name: 'Himalayan Shilajit 45g (Buy 1 Get 1 Free)', image: 'images/EUR_Pre_Order_Red.png' },
+  'upsell-power': { name: 'Performance Pack — Add 2 Extra Shilajit Jars', image: 'images/EUR_Pre_Order_Red.png' },
+  'upsell-family': { name: 'Family Pack — Add 4 Extra Shilajit Jars', image: 'images/EUR_Pre_Order_Red.png' },
+  'upsell-ultimate': { name: 'Ultimate Supply — Add 10 Extra Shilajit Jars', image: 'images/EUR_Pre_Order_Red.png' },
+};
+
+const CART_STORAGE_KEY = 'peakmodo_checkout_cart';
+
+function formatEUR(value) {
+  return value.toFixed(2).replace('.', ',') + ' €';
+}
+
+function loadCart() {
+  try {
+    const raw = sessionStorage.getItem(CART_STORAGE_KEY);
+    const items = raw ? JSON.parse(raw) : [];
+    return Array.isArray(items) ? items : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+const cartItems = loadCart();
+
+function renderSummary() {
+  const itemsWrap = document.getElementById('checkout-summary-items');
+  const totalsWrap = document.getElementById('checkout-summary-totals');
+
+  if (cartItems.length === 0) {
+    itemsWrap.innerHTML = '<div class="checkout-empty">Your cart is empty. <a href="/index.html" style="color:#2a6ed4; font-weight:700;">Return to shop</a></div>';
+    totalsWrap.innerHTML = '';
+    document.getElementById('checkout-submit-btn').disabled = true;
+    document.getElementById('checkout-stripe-btn').disabled = true;
+    return;
+  }
+
+  itemsWrap.innerHTML = cartItems.map((item) => {
+    const catalogEntry = CATALOG[item.id] || {};
+    return `
+      <div class="summary-line-item">
+        <img class="summary-line-item__img" src="${catalogEntry.image || ''}" alt="${item.name}">
+        <div>
+          <div class="summary-line-item__name">${item.name}</div>
+          <div class="summary-line-item__qty">Qty ${item.qty}</div>
+        </div>
+        <div class="summary-line-item__price">${formatEUR(item.unitPrice * item.qty)}</div>
+      </div>
+    `;
+  }).join('');
+
+  const subtotal = cartItems.reduce((sum, i) => sum + i.unitPrice * i.qty, 0);
+
+  totalsWrap.innerHTML = `
+    <div class="summary-totals__row"><span>Subtotal</span><span>${formatEUR(subtotal)}</span></div>
+    <div class="summary-totals__row"><span>Shipping</span><span>Free</span></div>
+    <div class="summary-totals__row grand"><span>Total</span><span class="now">EUR ${formatEUR(subtotal)}</span></div>
+  `;
+}
+renderSummary();
+
+function buildCheckoutItemsPayload() {
+  return cartItems.map((item) => ({
+    id: item.id,
+    quantity: item.qty,
+  }));
+}
+
+// ---------- Stripe checkout ----------
+const stripeBtn = document.getElementById('checkout-stripe-btn');
+const stripeError = document.getElementById('checkout-stripe-error');
+stripeBtn.addEventListener('click', async () => {
+  if (cartItems.length === 0) return;
+  stripeError.style.display = 'none';
+  stripeBtn.disabled = true;
+  stripeBtn.textContent = 'Redirecting…';
+  try {
+    const response = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: buildCheckoutItemsPayload() }),
+    });
+    const data = await response.json();
+    if (!response.ok || !data.url) throw new Error(data.error || 'Could not start checkout.');
+    window.location.href = data.url;
+  } catch (err) {
+    console.error(err);
+    stripeError.textContent = err.message || 'Something went wrong. Please try again.';
+    stripeError.style.display = 'block';
+    stripeBtn.disabled = false;
+    stripeBtn.textContent = 'Pay with Card / Apple Pay / Google Pay';
+  }
+});
+
+// "Continue to Payment" does the same thing as the express Stripe button —
+// it's the standard (non-express) path through the same Stripe Checkout.
+document.getElementById('checkout-submit-btn').addEventListener('click', () => {
+  stripeBtn.click();
+});
+
+// ---------- PayPal checkout ----------
+function renderPayPalButton() {
+  const container = document.getElementById('checkout-paypal-container');
+  const errorEl = document.getElementById('checkout-paypal-error');
+  if (cartItems.length === 0) return;
+  if (typeof paypal === 'undefined') {
+    errorEl.textContent = 'PayPal is not configured.';
+    errorEl.style.display = 'block';
+    return;
+  }
+  paypal.Buttons({
+    style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
+    createOrder: async () => {
+      errorEl.style.display = 'none';
+      const response = await fetch('/.netlify/functions/paypal-create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: buildCheckoutItemsPayload() }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.id) throw new Error(data.error || 'Could not create PayPal order.');
+      return data.id;
+    },
+    onApprove: async (data) => {
+      const response = await fetch('/.netlify/functions/paypal-capture-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderID: data.orderID }),
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        errorEl.textContent = result.error || 'Payment could not be captured.';
+        errorEl.style.display = 'block';
+        return;
+      }
+      sessionStorage.removeItem(CART_STORAGE_KEY);
+      window.location.href = '/success.html?provider=paypal&order_id=' + data.orderID;
+    },
+    onError: (err) => {
+      console.error('PayPal error:', err);
+      errorEl.textContent = 'PayPal ran into a problem. Please try again.';
+      errorEl.style.display = 'block';
+    },
+    onCancel: () => {
+      window.location.href = '/cancel.html?provider=paypal';
+    },
+  }).render('#checkout-paypal-container');
+}
+renderPayPalButton();
+</script>
+
+</body>
+</html>

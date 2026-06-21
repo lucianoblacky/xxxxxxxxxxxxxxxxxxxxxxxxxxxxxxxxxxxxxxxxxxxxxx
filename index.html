@@ -1014,10 +1014,6 @@ ul{margin:0;padding:0;list-style:none;}
   text-transform:uppercase; color:var(--ink);
 }
 .cart-drawer__header-actions{ display:flex; align-items:center; gap:0.6rem; }
-.cart-login-btn{
-  background:var(--ink); color:#fff; font-size:0.78rem; font-weight:800;
-  padding:0.45rem 0.9rem; border-radius:0.35rem; letter-spacing:0.02em;
-}
 .cart-close-btn{
   width:1.9rem; height:1.9rem; display:flex; align-items:center; justify-content:center;
   font-size:1.1rem; color:var(--ink); border-radius:50%;
@@ -1128,16 +1124,6 @@ ul{margin:0;padding:0;list-style:none;}
   padding:0.75rem 1rem; border-radius:0.4rem;
 }
 .cart-continue-btn:hover{ background:var(--bg-soft); }
-
-/* Cart payment step (shown after clicking Checkout) */
-.cart-payment-step{ display:none; }
-.cart-payment-step.is-active{ display:block; }
-.cart-payment-step .btn{ max-width:none; margin-bottom:0; }
-.cart-back-link{
-  display:inline-flex; align-items:center; gap:0.3rem; font-size:0.78rem; color:var(--ink-soft);
-  margin-bottom:0.7rem; font-weight:700;
-}
-.cart-back-link:hover{ color:var(--ink); }
 
 @media (max-width:480px){
   .cart-drawer{ max-width:100%; }
@@ -1649,7 +1635,6 @@ ul{margin:0;padding:0;list-style:none;}
   <div class="cart-drawer__header">
     <span class="cart-drawer__title">Your Cart</span>
     <div class="cart-drawer__header-actions">
-      <button type="button" class="cart-login-btn" id="cart-login-btn">Login</button>
       <button type="button" class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">✕</button>
     </div>
   </div>
@@ -1670,23 +1655,6 @@ ul{margin:0;padding:0;list-style:none;}
         <p class="cart-guarantee__text">Try Himalayan Shilajit risk-free. If you are not satisfied within 50 days, contact us for a full refund.</p>
       </div>
     </div>
-  </div>
-
-  <!-- PAYMENT STEP VIEW (existing Stripe / PayPal flow) -->
-  <div class="cart-drawer__body cart-payment-step" id="cart-view-payment">
-    <button type="button" class="cart-back-link" id="cart-back-to-list">← Back to cart</button>
-
-    <p style="font-size:0.8rem; font-weight:700; margin-bottom:0.8rem;">Choose how you'd like to pay:</p>
-
-    <button type="button" id="stripe-checkout-btn" class="btn" style="max-width:none;">
-      Pay with Card / Apple Pay / Google Pay
-    </button>
-    <p id="stripe-error" style="display:none; color:#c0392b; font-size:0.75rem; margin-top:0.5rem;"></p>
-
-    <div class="divider-or"><span></span>or<span></span></div>
-
-    <div id="paypal-button-container"></div>
-    <p id="paypal-error" style="display:none; color:#c0392b; font-size:0.75rem; margin-top:0.5rem;"></p>
   </div>
 
   <div class="cart-drawer__footer" id="cart-view-list-footer">
@@ -1939,7 +1907,6 @@ const cartDrawer = document.getElementById('cart-drawer');
 const cartOverlay = document.getElementById('cart-overlay');
 
 function openCart() {
-  showCartListView();
   cartDrawer.classList.add('is-open');
   cartOverlay.classList.add('is-open');
   cartDrawer.setAttribute('aria-hidden', 'false');
@@ -1953,118 +1920,14 @@ document.getElementById('cart-close-btn').addEventListener('click', closeCart);
 document.getElementById('cart-overlay').addEventListener('click', closeCart);
 document.getElementById('cart-continue-btn').addEventListener('click', closeCart);
 
-// ---------- List view <-> Payment view ----------
-const viewList = document.getElementById('cart-view-list');
-const viewPayment = document.getElementById('cart-view-payment');
-const viewListFooter = document.getElementById('cart-view-list-footer');
+// ---------- Checkout: hand the cart off to checkout.html ----------
+const CART_STORAGE_KEY = 'peakmodo_checkout_cart';
 
-function showCartListView() {
-  viewList.style.display = 'block';
-  viewPayment.classList.remove('is-active');
-  viewListFooter.style.display = 'block';
-}
-function showPaymentView() {
-  viewList.style.display = 'none';
-  viewPayment.classList.add('is-active');
-  viewListFooter.style.display = 'none';
-}
 document.getElementById('cart-checkout-btn').addEventListener('click', () => {
   if (cart.items.length === 0) return;
-  showPaymentView();
-  renderPayPalButton();
+  sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart.items));
+  window.location.href = '/checkout.html';
 });
-document.getElementById('cart-back-to-list').addEventListener('click', showCartListView);
-
-// Login button is a placeholder for now — wire up to your account system later.
-document.getElementById('cart-login-btn').addEventListener('click', () => {
-  window.location.href = '/account.html';
-});
-
-// ---------- Build line items payload for backend ----------
-function buildCheckoutItemsPayload() {
-  return cart.items.map((item) => ({
-    id: item.id,
-    name: item.name,
-    unitPrice: item.unitPrice,
-    quantity: item.qty,
-  }));
-}
-
-// ---------- Stripe checkout ----------
-const stripeBtn = document.getElementById('stripe-checkout-btn');
-const stripeError = document.getElementById('stripe-error');
-stripeBtn.addEventListener('click', async () => {
-  if (cart.items.length === 0) return;
-  stripeError.style.display = 'none';
-  stripeBtn.disabled = true;
-  stripeBtn.textContent = 'Redirecting…';
-  try {
-    const response = await fetch('/.netlify/functions/create-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items: buildCheckoutItemsPayload() }),
-    });
-    const data = await response.json();
-    if (!response.ok || !data.url) throw new Error(data.error || 'Could not start checkout.');
-    window.location.href = data.url;
-  } catch (err) {
-    console.error(err);
-    stripeError.textContent = err.message || 'Something went wrong. Please try again.';
-    stripeError.style.display = 'block';
-    stripeBtn.disabled = false;
-    stripeBtn.textContent = 'Pay with Card / Apple Pay / Google Pay';
-  }
-});
-
-// ---------- PayPal checkout ----------
-function renderPayPalButton() {
-  const container = document.getElementById('paypal-button-container');
-  const errorEl = document.getElementById('paypal-error');
-  container.innerHTML = '';
-  errorEl.style.display = 'none';
-  if (typeof paypal === 'undefined') {
-    errorEl.textContent = 'PayPal is not configured. Add your PayPal Client ID in the script tag in <head>.';
-    errorEl.style.display = 'block';
-    return;
-  }
-  if (cart.items.length === 0) return;
-  paypal.Buttons({
-    style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
-    createOrder: async () => {
-      errorEl.style.display = 'none';
-      const response = await fetch('/.netlify/functions/paypal-create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: buildCheckoutItemsPayload() }),
-      });
-      const data = await response.json();
-      if (!response.ok || !data.id) throw new Error(data.error || 'Could not create PayPal order.');
-      return data.id;
-    },
-    onApprove: async (data) => {
-      const response = await fetch('/.netlify/functions/paypal-capture-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderID: data.orderID }),
-      });
-      const result = await response.json();
-      if (!response.ok) {
-        errorEl.textContent = result.error || 'Payment could not be captured.';
-        errorEl.style.display = 'block';
-        return;
-      }
-      window.location.href = '/success.html?provider=paypal&order_id=' + data.orderID;
-    },
-    onError: (err) => {
-      console.error('PayPal error:', err);
-      errorEl.textContent = 'PayPal ran into a problem. Please try again.';
-      errorEl.style.display = 'block';
-    },
-    onCancel: () => {
-      window.location.href = '/cancel.html?provider=paypal';
-    },
-  }).render('#paypal-button-container');
-}
 
 renderCart();
 
