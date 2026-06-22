@@ -1,12 +1,11 @@
 // netlify/functions/paypal-create-order.js
-// build-marker: 2026-06-22-12-30-force-redeploy
 //
 // Creates a PayPal order via the REST Orders v2 API.
 //
-// The shopper's shipping address is collected ONCE, in the Delivery
+// The shopper's shipping address is collected once, in the Delivery
 // form on checkout.html — we pass it to PayPal here as a fixed address
-// (shipping_preference: SET_PROVIDED_ADDRESS) so PayPal does not ask
-// for it again.
+// (shipping_preference: SET_PROVIDED_ADDRESS) so PayPal's own popup
+// does not ask for it again.
 //
 // Prices are always resolved server-side from _catalog.js — never
 // trust client-supplied prices.
@@ -80,7 +79,7 @@ exports.handler = async (event) => {
     const accessToken = await getAccessToken();
 
     const shipping = body.shipping || {};
-    const hasAddress = shipping.name && shipping.address && shipping.city;
+    const hasAddress = Boolean(shipping.name && shipping.address && shipping.city);
 
     const purchaseUnit = {
       description,
@@ -105,9 +104,6 @@ exports.handler = async (event) => {
       })),
     };
 
-    // If we already have the shipping address from the on-page Delivery
-    // form, pass it through as a fixed address so PayPal's own popup
-    // does not ask the shopper for it a second time.
     if (hasAddress) {
       purchaseUnit.shipping = {
         name: { full_name: shipping.name },
@@ -131,9 +127,7 @@ exports.handler = async (event) => {
         intent: "CAPTURE",
         purchase_units: [purchaseUnit],
         application_context: {
-          shipping_preference: hasAddress
-            ? "SET_PROVIDED_ADDRESS"
-            : "GET_FROM_FILE",
+          shipping_preference: hasAddress ? "SET_PROVIDED_ADDRESS" : "GET_FROM_FILE",
           user_action: "PAY_NOW",
         },
       }),
