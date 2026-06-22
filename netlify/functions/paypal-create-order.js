@@ -26,6 +26,9 @@ function getApiBase() {
 async function getAccessToken() {
   const clientId = process.env.PAYPAL_CLIENT_ID;
   const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
+  console.log("ENV:", process.env.PAYPAL_ENVIRONMENT);
+  console.log("CLIENT_ID_LEN:", clientId?.length);
+  console.log("SECRET_LEN:", clientSecret?.length);
 
   if (!clientId || !clientSecret) {
     throw new Error("Missing PAYPAL_CLIENT_ID or PAYPAL_CLIENT_SECRET.");
