@@ -1,0 +1,81 @@
+// netlify/functions/paypal-diagnostic.js
+//
+// TEMPORARY diagnostic endpoint. Visit this URL directly in your browser:
+//   https://effervescent-torte-5b7fa2.netlify.app/.netlify/functions/paypal-diagnostic
+//
+// It tests the PayPal OAuth call in total isolation — nothing else runs,
+// no cart, no order creation. It reports back (in the browser, as JSON):
+//   - whether PAYPAL_CLIENT_ID / PAYPAL_CLIENT_SECRET exist at all
+//   - their exact length
+//   - the first/last few characters of each (never the full value)
+//   - whether the secret contains whitespace/newlines (a very common
+//     copy-paste mistake)
+//   - which environment ("live" vs anything else) and which API base
+//     URL it is about to call
+//   - the ACTUAL result of calling PayPal's OAuth endpoint with those
+//     exact values, including PayPal's raw error response if it fails
+//
+// DELETE THIS FILE once the problem is found — it is for debugging only
+// and should never stay in a production deployment long-term.
+
+function getApiBase() {
+  return process.env.PAYPAL_ENVIRONMENT === "live"
+    ? "https://api-m.paypal.com"
+    : "https://api-m.sandbox.paypal.com";
+}
+
+exports.handler = async () => {
+  const clientId = process.env.PAYPAL_CLIENT_ID || "";
+  const clientSecret = process.env.PAYPAL_CLIENT_SECRET || "";
+
+  const report = {
+    PAYPAL_ENVIRONMENT: process.env.PAYPAL_ENVIRONMENT || "(not set)",
+    api_base_that_will_be_used: getApiBase(),
+    client_id_exists: Boolean(clientId),
+    client_id_length: clientId.length,
+    client_id_edges: clientId ? `${clientId.slice(0, 6)}...${clientId.slice(-6)}` : null,
+    client_id_has_whitespace: /\s/.test(clientId),
+    client_secret_exists: Boolean(clientSecret),
+    client_secret_length: clientSecret.length,
+    client_secret_edges: clientSecret ? `${clientSecret.slice(0, 4)}...${clientSecret.slice(-4)}` : null,
+    client_secret_has_whitespace: /\s/.test(clientSecret),
+  };
+
+  if (!clientId || !clientSecret) {
+    report.oauth_test_result = "SKIPPED — client ID or secret missing entirely";
+    return { statusCode: 200, body: JSON.stringify(report, null, 2) };
+  }
+
+  try {
+    const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+    const response = await fetch(`${getApiBase()}/v1/oauth2/token`, {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${basicAuth}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: "grant_type=client_credentials",
+    });
+
+    const responseText = await response.text();
+
+    report.oauth_test_result = response.ok ? "SUCCESS" : "FAILED";
+    report.oauth_http_status = response.status;
+    report.oauth_paypal_response = (() => {
+      try {
+        return JSON.parse(responseText);
+      } catch {
+        return responseText;
+      }
+    })();
+  } catch (err) {
+    report.oauth_test_result = "ERROR";
+    report.oauth_error_message = err.message;
+  }
+
+  return {
+    statusCode: 200,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(report, null, 2),
+  };
+};
