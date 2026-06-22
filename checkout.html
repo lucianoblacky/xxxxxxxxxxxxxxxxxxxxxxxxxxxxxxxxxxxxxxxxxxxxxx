@@ -452,7 +452,15 @@ function resolveCountryCode(countryName) {
   return COUNTRY_CODES[key] || 'DE';
 }
 
+// Simple format check — Stripe rejects the whole payment with a 400 if
+// receipt_email isn't a real email address, so we only forward it when
+// it actually looks like one. Email is optional everywhere else.
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
 function buildShippingPayload() {
+  const emailValue = formFields.email.value.trim();
   return {
     name: `${formFields.firstName.value.trim()} ${formFields.lastName.value.trim()}`.trim(),
     address: formFields.address.value.trim(),
@@ -460,7 +468,7 @@ function buildShippingPayload() {
     city: formFields.city.value.trim(),
     zip: formFields.zip.value.trim(),
     countryCode: resolveCountryCode(formFields.country.value),
-    email: formFields.email.value.trim() || undefined,
+    email: isValidEmail(emailValue) ? emailValue : undefined,
   };
 }
 

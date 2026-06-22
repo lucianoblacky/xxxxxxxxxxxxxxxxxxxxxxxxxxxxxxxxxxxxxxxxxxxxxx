@@ -76,7 +76,11 @@ exports.handler = async (event) => {
         },
       };
     }
-    if (shipping.email) {
+    // Only forward the email if it actually looks like one — Stripe
+    // rejects the whole request with a 400 if receipt_email is malformed,
+    // which would otherwise block payment entirely.
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (shipping.email && EMAIL_RE.test(shipping.email)) {
       paymentIntentParams.receipt_email = shipping.email;
     }
 
