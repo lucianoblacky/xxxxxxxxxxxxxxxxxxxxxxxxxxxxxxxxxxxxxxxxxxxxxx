@@ -18,9 +18,9 @@ const CATALOG = {
     unitPrice: 39,
     maxQty: 1,
   },
-  "upsell-titan": {
-    name: "The Testosterone Titan",
-    unitPrice: 188.61,
+  "upsell-sentuel": {
+    name: "PeakModo Sentuel™ — Premium Ashwagandha Formula, 3er Pack",
+    unitPrice: 149,
     maxQty: 1,
   },
 };

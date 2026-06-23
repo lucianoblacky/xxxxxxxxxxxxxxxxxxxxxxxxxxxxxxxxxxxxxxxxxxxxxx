@@ -1095,7 +1095,7 @@ ul{margin:0;padding:0;list-style:none;}
 
 .cart-upsell-heading{
   font-size:0.78rem; font-weight:800; text-align:center; text-transform:uppercase;
-  letter-spacing:0.03em; color:var(--ink-soft); margin:1.1rem 0 0.8rem;
+  letter-spacing:0.03em; color:#000000; margin:1.1rem 0 0.8rem;
 }
 
 .cart-upsell-card{
@@ -1103,6 +1103,8 @@ ul{margin:0;padding:0;list-style:none;}
   margin-bottom:0.7rem; background:#ffffff;
 }
 .cart-upsell-card__top{ display:flex; align-items:flex-start; justify-content:space-between; gap:0.6rem; }
+.cart-upsell-card__link-area{ display:flex; align-items:flex-start; gap:0.6rem; flex:1; min-width:0; }
+.cart-upsell-card__link-area:hover .cart-upsell-card__label{ text-decoration:underline; }
 .cart-upsell-card__img{
   width:3.4rem; height:3.4rem; border-radius:0.45rem; object-fit:cover; flex:0 0 auto;
   border:1px solid var(--line); background:#fff;
@@ -1606,11 +1608,11 @@ ul{margin:0;padding:0;list-style:none;}
 <section class="contact-strip">
   <div class="container contact-strip__row">
     <div class="contact-strip__item">
-      <span class="contact-strip__icon">📍</span>
+      <span class="contact-strip__icon"></span>
       <span>Our Address</span>
     </div>
     <div class="contact-strip__item">
-      <span class="contact-strip__icon">✉️</span>
+      <span class="contact-strip__icon"></span>
       <span>Our Email Address</span>
     </div>
   </div>
@@ -1650,7 +1652,7 @@ ul{margin:0;padding:0;list-style:none;}
 <!-- STICKY BOTTOM BAR -->
 <div class="sticky-bar">
   <div class="info">
-    🔬 6 Lab Certificates | ⭐ 4.8/5 (1,042 Reviews)<br>
+    6 Lab Certificates | 4.8/5 (1,042 Reviews)<br>
     <span class="red">Limited Time Offer</span>
   </div>
   <a href="#offer" class="btn">Buy One Get One Free</a>
@@ -1677,7 +1679,7 @@ ul{margin:0;padding:0;list-style:none;}
     <div id="cart-upsell-section"></div>
 
     <div class="cart-guarantee">
-      <span class="cart-guarantee__icon">🛡️</span>
+      <span class="cart-guarantee__icon"></span>
       <div>
         <p class="cart-guarantee__title">50-Day Money Back Guarantee</p>
         <p class="cart-guarantee__text">Try Himalayan Shilajit risk-free. If you are not satisfied within 50 days, contact us for a full refund.</p>
@@ -1723,17 +1725,19 @@ const UPSELLS = [
     price: 39,
     comparePrice: 94.50,
     save: 55.50,
-    image: null,
+    image: 'images/EUR_Pre_Order_Red.png',
+    link: 'index.html',
   },
   {
-    id: 'upsell-titan',
-    badge: '💪',
-    label: 'The Testosterone Titan',
-    desc: 'Soomiig Shilajit Complex — 6550mg, 120 Vegan Capsules',
-    price: 188.61,
-    comparePrice: 244.95,
-    save: 56.34,
-    image: 'images/testosterone-titan-shilajit.png',
+    id: 'upsell-sentuel',
+    badge: '🏆',
+    label: 'PeakModo Sentuel™',
+    desc: 'Premium Ashwagandha Formula — 3er Pack',
+    price: 149,
+    comparePrice: 219,
+    save: 70,
+    image: 'images/sentuel-3pack-bottles.jpg',
+    link: 'sentuel.html',
   },
 ];
 
@@ -1860,16 +1864,18 @@ function renderUpsells() {
     return `
       <div class="cart-upsell-card">
         <div class="cart-upsell-card__top">
-          <img class="cart-upsell-card__img" src="${u.image}" alt="${u.label}">
-          <div>
-            <div class="cart-upsell-card__label">${u.badge} ${u.label}</div>
-            <div class="cart-upsell-card__desc">${u.desc}</div>
-            <div class="cart-upsell-card__prices">
-              <span class="compare">${formatEUR(u.comparePrice)}</span>
-              <span class="now">${formatEUR(u.price)}</span>
+          <a href="${u.link}" class="cart-upsell-card__link-area">
+            <img class="cart-upsell-card__img" src="${u.image}" alt="${u.label}">
+            <div>
+              <div class="cart-upsell-card__label">${u.badge} ${u.label}</div>
+              <div class="cart-upsell-card__desc">${u.desc}</div>
+              <div class="cart-upsell-card__prices">
+                <span class="compare">${formatEUR(u.comparePrice)}</span>
+                <span class="now">${formatEUR(u.price)}</span>
+              </div>
+              <div class="cart-upsell-card__save">Save ${formatEUR(u.save)}</div>
             </div>
-            <div class="cart-upsell-card__save">Save ${formatEUR(u.save)}</div>
-          </div>
+          </a>
           <button type="button" class="cart-upsell-card__btn" data-upsell-id="${u.id}" ${inCart ? 'disabled' : ''}>
             ${inCart ? 'Added' : 'Add'}
           </button>
@@ -1879,7 +1885,7 @@ function renderUpsells() {
   }).join('');
 
   wrap.innerHTML = `
-    <p class="cart-upsell-heading">🔥 Special Offers For You</p>
+    <p class="cart-upsell-heading">Special Offers For You</p>
     ${cardsHtml}
   `;
 
@@ -1922,7 +1928,7 @@ function renderShippingBar() {
   }
   fill.style.width = '100%';
   msg.classList.remove('is-pending');
-  msg.textContent = "🎉 Congrats! You've unlocked FREE SHIPPING!";
+  msg.textContent = "Congrats! You've unlocked FREE SHIPPING!";
 }
 
 // ---------- Render subtotal / footer ----------

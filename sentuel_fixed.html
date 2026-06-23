@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeakModo Sentuel™ Ashwagandha — 3er Pack | 10% Withanolide</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f4f2ed;
+  --bg-rich:#10100e;
+  --bg-soft:#ece7dc;
+  --card-bg:#ffffff;
+  --ink:#1c1c1c;
+  --ink-soft:#1c1c1cb3;
+  --ink-muted:#5f5a51;
+  --accent:#c0392b;
+  --gold-1:#7a5a23;
+  --gold-2:#caa544;
+  --gold-3:#f0d889;
+  --line:#dcdcdc;
+  --container-max:71.875rem;
+  --font-heading:"Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body:"Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden;}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--font-body);
+  font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+h1,h2,h3{font-family:var(--font-heading); margin:0; font-weight:800; letter-spacing:-0.01em;}
+p{margin:0;}
+a{color:inherit;text-decoration:none;}
+button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
+.container{max-width:var(--container-max); margin:0 auto; padding:0 1.25rem;}
+.gold-text{
+  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 35%,var(--gold-3) 50%,var(--gold-2) 65%,var(--gold-1) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+/* ---------- Certificate badge carousel (same as Shilajit page) ---------- */
+.badge-carousel{ background:#fff; overflow:hidden; white-space:nowrap; border-bottom:1px solid var(--line); padding:0.9rem 0; }
+.badge-carousel__track{ display:inline-flex; align-items:center; gap:2.25rem; animation:badge-scroll 15s linear infinite; }
+.badge-carousel img{ height:2.6rem; width:auto; flex:0 0 auto; }
+@keyframes badge-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+.topbar{ background:var(--bg-rich); color:#f4f2ed; text-align:center; font-size:0.78rem; font-weight:700; padding:0.55rem 1rem; letter-spacing:0.02em; }
+
+.site-header{ padding:1.1rem 0; border-bottom:1px solid var(--line); background:#fff; }
+.site-header img{ height:2rem; }
+
+/* ---------- Hero ---------- */
+.hero{ padding:2.5rem 0 3rem; }
+.hero-grid{ display:grid; grid-template-columns:1fr; gap:2rem; align-items:center; }
+@media (min-width:900px){ .hero-grid{ grid-template-columns:1fr 1fr; gap:3rem; } }
+.hero-eyebrow{ font-size:0.78rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-1); margin-bottom:0.9rem; }
+.hero h1{ font-size:2.1rem; line-height:1.12; margin-bottom:1rem; }
+@media (min-width:600px){ .hero h1{ font-size:2.7rem; } }
+.hero p.lede{ font-size:1.02rem; color:var(--ink-muted); max-width:30rem; margin-bottom:1.5rem; }
+.hero-stats{ display:flex; gap:1.6rem; margin-bottom:1.7rem; flex-wrap:wrap; }
+.hero-stat__num{ font-family:var(--font-heading); font-size:1.5rem; font-weight:800; }
+.hero-stat__label{ font-size:0.74rem; color:var(--ink-muted); }
+.hero-img-wrap{ border-radius:1rem; overflow:hidden; background:#fff; border:1px solid var(--line); }
+.hero-img-wrap img{ width:100%; }
+.hero-cta{
+  display:inline-flex; align-items:center; justify-content:center; gap:0.5rem;
+  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 25%,var(--gold-3) 50%,var(--gold-2) 75%,var(--gold-1) 100%);
+  color:#2a1f08; font-weight:800; font-size:0.95rem; padding:0.95rem 1.8rem; border-radius:0.5rem;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -2px 4px rgba(0,0,0,0.15);
+}
+.hero-cta:hover{ filter:brightness(1.05); }
+.hero-trust{ display:flex; gap:0.5rem; align-items:center; margin-top:1rem; font-size:0.78rem; color:var(--ink-muted); flex-wrap:wrap; }
+
+.stars{ color:var(--gold-1); font-size:0.95rem; letter-spacing:0.05em; }
+
+.section{ padding:3rem 0; }
+.section-title{ text-align:center; font-size:1.7rem; margin-bottom:0.6rem; }
+.section-sub{ text-align:center; color:var(--ink-muted); max-width:34rem; margin:0 auto 2.2rem; font-size:0.95rem; }
+
+/* ---------- Performance benefits ---------- */
+.benefits-grid{ display:grid; grid-template-columns:1fr; gap:1.1rem; }
+@media (min-width:700px){ .benefits-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:1000px){ .benefits-grid{ grid-template-columns:repeat(4,1fr); } }
+.benefit-card{ background:#fff; border:1px solid var(--line); border-radius:0.7rem; padding:1.4rem; }
+.benefit-card__icon{ font-size:1.5rem; margin-bottom:0.7rem; }
+.benefit-card__stat{ font-family:var(--font-heading); font-size:1.6rem; font-weight:800; color:var(--gold-1); margin-bottom:0.2rem; }
+.benefit-card h3{ font-size:0.95rem; margin-bottom:0.4rem; }
+.benefit-card p{ font-size:0.85rem; color:var(--ink-muted); }
+.benefit-card__source{ font-size:0.68rem; color:var(--ink-muted); margin-top:0.6rem; font-style:italic; }
+
+/* ---------- Lifestyle proof section ---------- */
+.proof-section{ background:var(--bg-rich); color:#f4f2ed; }
+.proof-grid{ display:grid; grid-template-columns:1fr; gap:2rem; align-items:center; }
+@media (min-width:900px){ .proof-grid{ grid-template-columns:1fr 1fr; gap:3rem; } }
+.proof-grid h2{ color:#fff; }
+.proof-img-wrap{ border-radius:1rem; overflow:hidden; }
+.proof-list{ margin-top:1.3rem; display:flex; flex-direction:column; gap:0.9rem; }
+.proof-list__item{ display:flex; gap:0.7rem; align-items:flex-start; font-size:0.92rem; color:#f4f2edcc; }
+.proof-list__item span.check{ color:var(--gold-3); flex:0 0 auto; }
+
+/* ---------- Bundle buybox ---------- */
+.bundle-section{ background:var(--bg-soft); }
+.bundle-grid{ display:grid; grid-template-columns:1fr; gap:2rem; align-items:center; }
+@media (min-width:900px){ .bundle-grid{ grid-template-columns:1fr 1fr; gap:3rem; } }
+.bundle-img-wrap{ border-radius:1rem; overflow:hidden; background:#fff; border:1px solid var(--line); }
+.bundle-spec-list{ margin:1.2rem 0 1.6rem; display:flex; flex-direction:column; gap:0.55rem; }
+.bundle-spec-list__item{ display:flex; gap:0.6rem; font-size:0.9rem; }
+.bundle-spec-list__item span.dot{ color:var(--gold-1); }
+
+.bundle-buybox{
+  background:#fff; border:2px solid var(--gold-2); border-radius:1rem; padding:1.6rem; text-align:center;
+}
+.bundle-buybox__badge{
+  display:inline-block; background:var(--accent); color:#fff; font-size:0.72rem; font-weight:800;
+  padding:0.25rem 0.7rem; border-radius:1rem; margin-bottom:0.8rem; letter-spacing:0.03em;
+}
+.bundle-buybox__price{ font-family:var(--font-heading); font-size:2.3rem; font-weight:800; }
+.bundle-buybox__compare{ text-decoration:line-through; color:var(--ink-muted); font-size:1.05rem; margin-left:0.5rem; }
+.bundle-buybox__sub{ font-size:0.8rem; color:var(--ink-muted); margin:0.4rem 0 1.2rem; }
+.bundle-buybox__cta{
+  display:block; width:100%; background:var(--ink); color:#fff; font-weight:800; font-size:1rem;
+  padding:1rem; border-radius:0.55rem;
+}
+.bundle-buybox__cta:hover{ filter:brightness(1.15); }
+.bundle-buybox__guarantee{ font-size:0.76rem; color:var(--ink-muted); margin-top:0.9rem; display:flex; align-items:center; justify-content:center; gap:0.4rem; }
+
+/* ---------- Reviews ---------- */
+.reviews-summary{ display:flex; flex-direction:column; align-items:center; margin-bottom:2.2rem; }
+.reviews-summary__score{ font-family:var(--font-heading); font-size:2.6rem; font-weight:800; }
+.reviews-summary__count{ font-size:0.85rem; color:var(--ink-muted); margin-top:0.3rem; }
+.review-grid{ display:grid; grid-template-columns:1fr; gap:1rem; }
+@media (min-width:700px){ .review-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:1100px){ .review-grid{ grid-template-columns:repeat(3,1fr); } }
+.review-card{ background:#fff; border:1px solid var(--line); border-radius:0.7rem; padding:1.1rem; }
+.review-card__top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem; }
+.review-card__name{ font-weight:800; font-size:0.88rem; }
+.review-card__date{ font-size:0.72rem; color:var(--ink-muted); }
+.review-card__text{ font-size:0.85rem; color:var(--ink); margin-top:0.5rem; line-height:1.5; }
+.review-card__verified{ font-size:0.7rem; color:#1a7a4c; font-weight:700; margin-top:0.5rem; display:flex; align-items:center; gap:0.3rem; }
+.reviews-loadmore{ display:block; margin:1.8rem auto 0; background:#fff; border:1px solid var(--line); padding:0.8rem 1.6rem; border-radius:0.5rem; font-weight:700; font-size:0.88rem; }
+.reviews-loadmore:hover{ background:var(--bg-soft); }
+
+/* ---------- FAQ ---------- */
+.faq-item{ border-bottom:1px solid var(--line); padding:1.1rem 0; }
+.faq-item summary{ cursor:pointer; font-weight:700; font-size:0.95rem; list-style:none; display:flex; justify-content:space-between; align-items:center; }
+.faq-item summary::-webkit-details-marker{ display:none; }
+.faq-item summary::after{ content:"+"; font-size:1.3rem; color:var(--gold-1); }
+.faq-item[open] summary::after{ content:"–"; }
+.faq-item p{ margin-top:0.7rem; font-size:0.88rem; color:var(--ink-muted); }
+.faq-wrap{ max-width:38rem; margin:0 auto; }
+
+/* ---------- Sticky bottom CTA (mobile) ---------- */
+.sticky-cta{
+  position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid var(--line);
+  padding:0.8rem 1.1rem; display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  z-index:50; box-shadow:0 -4px 12px rgba(0,0,0,0.06);
+}
+.sticky-cta__price{ font-weight:800; font-size:1rem; }
+.sticky-cta__btn{
+  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 25%,var(--gold-3) 50%,var(--gold-2) 75%,var(--gold-1) 100%);
+  color:#2a1f08; font-weight:800; font-size:0.85rem; padding:0.7rem 1.3rem; border-radius:0.45rem; white-space:nowrap;
+}
+@media (min-width:900px){ .sticky-cta{ display:none; } }
+body{ padding-bottom:4.2rem; }
+@media (min-width:900px){ body{ padding-bottom:0; } }
+
+.footer{ background:var(--bg-rich); color:#f4f2edcc; padding:2.5rem 0; font-size:0.8rem; text-align:center; }
+.footer a{ color:#f4f2ed; }
+
+/* Image placeholder boxes — replace src once you add real photos */
+c
+   <img src="images/Awards.webp" alt="Awards">
+<img src="images/Healthline_Logo_2019.png" alt="Healthline">
+<img src="images/Mens_Health_logo_orange_bg.png" alt="Men's Health">
+<img src="images/Cleveland-Clinic-Logo.jpg" alt="Cleveland Clinic">
+<img src="images/WebMD_logo.png" alt="WebMD">
+<img src="images/Examine_logo.png" alt="Examine">
+<img src="images/medical-news-today-logo.png" alt="Medical News Today">
+
+<!-- duplicate set -->
+<img src="images/Awards.webp" alt="Awards">
+<img src="images/Healthline_Logo_2019.png" alt="Healthline">
+<img src="images/Mens_Health_logo_orange_bg.png" alt="Men's Health">
+<img src="images/Cleveland-Clinic-Logo.jpg" alt="Cleveland Clinic">
+<img src="images/WebMD_logo.png" alt="WebMD">
+<img src="images/Examine_logo.png" alt="Examine">
+<img src="images/medical-news-today-logo.png" alt="Medical News Today">
+  </div>
+</div>
+
+<div class="topbar">🏆 Über 4.6★ Durchschnittsbewertung — PeakModo Sentuel™ 3er Pack</div>
+
+<header class="site-header">
+  <div class="container">
+    <img src="images/logo_website.png" alt="PeakModo">
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <p class="hero-eyebrow">PeakModo Sentuel™ — Premium Ashwagandha Formula</p>
+<h1>Unlock Your Peak Performance <span class="gold-text">Naturally</span></h1>
+<p class="lede">Premium Ashwagandha Extract standardized to 10% Withanolides for ambitious men who want to stay focused, resilient, and energized every day.</p>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat__num">4.6<span style="font-size:1rem;">★</span></div>
+          <div class="hero-stat__label">Ø Bewertung</div>
+        </div>
+        <div>
+          <div class="hero-stat__num">3×90</div>
+          <div class="hero-stat__label">Kapseln im Pack</div>
+        </div>
+        <div>
+          <div class="hero-stat__num">50 Tage</div>
+          <div class="hero-stat__label">Geld-zurück-Garantie</div>
+        </div>
+      </div>
+      <a href="#bundle" class="hero-cta">3er Pack ansehen — 149 €</a>
+      <div class="hero-trust">🔒 Sichere Zahlung &nbsp;·&nbsp; 🚚 Kostenloser Versand &nbsp;·&nbsp; 🛡️ 50 Tage Garantie</div>
+    </div>
+    <div class="hero-img-wrap">
+      <img src="images/sentuel-3pack-bottles.jpg" alt="PeakModo Sentuel Ashwagandha Kapseln — 3er Pack, 10% Withanolide, je 90 vegane Kapseln">
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Was die Forschung zu Ashwagandha zeigt</h2>
+    <p class="section-sub">Keine Marketing-Versprechen — das ist, was in klinischen Studien zu Withanolide-Extrakten gemessen wurde.</p>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <div class="benefit-card__icon">📉</div>
+        <div class="benefit-card__stat">−11 bis −32%</div>
+        <h3>Niedrigeres Cortisol</h3>
+        <p>Eine Auswertung von neun Studien zeigt eine Senkung des Cortisolspiegels nach 30–112 Tagen regelmäßiger Einnahme.</p>
+        <p class="benefit-card__source">Systematic Review, 2023</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-card__icon">😴</div>
+        <div class="benefit-card__stat">10% Withanolides</div>
+        <h3>Premium Ashwagandha Extract</h3>
+        <p>that Ashwagandha could eliminate the need for TRT and erectile dysfunction treatments. This ancient remedy has been used for over 3,000 years to survive the harshest environments known to man. Today, that heritage is backed by modern science: it is lab-tested and certified by 6 third-party standards (including HACCP, GMP, and ISO-9001) and was honored as a finalist for 'Best Food Innovation' at the 2025 World Food Innovation Awards." - Researcher Famularo</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-card__icon">🧠</div>
+        <div class="benefit-card__stat">Mehr Fokus</div>
+        <h3>Klarerer Kopf unter Druck</h3>
+        <p>Teilnehmer berichteten in kontrollierten Studien von besserer Konzentration, Multitasking-Fähigkeit und kognitiver Leistung.</p>
+        <p class="benefit-card__source">Placebokontrollierte Studie</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-card__icon">💪</div>
+        <div class="benefit-card__stat">Mehr Kraft</div>
+        <h3>Bessere Trainingserholung</h3>
+        <p>Studien mit 500–1.250mg täglicher Einnahme zeigten Zuwächse bei Muskelkraft bei gesunden Erwachsenen.</p>
+        <p class="benefit-card__source">Kontrollierte Studien</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section proof-section">
+  <div class="container proof-grid">
+    <div>
+      <h2 class="section-title" style="text-align:left;">Built For High Performers</h2>
+      <p style="color:#f4f2edcc; font-size:0.95rem; margin-top:0.8rem;">Sentuel™ ist nicht für den Wellness-Schrank gedacht, der ungenutzt bleibt. Es ist für die Routine, die du tatsächlich durchhältst — egal ob im Büro, im Training oder am Schreibtisch um 23 Uhr.</p>
+      <div class="proof-list">
+        <div class="proof-list__item"><span class="check">✓</span> Eine Kapsel morgens zur Mahlzeit — keine komplizierte Einnahme-Choreografie</div>
+        <div class="proof-list__item"><span class="check">✓</span> 90 Kapseln pro Dose, 3 Dosen im Pack — ein Vorrat, der nicht nach drei Wochen ausgeht</div>
+        <div class="proof-list__item"><span class="check">✓</span> Vegane Kapseln, keine unnötigen Füllstoffe</div>
+        <div class="proof-list__item"><span class="check">✓</span> Wirkung baut sich über Wochen auf — gemacht für Konsistenz, nicht für den einmaligen Effekt</div>
+      </div>
+    </div>
+    <div class="proof-img-wrap">
+      <div class="img-placeholder" id="img-slot-lifestyle">
+        BILD-PLATZHALTER<br>"Lifestyle / Anwendung"<br>(siehe Bild-Guide unten)
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section bundle-section" id="bundle">
+  <div class="container bundle-grid">
+    <div class="bundle-img-wrap">
+      <img src="images/sentuel-3pack-bottles.jpg" alt="PeakModo Sentuel Ashwagandha Kapseln 3er Pack">
+    </div>
+    <div>
+      <h2 class="section-title" style="text-align:left;">Your 9-Month Supply</h2>
+      <p style="color:var(--ink-muted); font-size:0.95rem;">Drei Dosen derselben bewährten Formel — für eine Routine, die du nicht jeden Monat neu bestellen musst.</p>
+      <div class="bundle-spec-list">
+        <div class="bundle-spec-list__item"><span class="dot">●</span> 10% Withanolide pro Kapsel</div>
+        <div class="bundle-spec-list__item"><span class="dot">●</span> 90 vegane Kapseln je Dose — 270 Kapseln insgesamt</div>
+        <div class="bundle-spec-list__item"><span class="dot">●</span> Reicht bei 1 Kapsel täglich für ca. 9 Monate</div>
+        <div class="bundle-spec-list__item"><span class="dot">●</span> Ohne unnötige Zusatzstoffe</div>
+      </div>
+
+      <div class="bundle-buybox">
+        <span class="bundle-buybox__badge">BEST VALUE · 3 BOTTLES</span>
+        <div>
+          <span class="bundle-buybox__price">149 €</span>
+        </div>
+        <p class="bundle-buybox__sub">Einmalig · kostenloser Versand · 3 Dosen inklusive</p>
+        <a href="#" class="bundle-buybox__cta" id="sentuel-add-to-cart">Claim Your Supply Now</a>
+        <p class="bundle-buybox__guarantee">🛡️ Geschützt durch unsere 50-Tage Geld-zurück-Garantie</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="reviews">
+  <div class="container">
+    <h2 class="section-title">Trusted By Thousands Of Customers</h2>
+    <div class="reviews-summary">
+      <div class="reviews-summary__score">4.6 <span class="stars">★★★★★</span></div>
+      <div class="reviews-summary__count" id="review-count-label">Basierend auf 30 Bewertungen</div>
+    </div>
+    <div class="review-grid" id="review-grid"></div>
+    <button class="reviews-loadmore" id="reviews-loadmore">Weitere Bewertungen anzeigen</button>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container faq-wrap">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <details class="faq-item">
+      <summary>Wie nehme ich Sentuel™ am besten ein?</summary>
+      <p>Eine Kapsel täglich, idealerweise morgens zu einer Mahlzeit. Für eine gleichmäßige Wirkung empfehlen wir die tägliche Einnahme zur gleichen Zeit.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Wie lange dauert es, bis ich eine Wirkung spüre?</summary>
+      <p>Ashwagandha wirkt kumulativ. Die meisten Kunden berichten nach 2–4 Wochen regelmäßiger Einnahme von spürbaren Veränderungen, besonders beim Stressempfinden und der Schlafqualität.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Wie lange reicht das 3er Pack?</summary>
+      <p>Bei einer Kapsel täglich reichen die 270 Kapseln (3 × 90) für rund 9 Monate.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Ist Sentuel™ vegan?</summary>
+      <p>Ja, die Kapseln bestehen vollständig aus pflanzlichen Inhaltsstoffen ohne tierische Bestandteile.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Was passiert, wenn mir das Produkt nicht zusagt?</summary>
+      <p>Du bist durch unsere 50-Tage Geld-zurück-Garantie abgesichert. Solltest du nicht zufrieden sein, kannst du dich innerhalb dieses Zeitraums bei uns melden.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Kann ich Sentuel™ zusammen mit anderen Nahrungsergänzungsmitteln einnehmen?</summary>
+      <p>Im Allgemeinen ist Ashwagandha gut verträglich. Bei bestehenden Erkrankungen, Schwangerschaft oder der Einnahme von Medikamenten empfehlen wir, vorher Rücksprache mit einem Arzt zu halten.</p>
+    </details>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>© PeakModo. Alle Rechte vorbehalten. <a href="/">Zur Startseite</a></p>
+  </div>
+</footer>
+
+<div class="sticky-cta">
+  <div class="sticky-cta__price">149 €</div>
+  <a href="#bundle" class="sticky-cta__btn">Jetzt sichern</a>
+</div>
+
+<script src="reviews-data.js"></script>
+<script>
+const REVIEWS_PER_PAGE = 9;
+let reviewsShown = 0;
+
+function starString(n) {
+  return '★'.repeat(n) + '☆'.repeat(5 - n);
+}
+
+function renderReviews() {
+  const grid = document.getElementById('review-grid');
+  const next = REVIEWS_DATA.slice(reviewsShown, reviewsShown + REVIEWS_PER_PAGE);
+  next.forEach((r) => {
+    const card = document.createElement('div');
+    card.className = 'review-card';
+    card.innerHTML = `
+      <div class="review-card__top">
+        <span class="review-card__name">${r.name}</span>
+        <span class="stars">${starString(r.stars)}</span>
+      </div>
+      <div class="review-card__date">vor ${r.days_ago} Tagen</div>
+      <p class="review-card__text">${r.text}</p>
+      ${r.verified ? '<div class="review-card__verified">✓ Verifizierter Kauf</div>' : ''}
+    `;
+    grid.appendChild(card);
+  });
+  reviewsShown += next.length;
+
+  const btn = document.getElementById('reviews-loadmore');
+  if (reviewsShown >= REVIEWS_DATA.length) {
+    btn.style.display = 'none';
+  }
+  document.getElementById('review-count-label').textContent = `Basierend auf ${REVIEWS_DATA.length} Bewertungen`;
+}
+
+document.getElementById('reviews-loadmore').addEventListener('click', renderReviews);
+renderReviews();
+
+document.getElementById('sentuel-add-to-cart').addEventListener('click', (e) => {
+  e.preventDefault();
+  alert('Produkt wird zum Warenkorb hinzugefügt (Integration mit dem bestehenden Cart-System folgt).');
+});
+</script>
+
+</body>
+</html>

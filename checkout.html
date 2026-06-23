@@ -9,6 +9,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '876944531341744');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+
 <!--
   ============================================================
   PAYPAL CLIENT ID — keep in sync with the one in index.html
@@ -119,6 +134,8 @@ input{font-family:var(--font-body);font-size:0.95rem;}
 .checkout-note{ font-size:0.74rem; color:var(--ink-soft); margin-top:0.7rem; line-height:1.5; }
 
 .summary-line-item{ display:flex; gap:0.8rem; padding:0.8rem 0; border-bottom:1px solid var(--line); }
+.summary-line-item__link-area{ display:flex; gap:0.8rem; flex:1; min-width:0; }
+.summary-line-item__link-area:hover .summary-line-item__name{ text-decoration:underline; }
 .summary-line-item__img{
   width:3.4rem; height:3.4rem; border-radius:0.4rem; object-fit:cover; flex:0 0 auto;
   border:1px solid var(--line); background:#fff;
@@ -160,7 +177,7 @@ input{font-family:var(--font-body);font-size:0.95rem;}
   <div class="checkout-main">
 
     <div class="checkout-guarantee">
-      <span class="checkout-guarantee__icon">🛡️</span>
+      <span class="checkout-guarantee__icon"></span>
       <div>
         <p class="checkout-guarantee__title">50-Day Money Back Guarantee</p>
         <p class="checkout-guarantee__text">Your order is protected by a 50-Day Money-Back Guarantee.</p>
@@ -237,8 +254,8 @@ input{font-family:var(--font-body);font-size:0.95rem;}
 <script>
 const CATALOG = {
   main: { name: 'Himalayan Shilajit 45g (Buy 1 Get 1 Free)', image: 'images/EUR_Pre_Order_Red.png' },
-  'upsell-power': { name: 'Performance Pack — Add 2 Extra Shilajit Jars', image: 'images/shilajit-resin-6-pack.png' },
-  'upsell-titan': { name: 'The Testosterone Titan', image: 'images/testosterone-titan-shilajit.png' },
+  'upsell-power': { name: 'Performance Pack — Add 2 Extra Shilajit Jars', image: 'images/EUR_Pre_Order_Red.png', link: 'index.html' },
+  'upsell-sentuel': { name: 'PeakModo Sentuel™ — Premium Ashwagandha Formula, 3er Pack', image: 'images/sentuel-3pack-bottles.jpg', link: 'sentuel.html' },
 };
 
 const CART_STORAGE_KEY = 'peakmodo_checkout_cart';
@@ -271,13 +288,22 @@ function renderSummary() {
 
   itemsWrap.innerHTML = cartItems.map((item) => {
     const catalogEntry = CATALOG[item.id] || {};
-    return `
-      <div class="summary-line-item">
-        <img class="summary-line-item__img" src="${catalogEntry.image || ''}" alt="${item.name}">
+    const imageHtml = catalogEntry.image
+      ? `<img class="summary-line-item__img" src="${catalogEntry.image}" alt="${item.name}">`
+      : '<div class="summary-line-item__img"></div>';
+    const nameAndImage = `
+        ${imageHtml}
         <div>
           <div class="summary-line-item__name">${item.name}</div>
           <div class="summary-line-item__qty">Qty ${item.qty}</div>
         </div>
+    `;
+    const linkableContent = catalogEntry.link
+      ? `<a href="${catalogEntry.link}" class="summary-line-item__link-area">${nameAndImage}</a>`
+      : nameAndImage;
+    return `
+      <div class="summary-line-item">
+        ${linkableContent}
         <div class="summary-line-item__price">${formatEUR(item.unitPrice * item.qty)}</div>
       </div>
     `;
@@ -292,6 +318,16 @@ function renderSummary() {
   `;
 }
 renderSummary();
+
+if (typeof fbq === 'function' && cartItems.length > 0) {
+  fbq('track', 'InitiateCheckout', {
+    content_ids: cartItems.map((i) => i.id),
+    content_type: 'product',
+    num_items: cartItems.reduce((sum, i) => sum + i.qty, 0),
+    value: cartItems.reduce((sum, i) => sum + i.unitPrice * i.qty, 0),
+    currency: 'EUR',
+  });
+}
 
 function buildCheckoutItemsPayload() {
   return cartItems.map((item) => ({

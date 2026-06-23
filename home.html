@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeakModo — Premium Nahrungsergänzung aus dem Himalaya</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '876944531341744');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+
+<style>
+:root{
+  --bg:#f4f2ed;
+  --bg-rich:#10100e;
+  --bg-soft:#ece7dc;
+  --card-bg:#ffffff;
+  --ink:#1c1c1c;
+  --ink-soft:#1c1c1cb3;
+  --ink-muted:#5f5a51;
+  --accent:#c0392b;
+  --gold-1:#7a5a23;
+  --gold-2:#caa544;
+  --gold-3:#f0d889;
+  --line:#dcdcdc;
+  --container-max:71.875rem;
+  --font-heading:"Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body:"Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden;}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--font-body);
+  font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+h1,h2,h3{font-family:var(--font-heading); margin:0; font-weight:800; letter-spacing:-0.01em;}
+p{margin:0;}
+a{color:inherit;text-decoration:none;}
+button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
+.container{max-width:var(--container-max); margin:0 auto; padding:0 1.25rem;}
+.gold-text{
+  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 35%,var(--gold-3) 50%,var(--gold-2) 65%,var(--gold-1) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+/* ---------- Certificate badge carousel (same across every page) ---------- */
+.badge-carousel{ background:#fff; overflow:hidden; white-space:nowrap; border-bottom:1px solid var(--line); padding:0.9rem 0; }
+.badge-carousel__track{ display:inline-flex; align-items:center; gap:2.25rem; animation:badge-scroll 15s linear infinite; }
+.badge-carousel img{ height:2.6rem; width:auto; flex:0 0 auto; }
+@keyframes badge-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+/* ---------- Header ---------- */
+.site-header{ padding:1.1rem 0; border-bottom:1px solid var(--line); background:#fff; }
+.site-header .container{ display:flex; align-items:center; justify-content:space-between; }
+.site-header img{ height:2rem; }
+.site-nav{ display:none; gap:2rem; font-size:0.9rem; font-weight:700; }
+@media (min-width:800px){ .site-nav{ display:flex; } }
+.site-nav a:hover{ color:var(--gold-1); }
+.header-cta{
+  background:var(--ink); color:#fff; font-weight:700; font-size:0.85rem;
+  padding:0.65rem 1.2rem; border-radius:0.4rem;
+}
+
+/* ---------- Hero ---------- */
+.hero{ padding:3.5rem 0 4rem; text-align:center; }
+.hero-eyebrow{ font-size:0.8rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-1); margin-bottom:1.1rem; }
+.hero h1{ font-size:2.3rem; line-height:1.1; margin:0 auto 1.2rem; max-width:42rem; }
+@media (min-width:700px){ .hero h1{ font-size:3.2rem; } }
+.hero p.lede{ font-size:1.05rem; color:var(--ink-muted); max-width:34rem; margin:0 auto 2rem; }
+.hero-stats{ display:flex; gap:2.4rem; justify-content:center; margin-bottom:0; flex-wrap:wrap; }
+.hero-stat__num{ font-family:var(--font-heading); font-size:1.7rem; font-weight:800; }
+.hero-stat__label{ font-size:0.76rem; color:var(--ink-muted); }
+
+/* ---------- Trust strip ---------- */
+.trust-strip{ background:var(--bg-rich); color:#f4f2ed; padding:1rem 0; text-align:center; font-size:0.82rem; font-weight:700; }
+
+/* ---------- Product showcase ---------- */
+.section{ padding:4rem 0; }
+.section-title{ text-align:center; font-size:1.9rem; margin-bottom:0.7rem; }
+.section-sub{ text-align:center; color:var(--ink-muted); max-width:36rem; margin:0 auto 3rem; font-size:0.98rem; }
+
+.product-grid{ display:grid; grid-template-columns:1fr; gap:1.6rem; }
+@media (min-width:850px){ .product-grid{ grid-template-columns:repeat(2,1fr); } }
+
+.product-card{
+  background:#fff; border:1px solid var(--line); border-radius:1.1rem; overflow:hidden;
+  display:flex; flex-direction:column; transition:transform 0.15s ease, box-shadow 0.15s ease;
+}
+.product-card:hover{ transform:translateY(-3px); box-shadow:0 12px 28px rgba(0,0,0,0.08); }
+.product-card__img-wrap{ aspect-ratio:4/3; background:var(--bg-soft); display:flex; align-items:center; justify-content:center; padding:1.5rem; }
+.product-card__img-wrap img{ max-height:100%; width:auto; object-fit:contain; }
+.product-card__body{ padding:1.6rem; flex:1; display:flex; flex-direction:column; }
+.product-card__eyebrow{ font-size:0.72rem; font-weight:800; letter-spacing:0.05em; text-transform:uppercase; color:var(--gold-1); margin-bottom:0.5rem; }
+.product-card h3{ font-size:1.35rem; margin-bottom:0.6rem; }
+.product-card p.desc{ font-size:0.92rem; color:var(--ink-muted); margin-bottom:1.1rem; flex:1; }
+.product-card__meta{ display:flex; align-items:center; justify-content:space-between; margin-top:auto; }
+.product-card__price{ font-family:var(--font-heading); font-weight:800; font-size:1.25rem; }
+.product-card__price .compare{ text-decoration:line-through; color:var(--ink-muted); font-weight:400; font-size:0.9rem; margin-left:0.4rem; }
+.product-card__cta{
+  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 25%,var(--gold-3) 50%,var(--gold-2) 75%,var(--gold-1) 100%);
+  color:#2a1f08; font-weight:800; font-size:0.85rem; padding:0.7rem 1.3rem; border-radius:0.45rem;
+}
+.product-card__cta:hover{ filter:brightness(1.06); }
+.product-card__rating{ font-size:0.78rem; color:var(--ink-muted); display:flex; align-items:center; gap:0.3rem; margin-bottom:0.7rem; }
+.stars{ color:var(--gold-1); font-size:0.9rem; }
+
+/* ---------- Founding story ---------- */
+.founder-section{ background:#fff; }
+.founder-grid{ display:grid; grid-template-columns:1fr; gap:2.2rem; align-items:center; }
+@media (min-width:900px){ .founder-grid{ grid-template-columns:1fr 1fr; gap:3rem; } }
+.founder-grid h2{ font-size:1.9rem; margin-bottom:1rem; text-align:left; }
+.founder-grid p{ font-size:0.96rem; color:var(--ink-muted); margin-bottom:1rem; line-height:1.65; }
+.founder-grid p strong{ color:var(--ink); }
+.founder-img-wrap{ aspect-ratio:4/3; border-radius:1rem; background:var(--bg-soft); border:1px dashed var(--line); display:flex; align-items:center; justify-content:center; text-align:center; padding:1.5rem; font-size:0.8rem; color:var(--ink-muted); }
+.founder-stats{ display:flex; gap:2rem; margin-top:1.6rem; flex-wrap:wrap; }
+.founder-stat__num{ font-family:var(--font-heading); font-size:1.9rem; font-weight:800; color:var(--gold-1); }
+.founder-stat__label{ font-size:0.78rem; color:var(--ink-muted); }
+
+/* ---------- Brand story / authority section ---------- */
+.story-section{ background:var(--bg-rich); color:#f4f2ed; }
+.story-grid{ display:grid; grid-template-columns:1fr; gap:2rem; }
+@media (min-width:850px){ .story-grid{ grid-template-columns:repeat(3,1fr); gap:2.5rem; } }
+.story-card{ }
+.story-card__num{ font-family:var(--font-heading); font-size:2.2rem; font-weight:800; color:var(--gold-3); margin-bottom:0.4rem; }
+.story-card h3{ color:#fff; font-size:1.05rem; margin-bottom:0.5rem; }
+.story-card p{ font-size:0.9rem; color:#f4f2edb3; }
+
+/* ---------- Promise strip ---------- */
+.promise-grid{ display:grid; grid-template-columns:1fr; gap:1.4rem; text-align:center; }
+@media (min-width:700px){ .promise-grid{ grid-template-columns:repeat(3,1fr); } }
+.promise-card__icon{ font-size:1.8rem; margin-bottom:0.7rem; }
+.promise-card h3{ font-size:1rem; margin-bottom:0.4rem; }
+.promise-card p{ font-size:0.88rem; color:var(--ink-muted); }
+
+/* ---------- Footer ---------- */
+.footer{ background:var(--bg-rich); color:#f4f2edcc; padding:3rem 0 2rem; }
+.footer-grid{ display:grid; grid-template-columns:1fr; gap:2rem; margin-bottom:2rem; }
+@media (min-width:700px){ .footer-grid{ grid-template-columns:2fr 1fr 1fr; } }
+.footer-col h4{ color:#fff; font-size:0.85rem; margin-bottom:0.8rem; }
+.footer-col a, .footer-col p{ display:block; font-size:0.85rem; color:#f4f2edb3; margin-bottom:0.5rem; }
+.footer-col a:hover{ color:#fff; }
+.footer-bottom{ border-top:1px solid #ffffff22; padding-top:1.4rem; font-size:0.78rem; color:#f4f2ed80; text-align:center; }
+.footer-logo{ height:1.8rem; margin-bottom:0.8rem; filter:brightness(0) invert(1); }
+</style>
+</head>
+<body>
+
+<!-- CERTIFICATE BADGE CAROUSEL (top) — same across every page -->
+<div class="badge-carousel">
+  <div class="badge-carousel__track">
+   <img src="images/Awards.webp" alt="Awards">
+<img src="images/Healthline_Logo_2019.png" alt="Healthline">
+<img src="images/Mens_Health_logo_orange_bg.png" alt="Men's Health">
+<img src="images/Cleveland-Clinic-Logo.jpg" alt="Cleveland Clinic">
+<img src="images/WebMD_logo.png" alt="WebMD">
+<img src="images/Examine_logo.png" alt="Examine">
+<img src="images/medical-news-today-logo.png" alt="Medical News Today">
+
+<!-- duplicate set -->
+<img src="images/Awards.webp" alt="Awards">
+<img src="images/Healthline_Logo_2019.png" alt="Healthline">
+<img src="images/Mens_Health_logo_orange_bg.png" alt="Men's Health">
+<img src="images/Cleveland-Clinic-Logo.jpg" alt="Cleveland Clinic">
+<img src="images/WebMD_logo.png" alt="WebMD">
+<img src="images/Examine_logo.png" alt="Examine">
+<img src="images/medical-news-today-logo.png" alt="Medical News Today">
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="container">
+    <img src="images/logo_website.png" alt="PeakModo">
+    <nav class="site-nav">
+      <a href="index.html">Himalayan Shilajit</a>
+      <a href="sentuel.html">Sentuel™</a>
+      <a href="#story">Über uns</a>
+    </nav>
+    <a href="index.html" class="header-cta">Jetzt einkaufen</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <p class="hero-eyebrow">PeakModo — Premium Nahrungsergänzung</p>
+    <h1>Formeln, die <span class="gold-text">getestet</span> sind — nicht nur beworben</h1>
+    <p class="lede">Zwei Produktlinien, eine Maßstab: Reinheit, geprüfte Dosierung und eine Wirkung, die unsere Kunden in tausenden Bewertungen bestätigen.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat__num">4.6★</div>
+        <div class="hero-stat__label">Ø Kundenbewertung</div>
+      </div>
+      <div>
+        <div class="hero-stat__num">50 Tage</div>
+        <div class="hero-stat__label">Geld-zurück-Garantie</div>
+      </div>
+      <div>
+        <div class="hero-stat__num">2</div>
+        <div class="hero-stat__label">Geprüfte Produktlinien</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-strip">Sichere Zahlung &nbsp;·&nbsp; Kostenloser Versand &nbsp;·&nbsp; 50 Tage Geld-zurück-Garantie</div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Unsere Produktlinien</h2>
+    <p class="section-sub">Jedes Produkt deckt ein eigenes Ziel ab — von tiefer Erholung bis zu mentaler Stabilität im Alltag.</p>
+
+    <div class="product-grid">
+      <a href="index.html" class="product-card">
+        <div class="product-card__img-wrap">
+          <img src="images/EUR_Pre_Order_Red.png" alt="PeakModo Himalayan Shilajit Resin">
+        </div>
+        <div class="product-card__body">
+          <div class="product-card__eyebrow">Himalayan Shilajit</div>
+          <h3>Himalayan Shilajit Resin 45g</h3>
+          <div class="product-card__rating"><span class="stars">★★★★★</span> 4.7 · über 1.200 Bewertungen</div>
+          <p class="desc">Reines Mumijo-Harz aus dem Himalaya, reich an Fulvinsäure und über 80 Spurenelementen. Für Energie, Erholung und natürliche Vitalität.</p>
+          <div class="product-card__meta">
+            <div class="product-card__price">94,50 € <span class="compare">210,00 €</span></div>
+            <span class="product-card__cta">Ansehen</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="sentuel.html" class="product-card">
+        <div class="product-card__img-wrap">
+          <img src="images/sentuel-3pack-bottles.jpg" alt="PeakModo Sentuel Ashwagandha Kapseln 3er Pack">
+        </div>
+        <div class="product-card__body">
+          <div class="product-card__eyebrow">Sentuel™</div>
+          <h3>Ashwagandha Kapseln — 3er Pack</h3>
+          <div class="product-card__rating"><span class="stars">★★★★★</span> 4.6 · über 30 Bewertungen</div>
+          <p class="desc">10% Withanolide pro Kapsel. Für niedrigeres Cortisol, besseren Schlaf und mehr Belastbarkeit an fordernden Tagen.</p>
+          <div class="product-card__meta">
+            <div class="product-card__price">149,00 €</div>
+            <span class="product-card__cta">Ansehen</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section founder-section">
+  <div class="container founder-grid">
+    <div>
+      <p class="hero-eyebrow" style="text-align:left;">Unsere Geschichte</p>
+      <h2>Seit 16 Jahren auf der Suche nach Formeln, die wirklich halten, was sie versprechen</h2>
+      <p>PeakModo begann nicht als Marketing-Idee, sondern als Frustration: zu viele Nahrungsergänzungsmittel auf dem Markt versprachen viel und lieferten wenig — unterdosiert, schlecht geprüft, austauschbar.</p>
+      <p>Seit über <strong>16 Jahren</strong> beschäftigen wir uns mit Rohstoffbeschaffung, Wirkstoffdosierung und der Frage, was unter kontrollierten Studienbedingungen tatsächlich einen Unterschied macht — nicht nur auf dem Etikett.</p>
+      <p>Aus dieser Erfahrung sind zwei Produktlinien entstanden, die wir selbst täglich nutzen: <strong>Himalayan Shilajit</strong> für Energie und Erholung, und <strong>Sentuel™</strong> für mentale Stabilität unter Druck. Kein Sortiment mit hundert Produkten — zwei Formeln, denen wir vollständig vertrauen.</p>
+      <div class="founder-stats">
+        <div>
+          <div class="founder-stat__num">16+</div>
+          <div class="founder-stat__label">Jahre Erfahrung</div>
+        </div>
+        <div>
+          <div class="founder-stat__num">1.200+</div>
+          <div class="founder-stat__label">Zufriedene Kunden</div>
+        </div>
+        <div>
+          <div class="founder-stat__num">2</div>
+          <div class="founder-stat__label">Formeln, denen wir vertrauen</div>
+        </div>
+      </div>
+    </div>
+    <div class="founder-img-wrap" id="img-slot-founder">
+      BILD-PLATZHALTER<br>"Team / Werkstatt / Produktion"<br>(siehe Bild-Guide)
+    </div>
+  </div>
+</section>
+
+<section class="section story-section" id="story">
+  <div class="container">
+    <h2 class="section-title" style="color:#fff;">Warum Kunden bei PeakModo bleiben</h2>
+    <p class="section-sub" style="color:#f4f2edb3;">Keine Einmal-Bestellung — eine Marke, der man die Routine anvertraut.</p>
+    <div class="story-grid">
+      <div class="story-card">
+        <div class="story-card__num">100%</div>
+        <h3>Geprüfte Rohstoffe</h3>
+        <p>Jede Chargen unserer Produkte wird auf Reinheit und Wirkstoffgehalt kontrolliert, bevor sie unser Lager verlässt.</p>
+      </div>
+      <div class="story-card">
+        <div class="story-card__num">50 Tage</div>
+        <h3>Ohne Risiko testen</h3>
+        <p>Wir stehen hinter jedem Produkt mit einer vollständigen Geld-zurück-Garantie — kein Kleingedrucktes.</p>
+      </div>
+      <div class="story-card">
+        <div class="story-card__num">24–48h</div>
+        <h3>Schneller Versand</h3>
+        <p>Bestellungen werden in der Regel innerhalb von ein bis zwei Werktagen versendet, kostenlos ab dem ersten Artikel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Unser Versprechen an dich</h2>
+    <div class="promise-grid">
+      <div class="promise-card">
+        <div class="promise-card__icon">🏆</div>
+        <h3>Geprüfte Dosierung</h3>
+        <p>Jede Formel basiert auf Wirkstoffmengen, die in klinischen Studien tatsächlich untersucht wurden — keine Phantasiewerte.</p>
+      </div>
+      <div class="promise-card">
+        <div class="promise-card__icon"></div>
+        <h3>Saubere Inhaltsstoffe</h3>
+        <p>Keine unnötigen Füllstoffe, vegane Kapseln, transparente Zutatenlisten auf jeder Verpackung.</p>
+      </div>
+      <div class="promise-card">
+        <div class="promise-card__icon"></div>
+        <h3>Erreichbarer Support</h3>
+        <p>Fragen zu Bestellung, Einnahme oder Versand beantworten wir persönlich, nicht über ein Chatbot-Skript.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <img src="images/logo_website.png" alt="PeakModo" class="footer-logo">
+        <p>Premium Nahrungsergänzung mit geprüfter Wirkstoffdosierung — für eine Routine, die hält, was sie verspricht.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Produkte</h4>
+        <a href="index.html">Himalayan Shilajit Resin</a>
+        <a href="sentuel.html">Sentuel™ Ashwagandha</a>
+      </div>
+      <div class="footer-col">
+        <h4>Service</h4>
+        <a href="#">Versand &amp; Lieferung</a>
+        <a href="#">Geld-zurück-Garantie</a>
+        <a href="#">Kontakt</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © PeakModo. Alle Rechte vorbehalten.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
