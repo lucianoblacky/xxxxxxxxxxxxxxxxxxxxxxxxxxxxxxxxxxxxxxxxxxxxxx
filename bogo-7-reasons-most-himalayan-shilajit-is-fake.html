@@ -43,6 +43,28 @@ src="https://www.facebook.com/tr?id=876944531341744&ev=PageView&noscript=1"
 <script src="https://www.paypal.com/sdk/js?client-id=AW8ouWXFmMbBVDz3OW4wNVlEcwMmmoDdwbUobtXcNpj94QRt8LdKuaNwsvYl-C3oa2cUttGHmKMq5FZd&currency=EUR&intent=capture"></script>
 
 <style>
+.testimonial-photo-collage{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.testimonial-photo-collage img{
+  width:100%;
+  display:block;
+  border-radius:12px;
+  object-fit:cover;
+}
+
+.testimonial-photo-collage img:first-child{
+  grid-column:1 / span 2;
+  height:280px;
+}
+
+.testimonial-photo-collage img:nth-child(2),
+.testimonial-photo-collage img:nth-child(3){
+  height:180px;
+}
 :root{
   --bg:#f4f2ed;
   --bg-rich:#10100e;
@@ -894,28 +916,37 @@ ul{margin:0;padding:0;list-style:none;}
 .stat .num{ font-family:var(--font-heading); font-size:clamp(2.2rem,1.8rem+2vw,3rem); font-weight:800; color:var(--accent); }
 .stat .label{ font-size:0.85rem; color:var(--ink-soft); margin-top:0.35rem; }
 
-/* ---------- Donut ring stats (using real original images) ---------- */
+/* ---------- Donut ring stats (real SVG rings, dashed gold/black) ---------- */
 .donut-row{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1rem;
-  max-width:40rem;
-  margin:1.5rem auto 0;
-}
-@media (max-width:600px){
-  .donut-row{ grid-template-columns:1fr; gap:1.5rem; max-width:16rem; }
+  display:flex;
+  flex-direction:column;
+  gap:1.6rem;
+  max-width:34rem;
+  margin:1.8rem auto 0;
 }
 .donut-stat{
   display:flex;
   align-items:center;
-  justify-content:center;
+  gap:1.4rem;
 }
-.donut-img{
-  width:100%;
-  max-width:11rem;
-  border-radius:50%;
-  aspect-ratio:1/1;
-  object-fit:contain;
+.donut-stat__ring{
+  position:relative;
+  flex:0 0 auto;
+  width:9.5rem;
+  height:9.5rem;
+}
+.donut-stat__ring svg{ width:100%; height:100%; transform:rotate(-90deg); }
+.donut-stat__pct{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-heading); font-size:2.1rem; font-weight:800; color:var(--ink);
+}
+.donut-stat__label{
+  font-size:1.05rem; color:var(--ink); line-height:1.35; font-family:var(--font-heading);
+}
+@media (max-width:600px){
+  .donut-stat__ring{ width:7.5rem; height:7.5rem; }
+  .donut-stat__pct{ font-size:1.7rem; }
+  .donut-stat__label{ font-size:0.95rem; }
 }
 
 /* ---------- Quote + mini review carousel (exact match) ---------- */
@@ -959,11 +990,11 @@ ul{margin:0;padding:0;list-style:none;}
 .mini-review-cards{
   display:flex;
   transition:transform 0.4s cubic-bezier(.2,.8,.2,1);
-}
+ } 
 .mini-review-card{
-  flex:0 0 50%;
+  flex:0 0 100%;
   min-width:0;
-  padding:0 0.5rem;
+  padding:0;
   box-sizing:border-box;
 }
 .mini-review-card img{
@@ -981,15 +1012,25 @@ ul{margin:0;padding:0;list-style:none;}
 .mini-dots .dot.is-active{ background:var(--ink); }
 .section-eyebrow{ text-align:center; font-size:0.78rem; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; color:var(--accent); margin-bottom:0.6rem; }
 .section-title{ text-align:center; font-size:clamp(1.3rem,1.1rem+1vw,1.8rem); max-width:38rem; width:100%; margin:0 auto 2rem; }
+.proof-headline{ font-weight:900; font-size:clamp(1.6rem,1.3rem+1.6vw,2.3rem); letter-spacing:-0.01em; line-height:1.15; max-width:30rem; }
 
-/* ---------- FAQ ---------- */
-.faq{ max-width:40rem; margin:0 auto; }
-.faq-item{ border-bottom:1px solid var(--line); }
-.faq-item summary{ list-style:none; display:flex; align-items:center; justify-content:space-between; padding:1rem 0; font-weight:700; font-size:0.95rem; cursor:pointer; }
+/* ---------- FAQ (black/gold theme) ---------- */
+.faq-section{ background:var(--bg-rich); padding:3rem 0; }
+.faq-section .section-title{ color:#fff; }
+.faq{ max-width:42rem; margin:0 auto; }
+.faq-item{
+  background:#1c1a14; border:1px solid var(--gold-1); border-radius:0.6rem;
+  margin-bottom:0.9rem; overflow:hidden;
+}
+.faq-item summary{
+  list-style:none; display:flex; align-items:center; justify-content:space-between;
+  padding:1.1rem 1.3rem; font-weight:700; font-size:0.95rem; cursor:pointer; color:#fff;
+}
 .faq-item summary::-webkit-details-marker{ display:none; }
-.faq-item summary::after{ content:"+"; font-size:1.2rem; font-weight:400; flex:0 0 auto; margin-left:1rem; }
+.faq-item summary::after{ content:"+"; font-size:1.3rem; font-weight:400; flex:0 0 auto; margin-left:1rem; color:var(--gold-3); }
 .faq-item[open] summary::after{ content:"–"; }
-.faq-item p{ padding:0 0 1rem; color:var(--ink-soft); font-size:0.88rem; line-height:1.6; }
+.faq-item[open] summary{ color:var(--gold-3); }
+.faq-item p{ padding:0 1.3rem 1.2rem; color:#c9c2af; font-size:0.88rem; line-height:1.6; }
 
 /* ---------- Address / Email contact strip ---------- */
 .contact-strip{ background:var(--bg-soft, #f3f1ee); padding:1rem 0 2rem; }
@@ -1161,6 +1202,71 @@ ul{margin:0;padding:0;list-style:none;}
 .sticky-bar .info{ font-size:0.72rem; font-weight:800; line-height:1.3; }
 .sticky-bar .info .red{ color:var(--accent); }
 .sticky-bar .btn{ width:auto; padding:0.75rem 1.25rem; font-size:0.72rem; max-width:none; }
+
+/* ====================================================================
+   SHILAJIT CUSTOMER REVIEWS SECTION
+   ==================================================================== */
+.shilajit-reviews-section{ padding:3rem 0; background:#faf8f4; }
+.shilajit-reviews-section .section-title{ text-align:center; margin-bottom:0.5rem; }
+.shilajit-reviews-summary{
+  display:flex; align-items:center; justify-content:center; gap:0.7rem;
+  margin-bottom:1.8rem; flex-wrap:wrap; text-align:center;
+}
+.shilajit-reviews-summary__score{ font-size:1.6rem; font-weight:800; color:var(--ink); }
+.shilajit-reviews-summary__score .stars{ color:var(--gold-2); margin-left:0.3rem; }
+.shilajit-reviews-summary__count{ font-size:0.85rem; color:var(--ink-soft); }
+
+.shilajit-review-grid{
+  display:grid; grid-template-columns:1fr; gap:0.7rem; max-width:var(--container-max, 75rem);
+  margin:0 auto 1.6rem;
+}
+@media (min-width:700px){ .shilajit-review-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (min-width:1100px){ .shilajit-review-grid{ grid-template-columns:repeat(3,1fr); } }
+.shilajit-review-card{ background:#fff; border:1px solid var(--line); border-radius:0.7rem; padding:0.9rem 1rem; }
+.shilajit-review-card__top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:0.3rem; }
+.shilajit-review-card__name{ font-weight:800; font-size:0.85rem; color:var(--ink); }
+.shilajit-review-card__date{ font-size:0.72rem; color:var(--ink-soft); margin-bottom:0.45rem; }
+.shilajit-review-card .stars{ color:var(--gold-2); font-size:0.85rem; letter-spacing:0.05em; }
+.shilajit-review-card__text{ font-size:0.86rem; color:#2b2b2b; line-height:1.55; margin:0; }
+.shilajit-review-card__verified{ display:inline-flex; align-items:center; gap:0.3rem; font-size:0.7rem; font-weight:700; color:#1a7a4c; margin-top:0.5rem; }
+
+.shilajit-reviews-loadmore{
+  display:block; margin:0 auto 2.6rem; background:#fff; border:1px solid var(--ink);
+  color:var(--ink); font-weight:700; font-size:0.88rem; padding:0.8rem 1.8rem; border-radius:0.45rem;
+}
+.shilajit-reviews-loadmore:hover{ background:var(--ink); color:#fff; }
+
+/* ---------- Guest review form ---------- */
+.review-form-wrap{
+  max-width:34rem; margin:0 auto; background:#fff; border:1px solid var(--line);
+  border-radius:0.8rem; padding:1.8rem 1.6rem;
+}
+.review-form-wrap h3{ font-size:1.15rem; margin:0 0 0.3rem; text-align:center; }
+.review-form-wrap__sub{ text-align:center; font-size:0.85rem; color:var(--ink-soft); margin:0 0 1.4rem; }
+.review-form__stars{
+  display:flex; justify-content:center; gap:0.35rem; font-size:1.8rem; margin-bottom:1.2rem; cursor:pointer;
+}
+.review-form__stars span{ color:#d8d2c4; transition:color .15s ease; }
+.review-form__stars span.is-active{ color:var(--gold-2); }
+.review-form__row{ display:grid; grid-template-columns:1fr; gap:1rem; }
+@media (min-width:520px){ .review-form__row{ grid-template-columns:1fr 1fr; } }
+.review-form__field{ margin-bottom:1rem; }
+.review-form__field label{ display:block; font-size:0.8rem; font-weight:700; margin-bottom:0.4rem; color:var(--ink); }
+.review-form__field input, .review-form__field textarea{
+  width:100%; border:1px solid var(--line); border-radius:0.4rem; padding:0.65rem 0.85rem;
+  font-family:inherit; font-size:0.9rem; color:var(--ink); background:#fff; resize:vertical;
+}
+.review-form__field input:focus, .review-form__field textarea:focus{ outline:2px solid var(--gold-2); outline-offset:1px; }
+.review-form__submit{
+  width:100%; background:var(--ink); color:#fff; font-weight:800; font-size:0.92rem;
+  padding:0.85rem; border-radius:0.45rem; margin-top:0.3rem;
+}
+.review-form__submit:hover{ filter:brightness(1.2); }
+.review-form__note{ text-align:center; font-size:0.85rem; margin-top:0.9rem; color:#1a7a4c; font-weight:700; }
+.review-form__guest-badge{
+  display:flex; align-items:center; gap:0.5rem; justify-content:center; margin-bottom:1.1rem;
+  font-size:0.78rem; color:var(--ink-soft); font-weight:600;
+}
 </style>
 </head>
 <body>
@@ -1392,6 +1498,8 @@ ul{margin:0;padding:0;list-style:none;}
       <div>
         <img src="images/PRE_ORDER_EUR_Shilajit_BOGO.jpg" alt="Buy one get one free - 210€ now 0,53€ per day">
       </div>
+    </div>
+  </div>
 </section>
 
 <a href="#offer" class="gold-bar" style="display:block;">VIEW THE LIMITED TIME OFFER</a>
@@ -1426,21 +1534,16 @@ ul{margin:0;padding:0;list-style:none;}
           <p class="tp-mini-quote">"Energy levels are way higher now. Sleeping better too. Worth every penny."</p>
           <p class="tp-mini-name">James K.</p>
         </div>
-      </div>
-
-      <div class="tp-review-text reveal">
-        <h2 class="sp-headline" style="text-align:left; margin:0 0 0.85rem;">7. Over 1,000 Verified Customers Report Real Results Within Days</h2>
-        <p class="tp-bold-line">PeakModo Himalayan Shilajit Resin has 1,042 Trustpilot reviews at 4.8 stars.</p>
-        <p class="tp-line">Here's what real customers say:</p>
-
-        <p class="tp-line"><span class="tp-inline-stars">★★★★★</span> "I felt the difference within the first week. More energy. Better focus. Noticeably better mood." – Mark T.</p>
-        <p class="tp-line"><span class="tp-inline-stars">★★★★★</span> "Finally found real shilajit that actually works. I tried three other brands and felt nothing." – Sarah L.</p>
-        <p class="tp-line"><span class="tp-inline-stars">★★★★★</span> "Energy levels are way higher now. Sleeping better too. Worth every penny." – James K.</p>
 
         <p class="tp-line">Keep taking fake shilajit and nothing changes.</p>
         <p class="tp-bold-line">Or switch to what over 1,000 people already trust.</p>
         <p class="tp-line">Your choice. <strong>But this offer won't last.</strong></p>
       </div>
+         <div class="testimonial-photo-collage">
+  <img src="images/A_wide_shot_of_a_202606231246-compressed.JPG" alt="Peakmodo Team">
+  <img src="images/anass-compressed.jpg" alt="Peakmodo Event">
+  <img src="images/compressdpooi.jpg" alt="Peakmodo Booth">
+</div>
     </div>
   </div>
 </section>
@@ -1480,19 +1583,35 @@ ul{margin:0;padding:0;list-style:none;}
   </div>
 </section>
 
-<!-- STATS — donut ring charts (real original images) -->
+<!-- STATS — donut ring charts (real SVG, gold/black tick rings) -->
 <section class="container" style="padding:2rem 0 3rem;">
-  <p class="section-eyebrow">The proof is in the numbers…</p>
+  <h2 class="section-title proof-headline">The proof is in the numbers…</h2>
   <div class="donut-row">
+
     <div class="donut-stat">
-      <img src="images/MD_89_PC.jpg" alt="89% achieve their desired results" class="donut-img">
+      <div class="donut-stat__ring" data-pct="89">
+        <svg viewBox="0 0 200 200"></svg>
+        <span class="donut-stat__pct">89%</span>
+      </div>
+      <p class="donut-stat__label">achieve their desired results</p>
     </div>
+
     <div class="donut-stat">
-      <img src="images/MD_83.jpg" alt="83% experience significant benefits from regular use" class="donut-img">
+      <div class="donut-stat__ring" data-pct="83">
+        <svg viewBox="0 0 200 200"></svg>
+        <span class="donut-stat__pct">83%</span>
+      </div>
+      <p class="donut-stat__label">experience significant benefits from regular use</p>
     </div>
+
     <div class="donut-stat">
-      <img src="images/MD_79_PC.png" alt="79% would highly recommend to friends and colleagues" class="donut-img">
+      <div class="donut-stat__ring" data-pct="79">
+        <svg viewBox="0 0 200 200"></svg>
+        <span class="donut-stat__pct">79%</span>
+      </div>
+      <p class="donut-stat__label">would highly recommend to friends and colleagues</p>
     </div>
+
   </div>
 </section>
 
@@ -1533,30 +1652,52 @@ ul{margin:0;padding:0;list-style:none;}
 </section>
 
 
-<!-- CERTIFICATE BADGE ROW (before FAQ) -->
-<div class="badge-carousel">
-  <div class="badge-carousel__track">
-   <img src="images/Awards.webp" alt="Awards">
-<img src="images/Healthline_Logo_2019.png" alt="Healthline">
-<img src="images/Mens_Health_logo_orange_bg.png" alt="Men's Health">
-<img src="images/Cleveland-Clinic-Logo.jpg" alt="Cleveland Clinic">
-<img src="images/WebMD_logo.png" alt="WebMD">
-<img src="images/Examine_logo.png" alt="Examine">
-<img src="images/medical-news-today-logo.png" alt="Medical News Today">
+<!-- SHILAJIT CUSTOMER REVIEWS -->
+<section class="shilajit-reviews-section" id="shilajit-reviews">
+  <div class="container">
+    <h2 class="section-title">What Shilajit Customers Are Saying</h2>
+    <div class="shilajit-reviews-summary">
+      <div class="shilajit-reviews-summary__score">4.7 <span class="stars">★★★★★</span></div>
+      <div class="shilajit-reviews-summary__count" id="shilajit-review-count-label">Based on 1,500+ reviews</div>
+    </div>
+    <div class="shilajit-review-grid" id="shilajit-review-grid"></div>
+    <button class="shilajit-reviews-loadmore" id="shilajit-reviews-loadmore">Show more reviews</button>
 
-<!-- duplicate set -->
-<img src="images/Awards.webp" alt="Awards">
-<img src="images/Healthline_Logo_2019.png" alt="Healthline">
-<img src="images/Mens_Health_logo_orange_bg.png" alt="Men's Health">
-<img src="images/Cleveland-Clinic-Logo.jpg" alt="Cleveland Clinic">
-<img src="images/WebMD_logo.png" alt="WebMD">
-<img src="images/Examine_logo.png" alt="Examine">
-<img src="images/medical-news-today-logo.png" alt="Medical News Today">
+    <!-- GUEST REVIEW FORM -->
+    <div class="review-form-wrap">
+      <h3>Share Your Experience</h3>
+      <p class="review-form-wrap__sub">Tried PeakModo Himalayan Shilajit? Let other customers know what you think.</p>
+      <div class="review-form__guest-badge">✓ No account needed — post as a guest</div>
+      <form id="guest-review-form">
+        <div class="review-form__stars" id="guest-review-stars" data-rating="5">
+          <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
+        </div>
+        <div class="review-form__row">
+          <div class="review-form__field">
+            <label for="guest-review-name">Name</label>
+            <input type="text" id="guest-review-name" name="name" placeholder="e.g. Sarah L." required>
+          </div>
+          <div class="review-form__field">
+            <label for="guest-review-email">Email (not published)</label>
+            <input type="email" id="guest-review-email" name="email" placeholder="you@example.com" required>
+          </div>
+        </div>
+        <div class="review-form__field">
+          <label for="guest-review-text">Your review</label>
+          <textarea id="guest-review-text" name="text" rows="4" placeholder="What did you notice after using it?" required></textarea>
+        </div>
+        <button type="submit" class="review-form__submit">Post Review</button>
+        <p class="review-form__note" id="guest-review-note"></p>
+      </form>
+    </div>
   </div>
-</div>
+</section>
+
+<!-- CERTIFICATE BADGE ROW (before FAQ) -->
 
 <!-- FAQ -->
-<section class="container" style="padding:1rem 0 3rem;">
+<section class="faq-section">
+<div class="container" style="padding:1rem 0 3rem;">
   <h2 class="section-title">Frequently Asked Questions</h2>
   <div class="faq">
     <details class="faq-item" open>
@@ -1604,6 +1745,7 @@ ul{margin:0;padding:0;list-style:none;}
       <p>No. Store the jar in a cool, dry place away from direct sunlight. Refrigeration isn't necessary.</p>
     </details>
   </div>
+</div>
 </section>
 
 
@@ -1715,6 +1857,7 @@ ul{margin:0;padding:0;list-style:none;}
 
 </aside>
 
+<script src="shilajit-reviews-data.js"></script>
 <script>
 // ====================================================================
 // CART SYSTEM
@@ -2009,7 +2152,7 @@ renderCart();
 
   const cards = Array.from(track.children);
   const dots = Array.from(dotsWrap.children);
-  let perView = window.innerWidth <= 700 ? 1 : 2;
+  let perView = 1;
   let index = 0;
   const maxIndex = () => Math.max(0, cards.length - perView);
 
@@ -2043,17 +2186,41 @@ renderCart();
   }, { passive: true });
 
   window.addEventListener('resize', () => {
-    const newPerView = window.innerWidth <= 700 ? 1 : 2;
-    if (newPerView !== perView) {
-      perView = newPerView;
-      layout();
-      index = Math.min(index, maxIndex());
-      update();
-    }
+    // perView stays fixed at 1 on all screen sizes — no per-width recalculation needed.
   });
 
   layout();
   update();
+})();
+
+// ---------- Donut ring stats: generate tick-mark rings ----------
+(function () {
+  const TICK_COUNT = 60;
+  const CX = 100, CY = 100;
+  const R_OUTER = 92, R_INNER = 76;
+
+  document.querySelectorAll('.donut-stat__ring[data-pct]').forEach((ring) => {
+    const pct = parseFloat(ring.getAttribute('data-pct')) / 100;
+    const svg = ring.querySelector('svg');
+    const goldTicks = Math.round(TICK_COUNT * pct);
+    let html = '';
+
+    for (let i = 0; i < TICK_COUNT; i++) {
+      // Start at 12 o'clock, go clockwise. The "missing" black portion sits
+      // at the top, matching the reference design where progress fills
+      // clockwise from just past 12.
+      const angle = (i / TICK_COUNT) * 2 * Math.PI - Math.PI / 2;
+      const x1 = CX + R_INNER * Math.cos(angle);
+      const y1 = CY + R_INNER * Math.sin(angle);
+      const x2 = CX + R_OUTER * Math.cos(angle);
+      const y2 = CY + R_OUTER * Math.sin(angle);
+      const isGold = i < goldTicks;
+      const color = isGold ? 'var(--gold-2)' : '#161616';
+      html += `<line x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" stroke="${color}" stroke-width="6" stroke-linecap="round"/>`;
+    }
+
+    svg.innerHTML = html;
+  });
 })();
 
 // ---------- scroll-reveal animations ----------
@@ -2070,6 +2237,89 @@ if ('IntersectionObserver' in window) {
 } else {
   document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
 }
+
+// ====================================================================
+// SHILAJIT CUSTOMER REVIEWS — render + guest review form
+// ====================================================================
+const SHILAJIT_REVIEWS_PER_PAGE = 12;
+let shilajitReviewsShown = 0;
+let shilajitReviewsData = (typeof SHILAJIT_REVIEWS_DATA !== 'undefined') ? SHILAJIT_REVIEWS_DATA.slice() : [];
+
+function shilajitStarString(n) {
+  return '★'.repeat(n) + '☆'.repeat(5 - n);
+}
+
+function renderShilajitReviewCard(r) {
+  const card = document.createElement('div');
+  card.className = 'shilajit-review-card';
+  card.innerHTML = `
+    <div class="shilajit-review-card__top">
+      <span class="shilajit-review-card__name">${r.name}</span>
+      <span class="stars">${shilajitStarString(r.stars)}</span>
+    </div>
+    <div class="shilajit-review-card__date">${r.days_ago} days ago</div>
+    <p class="shilajit-review-card__text">${r.text}</p>
+    ${r.verified ? '<div class="shilajit-review-card__verified">✓ Verified purchase</div>' : ''}
+  `;
+  return card;
+}
+
+function renderShilajitReviews() {
+  const grid = document.getElementById('shilajit-review-grid');
+  const next = shilajitReviewsData.slice(shilajitReviewsShown, shilajitReviewsShown + SHILAJIT_REVIEWS_PER_PAGE);
+  next.forEach((r) => grid.appendChild(renderShilajitReviewCard(r)));
+  shilajitReviewsShown += next.length;
+
+  const btn = document.getElementById('shilajit-reviews-loadmore');
+  if (shilajitReviewsShown >= shilajitReviewsData.length) {
+    btn.style.display = 'none';
+  }
+  const formattedCount = shilajitReviewsData.length.toLocaleString('en-US');
+  document.getElementById('shilajit-review-count-label').textContent = `Based on ${formattedCount} reviews`;
+}
+
+document.getElementById('shilajit-reviews-loadmore').addEventListener('click', renderShilajitReviews);
+renderShilajitReviews();
+
+// ---------- Guest review form: star picker ----------
+const guestStarsWrap = document.getElementById('guest-review-stars');
+function setGuestStars(rating) {
+  guestStarsWrap.setAttribute('data-rating', rating);
+  guestStarsWrap.querySelectorAll('span').forEach((s) => {
+    s.classList.toggle('is-active', parseInt(s.getAttribute('data-value'), 10) <= rating);
+  });
+}
+guestStarsWrap.querySelectorAll('span').forEach((s) => {
+  s.addEventListener('click', () => setGuestStars(parseInt(s.getAttribute('data-value'), 10)));
+});
+setGuestStars(5);
+
+// ---------- Guest review form: submit ----------
+const guestReviewForm = document.getElementById('guest-review-form');
+guestReviewForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('guest-review-name').value.trim();
+  const text = document.getElementById('guest-review-text').value.trim();
+  const rating = parseInt(guestStarsWrap.getAttribute('data-rating'), 10) || 5;
+  const note = document.getElementById('guest-review-note');
+
+  if (!name || !text) return;
+
+  const newReview = { name: name, stars: rating, days_ago: 0, text: text, verified: false };
+
+  // Insert the new guest review at the very top of the list and re-render
+  // the grid from scratch so it's the first card a visitor sees.
+  shilajitReviewsData.unshift(newReview);
+  shilajitReviewsShown = 0;
+  document.getElementById('shilajit-review-grid').innerHTML = '';
+  renderShilajitReviews();
+
+  note.textContent = 'Thanks for sharing your review!';
+  guestReviewForm.reset();
+  setGuestStars(5);
+
+  document.getElementById('shilajit-reviews').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
 </script>
 
 </body>
