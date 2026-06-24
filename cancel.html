@@ -3,22 +3,67 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout cancelled</title>
+<title>Order Cancelled — PeakModo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '876944531341744');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+
 <style>
-  body{font-family:ui-sans-serif,system-ui,sans-serif;background:#efefef;color:#1c1c1c;margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
-  .card{background:#fff;border-radius:0.75rem;padding:2.5rem;max-width:26rem;text-align:center;}
-  .icon{font-size:2.5rem;margin-bottom:0.5rem;}
-  h1{font-size:1.5rem;margin:0 0 0.75rem;}
-  p{color:#1c1c1cb3;margin:0 0 1.5rem;line-height:1.5;}
-  a{display:inline-block;background:#c0392b;color:#fff;text-decoration:none;font-weight:700;text-transform:uppercase;font-size:0.85rem;letter-spacing:0.02em;padding:0.85rem 1.75rem;border-radius:0.4rem;}
+:root{
+  --bg:#f4f2ed; --ink:#1c1c1c; --ink-soft:#1c1c1cb3; --ink-muted:#5f5a51;
+  --gold-1:#7a5a23; --gold-2:#caa544; --gold-3:#f0d889; --line:#dcdcdc;
+  --font-heading:"Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body:"Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{ background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:2rem 1.25rem; }
+h1{font-family:var(--font-heading); margin:0; font-weight:800;}
+p{margin:0;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+.cancel-card{ background:#fff; border-radius:1rem; padding:2.6rem 2rem; max-width:30rem; width:100%; text-align:center; box-shadow:0 8px 30px rgba(0,0,0,0.06); }
+.cancel-card__icon{ width:4rem; height:4rem; border-radius:50%; background:#fdeceb; display:flex; align-items:center; justify-content:center; font-size:1.8rem; margin:0 auto 1.2rem; }
+.cancel-card h1{ font-size:1.5rem; margin-bottom:0.7rem; }
+.cancel-card p{ color:var(--ink-soft); font-size:0.95rem; margin-bottom:1.8rem; }
+.cancel-actions{ display:flex; flex-direction:column; gap:0.7rem; }
+.btn-gold{
+  display:inline-flex; align-items:center; justify-content:center; gap:0.5rem;
+  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 25%,var(--gold-3) 50%,var(--gold-2) 75%,var(--gold-1) 100%);
+  color:#2a1f08; font-weight:800; font-size:0.92rem; padding:0.85rem 1.5rem; border-radius:0.5rem;
+}
+.btn-outline{ border:1px solid var(--line); color:var(--ink); font-weight:700; font-size:0.9rem; padding:0.85rem 1.5rem; border-radius:0.5rem; }
+.cancel-card__logo{ height:1.8rem; margin:0 auto 1.6rem; }
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="icon">⚠️</div>
-    <h1>Checkout cancelled</h1>
-    <p>No payment was taken. You can try again whenever you're ready.</p>
-    <a href="/#offer">Back to the offer</a>
+
+<div class="cancel-card">
+  <img src="images/logo_website.png" alt="PeakModo" class="cancel-card__logo">
+  <div class="cancel-card__icon">✕</div>
+  <h1>Payment Cancelled</h1>
+  <p>Your payment was not completed and you have not been charged. Your cart is still saved — you can come back and complete your purchase anytime.</p>
+  <div class="cancel-actions">
+    <a href="checkout.html" class="btn-gold">Back to Checkout</a>
+    <a href="index.html" class="btn-outline">Back to Shop</a>
   </div>
+</div>
+
 </body>
 </html>

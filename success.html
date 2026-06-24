@@ -3,22 +3,134 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Payment successful</title>
+<title>Order Confirmed — PeakModo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '876944531341744');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+
 <style>
-  body{font-family:ui-sans-serif,system-ui,sans-serif;background:#efefef;color:#1c1c1c;margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
-  .card{background:#fff;border-radius:0.75rem;padding:2.5rem;max-width:26rem;text-align:center;}
-  .icon{font-size:2.5rem;margin-bottom:0.5rem;}
-  h1{font-size:1.5rem;margin:0 0 0.75rem;}
-  p{color:#1c1c1cb3;margin:0 0 1.5rem;line-height:1.5;}
-  a{display:inline-block;background:#c0392b;color:#fff;text-decoration:none;font-weight:700;text-transform:uppercase;font-size:0.85rem;letter-spacing:0.02em;padding:0.85rem 1.75rem;border-radius:0.4rem;}
+:root{
+  --bg:#f4f2ed; --ink:#1c1c1c; --ink-soft:#1c1c1cb3; --ink-muted:#5f5a51;
+  --green:#1a7a4c; --gold-1:#7a5a23; --gold-2:#caa544; --gold-3:#f0d889; --line:#dcdcdc;
+  --font-heading:"Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body:"Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{ background:var(--bg); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:2rem 1.25rem; }
+h1,h2{font-family:var(--font-heading); margin:0; font-weight:800;}
+p{margin:0;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+.success-card{ background:#fff; border-radius:1rem; padding:2.6rem 2rem; max-width:30rem; width:100%; text-align:center; box-shadow:0 8px 30px rgba(0,0,0,0.06); }
+.success-card__icon{ width:4rem; height:4rem; border-radius:50%; background:#e9f7ef; display:flex; align-items:center; justify-content:center; font-size:1.8rem; margin:0 auto 1.2rem; }
+.success-card h1{ font-size:1.5rem; margin-bottom:0.7rem; }
+.success-card p{ color:var(--ink-soft); font-size:0.95rem; margin-bottom:1.6rem; }
+.success-card__order-id{ background:var(--bg); border-radius:0.5rem; padding:0.7rem 1rem; font-size:0.82rem; color:var(--ink-muted); margin-bottom:1.8rem; word-break:break-all; }
+.success-card__order-id strong{ color:var(--ink); }
+.success-actions{ display:flex; flex-direction:column; gap:0.7rem; }
+.btn-gold{
+  display:inline-flex; align-items:center; justify-content:center; gap:0.5rem;
+  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 25%,var(--gold-3) 50%,var(--gold-2) 75%,var(--gold-1) 100%);
+  color:#2a1f08; font-weight:800; font-size:0.92rem; padding:0.85rem 1.5rem; border-radius:0.5rem;
+}
+.btn-outline{ border:1px solid var(--line); color:var(--ink); font-weight:700; font-size:0.9rem; padding:0.85rem 1.5rem; border-radius:0.5rem; }
+.success-card__logo{ height:1.8rem; margin:0 auto 1.6rem; }
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="icon">✅</div>
-    <h1>Payment successful</h1>
-    <p>Thank you for your order. A confirmation email is on its way to your inbox.</p>
-    <a href="/">Back to the page</a>
+
+<div class="success-card">
+  <img src="images/logo_website.png" alt="PeakModo" class="success-card__logo">
+  <div class="success-card__icon">✓</div>
+  <h1>Thank you for your order!</h1>
+  <p>We've received your payment and are getting your order ready to ship. You'll receive a confirmation by email shortly.</p>
+  <div class="success-card__order-id" id="order-id-box" style="display:none;">
+    Order number: <strong id="order-id-value"></strong>
   </div>
+  <div class="success-actions">
+    <a href="index.html" class="btn-gold">Back to Shop</a>
+    <a href="hidden-truth-about-ashwagandha.html#kontakt" class="btn-outline">Question about your order?</a>
+  </div>
+</div>
+
+<script>
+// Determine which payment provider sent us here and grab the order/session id.
+const params = new URLSearchParams(window.location.search);
+const sessionId = params.get('session_id');     // present on Stripe redirect success
+const provider = params.get('provider');         // 'paypal' when coming from the PayPal flow
+const paypalOrderId = params.get('order_id');    // present on PayPal flow
+
+const orderIdBox = document.getElementById('order-id-box');
+const orderIdValue = document.getElementById('order-id-value');
+
+if (sessionId) {
+  orderIdValue.textContent = sessionId;
+  orderIdBox.style.display = 'block';
+} else if (provider === 'paypal' && paypalOrderId) {
+  orderIdValue.textContent = paypalOrderId;
+  orderIdBox.style.display = 'block';
+}
+
+// ----------------------------------------------------------------------
+// Purchase tracking.
+//
+// For PayPal, the Purchase event already fires in checkout.html right
+// before this redirect (see trackPurchase() in the onApprove handler),
+// because checkout.html still has the cart contents in memory at that
+// point. This page does NOT re-fire it for PayPal, to avoid double
+// counting the same order.
+//
+// For Stripe, the shopper leaves our site entirely for Stripe's hosted
+// checkout page, so by the time they land back here, sessionStorage may
+// already be empty and checkout.html's JS is long gone. This page is
+// therefore the only place a Stripe Purchase event can be fired. We use
+// a one-time flag so a page refresh doesn't fire Purchase twice for the
+// same session.
+// ----------------------------------------------------------------------
+if (sessionId && typeof fbq === 'function') {
+  const trackedKey = 'peakmodo_purchase_tracked_' + sessionId;
+  if (!sessionStorage.getItem(trackedKey)) {
+    let cartItems = [];
+    try {
+      const raw = sessionStorage.getItem('peakmodo_checkout_cart');
+      cartItems = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(cartItems)) cartItems = [];
+    } catch (e) {
+      cartItems = [];
+    }
+    const value = cartItems.reduce((sum, i) => sum + i.unitPrice * i.qty, 0);
+    fbq('track', 'Purchase', {
+      content_ids: cartItems.map((i) => i.id),
+      content_type: 'product',
+      num_items: cartItems.reduce((sum, i) => sum + i.qty, 0),
+      value: value,
+      currency: 'EUR',
+      order_id: sessionId,
+    });
+    sessionStorage.setItem(trackedKey, '1');
+  }
+}
+
+// Clear the cart now that the order is placed, for both providers.
+sessionStorage.removeItem('peakmodo_checkout_cart');
+</script>
+
 </body>
 </html>

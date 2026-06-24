@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Bundles — PeakModo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '876944531341744');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+
+<style>
+:root{
+  --bg:#f4f2ed; --bg-rich:#0d0d0c; --bg-soft:#ece7dc; --ink:#1c1c1c; --ink-soft:#1c1c1cb3; --ink-muted:#5f5a51;
+  --accent:#c0392b; --green:#1a7a4c; --gold-1:#7a5a23; --gold-2:#caa544; --gold-3:#f0d889; --line:#dcdcdc;
+  --container-max:75rem;
+  --font-heading:"Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body:"Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden;}
+body{ background:#fff; color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+img{max-width:100%;display:block;}
+h1,h2,h3{font-family:var(--font-heading); margin:0; font-weight:800; letter-spacing:-0.01em;}
+p{margin:0;}
+a{color:inherit;text-decoration:none;}
+button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
+.container{max-width:var(--container-max); margin:0 auto; padding:0 1.25rem;}
+
+/* Header */
+.site-header{ padding:1.1rem 0; border-bottom:1px solid var(--line); background:#fff; }
+.site-header .container{ display:flex; align-items:center; justify-content:space-between; }
+.site-header img{ height:2rem; }
+.site-nav{ display:none; gap:1.6rem; font-size:0.9rem; font-weight:700; }
+@media (min-width:800px){ .site-nav{ display:flex; } }
+.header-cta{ background:var(--ink); color:#fff; font-weight:700; font-size:0.85rem; padding:0.65rem 1.2rem; border-radius:0.4rem; }
+.header-actions{ display:flex; align-items:center; gap:0.7rem; }
+.cart-icon-btn{ position:relative; font-size:1.25rem; line-height:1; padding:0.3rem; }
+.cart-icon-btn__count{ position:absolute; top:-0.3rem; right:-0.4rem; background:var(--accent); color:#fff; font-size:0.62rem; font-weight:800; min-width:1.1rem; height:1.1rem; border-radius:50%; display:flex; align-items:center; justify-content:center; padding:0 0.2rem; font-family:var(--font-body); }
+.mobile-nav-toggle{ display:flex; flex-direction:column; justify-content:center; gap:0.28rem; width:1.8rem; height:1.6rem; padding:0; }
+.mobile-nav-toggle span{ display:block; height:2px; width:100%; background:var(--ink); border-radius:1px; }
+@media (min-width:800px){ .mobile-nav-toggle{ display:none; } }
+.mobile-nav{ display:none; flex-direction:column; background:#fff; border-bottom:1px solid var(--line); padding:0.4rem 1.25rem 1rem; }
+.mobile-nav.is-open{ display:flex; }
+@media (min-width:800px){ .mobile-nav{ display:none !important; } }
+.mobile-nav a{ padding:0.75rem 0; font-size:0.92rem; font-weight:700; border-bottom:1px solid var(--line); }
+
+/* Hero */
+.bundles-hero{ background:var(--bg-soft); padding:2.6rem 0 2.2rem; text-align:center; }
+.bundles-hero h1{ font-size:1.9rem; margin-bottom:0.6rem; }
+@media (min-width:700px){ .bundles-hero h1{ font-size:2.3rem; } }
+.bundles-hero p{ color:var(--ink-muted); font-size:1rem; max-width:34rem; margin:0 auto; }
+
+/* Bundle detail blocks */
+.bundle-detail{ padding:3rem 0; border-bottom:1px solid var(--line); }
+.bundle-detail__grid{ display:grid; grid-template-columns:1fr; gap:1.8rem; align-items:start; }
+@media (min-width:850px){ .bundle-detail__grid{ grid-template-columns:1fr 1fr; gap:3rem; } }
+.bundle-detail__img-wrap{ border-radius:1rem; overflow:hidden; background:var(--bg-soft); border:1px solid var(--line); aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; }
+.bundle-detail__img-wrap img{ width:100%; height:100%; object-fit:cover; }
+.bundle-detail__badge{ display:inline-block; background:var(--gold-3); color:#000; font-weight:800; font-size:0.72rem; letter-spacing:0.04em; text-transform:uppercase; padding:0.35rem 0.8rem; border-radius:1rem; margin-bottom:0.9rem; }
+.bundle-detail__title{ font-size:1.5rem; margin-bottom:0.7rem; }
+@media (min-width:700px){ .bundle-detail__title{ font-size:1.8rem; } }
+.bundle-detail__desc{ font-size:0.98rem; color:var(--ink-soft); line-height:1.6; margin-bottom:1.3rem; }
+.bundle-detail__price-row{ display:flex; align-items:baseline; gap:0.7rem; margin-bottom:1.4rem; }
+.bundle-detail__price{ font-size:1.7rem; font-weight:800; color:var(--accent); }
+.bundle-detail__compare{ font-size:1.1rem; color:#b3b3b3; text-decoration:line-through; }
+.bundle-detail__save{ font-size:0.82rem; color:var(--green); font-weight:700; }
+.bundle-detail__benefits{ margin:0 0 1.6rem; padding:0; list-style:none; }
+.bundle-detail__benefits li{ display:flex; gap:0.6rem; align-items:flex-start; font-size:0.92rem; color:#2b2b2b; margin-bottom:0.6rem; }
+.bundle-detail__benefits li::before{ content:"✓"; color:var(--green); font-weight:800; flex:0 0 auto; }
+.bundle-detail__contents{ background:var(--bg-soft); border-radius:0.7rem; padding:1rem 1.2rem; margin-bottom:1.6rem; font-size:0.88rem; color:var(--ink-muted); }
+.bundle-detail__contents strong{ color:var(--ink); }
+.bundle-add-btn{
+  width:100%; background:var(--ink); color:#fff; font-weight:800; font-size:1rem;
+  padding:1rem; border-radius:0.5rem; text-align:center;
+}
+.bundle-add-btn:hover{ filter:brightness(1.15); }
+.bundle-add-btn.is-added{ background:var(--green); }
+
+/* Footer (shared) */
+.footer{ background:var(--bg-rich); color:#f4f2edcc; padding:3rem 0 2rem; }
+.footer-grid{ display:grid; grid-template-columns:1fr; gap:2rem; margin-bottom:2rem; }
+@media (min-width:700px){ .footer-grid{ grid-template-columns:2fr 1fr 1fr 1fr; } }
+.footer-col h4{ color:#fff; font-size:0.85rem; margin-bottom:0.8rem; }
+.footer-col a, .footer-col p{ display:block; font-size:0.85rem; color:#f4f2edb3; margin-bottom:0.5rem; }
+.footer-col a:hover{ color:#fff; }
+.footer-bottom{ border-top:1px solid #ffffff22; padding-top:1.4rem; font-size:0.78rem; color:#f4f2ed80; text-align:center; }
+.footer-logo{ height:1.8rem; margin-bottom:0.8rem; filter:brightness(0) invert(1); }
+
+/* Cart drawer (shared system) */
+.cart-overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.45); opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:998; }
+.cart-overlay.is-open{ opacity:1; pointer-events:auto; }
+.cart-drawer{ position:fixed; top:0; right:0; height:100%; width:100%; max-width:420px; background:#fff; box-shadow:-12px 0 32px rgba(0,0,0,0.18); transform:translateX(100%); transition:transform .3s cubic-bezier(.2,.8,.2,1); z-index:999; display:flex; flex-direction:column; }
+.cart-drawer.is-open{ transform:translateX(0); }
+.cart-drawer__header{ display:flex; align-items:center; justify-content:space-between; padding:1.1rem 1.25rem 0.9rem; border-bottom:1px solid var(--line); flex:0 0 auto; }
+.cart-drawer__title{ font-size:0.78rem; font-weight:800; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink); }
+.cart-close-btn{ width:1.9rem; height:1.9rem; display:flex; align-items:center; justify-content:center; font-size:1.1rem; color:var(--ink); border-radius:50%; }
+.cart-close-btn:hover{ background:var(--bg-soft); }
+.cart-shipping-bar{ height:6px; background:var(--line); flex:0 0 auto; position:relative; overflow:hidden; }
+.cart-shipping-bar__fill{ position:absolute; left:0; top:0; bottom:0; width:0%; background:linear-gradient(90deg,#3ea869,#5fc987); transition:width .35s ease; }
+.cart-shipping-msg{ font-size:0.78rem; text-align:center; padding:0.6rem 1rem 0; color:#1a7a4c; font-weight:700; flex:0 0 auto; }
+.cart-drawer__body{ flex:1 1 auto; overflow-y:auto; padding:0.9rem 1.25rem 1.25rem; }
+.cart-empty{ text-align:center; padding:3rem 1rem; color:var(--ink-soft); font-size:0.9rem; }
+.cart-line-item{ display:flex; gap:0.8rem; padding:0.9rem 0; border-bottom:1px solid var(--line); }
+.cart-line-item__img{ width:3.6rem; height:3.6rem; border-radius:0.45rem; object-fit:cover; flex:0 0 auto; border:1px solid var(--line); background:#f4f2ed; }
+.cart-line-item__info{ flex:1 1 auto; min-width:0; }
+.cart-line-item__name{ font-size:0.85rem; font-weight:800; margin-bottom:0.3rem; line-height:1.3; }
+.cart-line-item__qty-row{ display:flex; align-items:center; gap:0.6rem; margin-top:0.4rem; }
+.cart-qty-stepper{ display:flex; align-items:center; border:1px solid var(--line); border-radius:0.3rem; overflow:hidden; }
+.cart-qty-stepper button{ width:1.7rem; height:1.7rem; font-size:0.9rem; color:var(--ink); background:#fff; }
+.cart-qty-stepper button:hover{ background:var(--bg-soft); }
+.cart-qty-stepper span{ width:1.8rem; text-align:center; font-size:0.8rem; font-weight:700; }
+.cart-line-item__remove{ font-size:0.72rem; color:var(--ink-soft); text-decoration:underline; margin-left:auto; }
+.cart-line-item__remove:hover{ color:var(--accent); }
+.cart-line-item__prices{ text-align:right; flex:0 0 auto; }
+.cart-line-item__price{ font-weight:800; color:var(--ink); font-size:0.85rem; }
+.cart-line-item__compare{ color:#b3b3b3; text-decoration:line-through; font-size:0.72rem; display:block; }
+.cart-upsell-heading{ font-size:0.78rem; font-weight:800; text-align:center; text-transform:uppercase; letter-spacing:0.03em; color:#000; margin:1.1rem 0 0.8rem; }
+.cart-upsell-card{ border:1.5px solid #8fb8f6; border-radius:0.6rem; padding:0.85rem; margin-bottom:0.7rem; background:#fff; }
+.cart-upsell-card__top{ display:flex; align-items:flex-start; justify-content:space-between; gap:0.6rem; }
+.cart-upsell-card__link-area{ display:flex; align-items:flex-start; gap:0.6rem; flex:1; min-width:0; cursor:pointer; }
+.cart-upsell-card__link-area:hover .cart-upsell-card__label{ text-decoration:underline; }
+.cart-upsell-card__img{ width:3.4rem; height:3.4rem; border-radius:0.45rem; object-fit:cover; flex:0 0 auto; border:1px solid var(--line); background:#fff; }
+.cart-upsell-card__label{ font-size:0.85rem; font-weight:800; color:var(--ink); margin-bottom:0.35rem; }
+.cart-upsell-card__desc{ font-size:0.76rem; color:var(--ink-soft); margin-bottom:0.45rem; line-height:1.4; }
+.cart-upsell-card__prices{ font-size:0.78rem; }
+.cart-upsell-card__prices .compare{ color:#b3b3b3; text-decoration:line-through; margin-right:0.4rem; }
+.cart-upsell-card__prices .now{ color:var(--accent); font-weight:800; }
+.cart-upsell-card__save{ font-size:0.72rem; color:#1a7a4c; font-weight:700; margin-top:0.2rem; }
+.cart-upsell-card__btn{ flex:0 0 auto; background:#4a90e2; color:#fff; font-weight:800; font-size:0.72rem; letter-spacing:0.03em; text-transform:uppercase; padding:0.5rem 1rem; border-radius:0.35rem; white-space:nowrap; }
+.cart-upsell-card__btn:hover{ filter:brightness(1.08); }
+.cart-upsell-card__btn:disabled{ opacity:0.5; filter:none; cursor:default; background:#9bb8d9; }
+.cart-guarantee{ display:flex; gap:0.7rem; align-items:flex-start; background:#e9f7ef; border:1px solid #c8ecd9; border-radius:0.6rem; padding:0.85rem; margin-top:1rem; }
+.cart-guarantee__icon{ font-size:1.3rem; line-height:1; flex:0 0 auto; }
+.cart-guarantee__title{ font-size:0.82rem; font-weight:800; color:#1a7a4c; margin-bottom:0.2rem; }
+.cart-guarantee__text{ font-size:0.75rem; color:#2f5e45; line-height:1.4; }
+.cart-drawer__footer{ flex:0 0 auto; border-top:1px solid var(--line); padding:1rem 1.25rem 1.25rem; background:#fff; }
+.cart-subtotal-row{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:0.8rem; }
+.cart-subtotal-row__label{ font-size:0.85rem; font-weight:700; color:var(--ink); }
+.cart-subtotal-row__prices .compare{ color:#b3b3b3; text-decoration:line-through; margin-right:0.5rem; font-size:0.85rem; }
+.cart-subtotal-row__prices .now{ color:#1a7a4c; font-weight:800; font-size:1rem; }
+.cart-checkout-btn{ display:flex; align-items:center; justify-content:center; gap:0.4rem; width:100%; background:var(--ink); color:#fff; font-weight:800; font-size:0.88rem; padding:0.9rem 1rem; border-radius:0.4rem; margin-bottom:0.6rem; }
+.cart-checkout-btn:hover{ filter:brightness(1.15); }
+.cart-checkout-btn:disabled{ opacity:0.5; filter:none; cursor:default; }
+.cart-continue-btn{ display:block; width:100%; text-align:center; background:#fff; color:#2a6ed4; border:1px solid var(--line); font-weight:700; font-size:0.85rem; padding:0.75rem 1rem; border-radius:0.4rem; }
+.cart-continue-btn:hover{ background:var(--bg-soft); }
+@media (max-width:480px){ .cart-drawer{ max-width:100%; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html"><img src="images/logo_website.png" alt="PeakModo"></a>
+    <nav class="site-nav">
+      <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html">Himalayan Shilajit</a>
+      <a href="hidden-truth-about-ashwagandha.html">Ashwagandha</a>
+      <a href="bundles.html">Bundles</a>
+      <a href="ueber-uns.html">About Us</a>
+    </nav>
+    <div class="header-actions">
+      <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html" class="header-cta">Shop Now</a>
+      <button type="button" class="cart-icon-btn" id="header-cart-btn" aria-label="Open cart">🛒<span class="cart-icon-btn__count" id="header-cart-count">0</span></button>
+      <button type="button" class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html">Himalayan Shilajit</a>
+    <a href="hidden-truth-about-ashwagandha.html">Ashwagandha</a>
+    <a href="bundles.html">Bundles</a>
+    <a href="ueber-uns.html">About Us</a>
+  </nav>
+</header>
+
+<section class="bundles-hero">
+  <div class="container">
+    <h1>All Bundles at a Glance</h1>
+    <p>From getting started to a complete routine — find the combination that fits your daily life. Every bundle ships immediately and is backed by our 50-day money-back guarantee.</p>
+  </div>
+</section>
+
+<!-- BUNDLE 1 -->
+<section class="bundle-detail">
+  <div class="container">
+    <div class="bundle-detail__grid">
+      <div class="bundle-detail__img-wrap"><img src="images/EUR_Pre_Order_Red.png" alt="Shilajit Buy 1 Get 1 Free"></div>
+      <div>
+        <span class="bundle-detail__badge">Buy 1 Get 1 Free</span>
+        <h2 class="bundle-detail__title">Shilajit Buy 1 Get 1 Free</h2>
+        <p class="bundle-detail__desc">The perfect starting point for anyone trying Himalayan Shilajit for the first time, or looking to secure a supply for the next few months right away. Two jars of pure Shilajit resin sourced above 3,000 meters altitude, with no additives.</p>
+        <ul class="bundle-detail__benefits">
+          <li>Supports natural energy and vitality in daily life</li>
+          <li>Pure resin from certified high-altitude sourcing, lab tested</li>
+          <li>Lasts about 6 months with daily use</li>
+          <li>Ideal for mixing into warm drinks</li>
+        </ul>
+        <div class="bundle-detail__contents"><strong>Includes:</strong> 2x Himalayan Shilajit Resin, 45g</div>
+        <div class="bundle-detail__price-row">
+          <span class="bundle-detail__price">94.50&nbsp;€</span>
+          <span class="bundle-detail__compare">210.00&nbsp;€</span>
+          <span class="bundle-detail__save">You save 115.50&nbsp;€</span>
+        </div>
+        <button type="button" class="bundle-add-btn" data-bundle-id="bundle-shilajit-bogo">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUNDLE 2 -->
+<section class="bundle-detail">
+  <div class="container">
+    <div class="bundle-detail__grid">
+      <div class="bundle-detail__img-wrap"><img src="images/sentuel-3pack-bottles.jpg" alt="Ashwagandha 3-Month Bundle"></div>
+      <div>
+        <span class="bundle-detail__badge">3-Month Supply</span>
+        <h2 class="bundle-detail__title">Ashwagandha 3-Month Bundle</h2>
+        <p class="bundle-detail__desc">Our Sentuel™ formula with 10% withanolide content — developed for anyone who wants to get a handle on everyday stress and sleep better. This bundle covers a full routine of roughly nine months.</p>
+        <ul class="bundle-detail__benefits">
+          <li>10% withanolides per capsule — a deliberately high-dose formula</li>
+          <li>Supports natural stress regulation and calmer sleep</li>
+          <li>270 vegan capsules total, no unnecessary fillers</li>
+          <li>Lasts about 9 months at one capsule per day</li>
+        </ul>
+        <div class="bundle-detail__contents"><strong>Includes:</strong> 3x Ashwagandha Capsules, 90 ct. each</div>
+        <div class="bundle-detail__price-row">
+          <span class="bundle-detail__price">149.00&nbsp;€</span>
+          <span class="bundle-detail__compare">219.00&nbsp;€</span>
+          <span class="bundle-detail__save">You save 70.00&nbsp;€</span>
+        </div>
+        <button type="button" class="bundle-add-btn" data-bundle-id="bundle-ashwagandha-3m">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUNDLE 3 -->
+<section class="bundle-detail">
+  <div class="container">
+    <div class="bundle-detail__grid">
+      <div class="bundle-detail__img-wrap"><img src="images/MEISTGEWÄHLT.jpg" alt="Daily Wellness Stack" style="object-fit:cover;"></div>
+      <div>
+        <span class="bundle-detail__badge">Most Popular</span>
+        <h2 class="bundle-detail__title">Daily Wellness Stack</h2>
+        <p class="bundle-detail__desc">Our most popular combination: Shilajit for a morning energy boost, Ashwagandha for evening calm. Cover both sides of your day with one order, without managing two separate routines.</p>
+        <ul class="bundle-detail__benefits">
+          <li>Combines daytime energy with nighttime recovery</li>
+          <li>Both active ingredients at full, clinically studied dosing</li>
+          <li>Cheaper than buying both products separately</li>
+          <li>An easy starting point if you're unsure where to begin</li>
+        </ul>
+        <div class="bundle-detail__contents"><strong>Includes:</strong> 1x Himalayan Shilajit Resin 45g + 1x Ashwagandha Capsules (90 ct.)</div>
+        <div class="bundle-detail__price-row">
+          <span class="bundle-detail__price">119.00&nbsp;€</span>
+          <span class="bundle-detail__compare">175.00&nbsp;€</span>
+          <span class="bundle-detail__save">You save 56.00&nbsp;€</span>
+        </div>
+        <button type="button" class="bundle-add-btn" data-bundle-id="bundle-daily-wellness">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUNDLE 4 -->
+<section class="bundle-detail" style="border-bottom:none;">
+  <div class="container">
+    <div class="bundle-detail__grid">
+      <div class="bundle-detail__img-wrap"><img src="images/PeakPerformanceBundle.jpg" alt="Peak Performance Bundle" style="object-fit:cover;"></div>
+      <div>
+        <span class="bundle-detail__badge">Best Value</span>
+        <h2 class="bundle-detail__title">Peak Performance Bundle</h2>
+        <p class="bundle-detail__desc">For people who mean it: the largest amount of both products at the best price per dose. Ideal if you already know PeakModo and want to order several months ahead, or if you're sharing the full lineup with family or a partner.</p>
+        <ul class="bundle-detail__benefits">
+          <li>Biggest savings per unit across the entire lineup</li>
+          <li>Complete supply for several months with no reordering</li>
+          <li>Perfect for sharing or as a gift for the whole family</li>
+          <li>Same 50-day money-back guarantee as all our products</li>
+        </ul>
+        <div class="bundle-detail__contents"><strong>Includes:</strong> 2x Himalayan Shilajit Resin 45g + 3x Ashwagandha Capsules (90 ct.)</div>
+        <div class="bundle-detail__price-row">
+          <span class="bundle-detail__price">219.00&nbsp;€</span>
+          <span class="bundle-detail__compare">359.00&nbsp;€</span>
+          <span class="bundle-detail__save">You save 140.00&nbsp;€</span>
+        </div>
+        <button type="button" class="bundle-add-btn" data-bundle-id="bundle-peak-performance">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CART OVERLAY + DRAWER -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
+  <div class="cart-drawer__header">
+    <span class="cart-drawer__title">Your Cart</span>
+    <button type="button" class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">✕</button>
+  </div>
+  <div class="cart-shipping-bar"><div class="cart-shipping-bar__fill" id="cart-shipping-fill"></div></div>
+  <p class="cart-shipping-msg" id="cart-shipping-msg"></p>
+  <div class="cart-drawer__body" id="cart-view-list">
+    <div id="cart-line-items"></div>
+    <div id="cart-upsell-section"></div>
+    <div class="cart-guarantee">
+      <span class="cart-guarantee__icon">🛡️</span>
+      <div>
+        <p class="cart-guarantee__title">50-Day Money-Back Guarantee</p>
+        <p class="cart-guarantee__text">Try it risk-free. If you're not satisfied, you can reach out to us within 50 days.</p>
+      </div>
+    </div>
+  </div>
+  <div class="cart-drawer__footer">
+    <div class="cart-subtotal-row">
+      <span class="cart-subtotal-row__label">Subtotal (<span id="cart-item-count">0</span> items)</span>
+      <span class="cart-subtotal-row__prices">
+        <span class="compare" id="cart-subtotal-compare">0.00 €</span>
+        <span class="now" id="cart-subtotal-now">0.00 €</span>
+      </span>
+    </div>
+    <button type="button" class="cart-checkout-btn" id="cart-checkout-btn" disabled>Checkout →</button>
+    <button type="button" class="cart-continue-btn" id="cart-continue-btn">Continue Shopping</button>
+  </div>
+</aside>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <img src="images/logo_website.png" alt="PeakModo" class="footer-logo">
+        <p>We source and deliver authentic, premium-grade Shilajit and Ashwagandha — and turn them into natural wellness products.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html">Himalayan Shilajit</a>
+        <a href="hidden-truth-about-ashwagandha.html">Sentuel™ Ashwagandha</a>
+        <a href="bundles.html">All Bundles</a>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <a href="ueber-uns.html">Our Story</a>
+        <a href="hidden-truth-about-ashwagandha.html#faq">FAQ</a>
+        <a href="hidden-truth-about-ashwagandha.html#kontakt">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="widerrufsrecht.html">Right of Withdrawal & Refunds</a>
+        <a href="impressum-agb.html">Imprint & Terms</a>
+        <a href="versand-transparenz.html">Shipping & Transparency</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© PeakModo. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+const CART_STORAGE_KEY = 'peakmodo_checkout_cart';
+
+const BUNDLES = {
+  'bundle-shilajit-bogo': { id:'bundle-shilajit-bogo', name:'Shilajit Buy 1 Get 1 Free (2x Himalayan Shilajit Resin 45g)', image:'images/EUR_Pre_Order_Red.png', unitPrice:94.50, unitComparePrice:210.00 },
+  'bundle-ashwagandha-3m': { id:'bundle-ashwagandha-3m', name:'Ashwagandha 3-Month Bundle (3x Ashwagandha Capsules)', image:'images/sentuel-3pack-bottles.jpg', unitPrice:149.00, unitComparePrice:219.00 },
+  'bundle-daily-wellness': { id:'bundle-daily-wellness', name:'Daily Wellness Stack (1x Shilajit + 1x Ashwagandha)', image:'images/MEISTGEWÄHLT.jpg', unitPrice:119.00, unitComparePrice:175.00 },
+  'bundle-peak-performance': { id:'bundle-peak-performance', name:'Peak Performance Bundle (2x Shilajit + 3x Ashwagandha)', image:'images/PeakPerformanceBundle.jpg', unitPrice:219.00, unitComparePrice:359.00 },
+};
+
+let cart = { items: [] };
+try {
+  const raw = sessionStorage.getItem(CART_STORAGE_KEY);
+  const parsed = raw ? JSON.parse(raw) : [];
+  cart.items = Array.isArray(parsed) ? parsed : [];
+} catch (err) { cart.items = []; }
+
+function persistCart(){ sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart.items)); }
+function formatEUR(v){ return v.toFixed(2) + ' €'; }
+function findCartItem(id){ return cart.items.find(i => i.id === id); }
+function cartTotalQty(){ return cart.items.reduce((s,i)=>s+i.qty,0); }
+function cartSubtotal(){ return cart.items.reduce((s,i)=>s+i.unitPrice*i.qty,0); }
+function cartCompareSubtotal(){ return cart.items.reduce((s,i)=>s+(i.unitComparePrice||i.unitPrice)*i.qty,0); }
+
+function addBundleToCart(bundleId, btn) {
+  const bundle = BUNDLES[bundleId];
+  if (!bundle) return;
+  const existing = findCartItem(bundle.id);
+  if (existing) { existing.qty = Math.min(10, existing.qty + 1); }
+  else { cart.items.push({ id:bundle.id, name:bundle.name, image:bundle.image, unitPrice:bundle.unitPrice, unitComparePrice:bundle.unitComparePrice, qty:1, isUpsell:false }); }
+  persistCart();
+  if (typeof fbq === 'function') {
+    fbq('track', 'AddToCart', { content_name: bundle.name, content_ids: [bundle.id], content_type: 'product', value: bundle.unitPrice, currency: 'EUR' });
+  }
+  renderCart();
+  if (btn) {
+    const original = btn.textContent;
+    btn.textContent = 'Added ✓';
+    btn.classList.add('is-added');
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('is-added'); }, 1400);
+  }
+  openCart();
+}
+
+document.querySelectorAll('[data-bundle-id]').forEach((el) => {
+  el.addEventListener('click', () => addBundleToCart(el.getAttribute('data-bundle-id'), el));
+});
+
+function renderLineItems() {
+  const wrap = document.getElementById('cart-line-items');
+  if (cart.items.length === 0) { wrap.innerHTML = '<div class="cart-empty">Your cart is empty.</div>'; return; }
+  wrap.innerHTML = cart.items.map((item) => `
+    <div class="cart-line-item" data-id="${item.id}">
+      <img class="cart-line-item__img" src="${item.image}" alt="${item.name}">
+      <div class="cart-line-item__info">
+        <div class="cart-line-item__name">${item.name}</div>
+        <div class="cart-line-item__qty-row">
+          <div class="cart-qty-stepper">
+            <button type="button" data-action="dec" data-id="${item.id}" aria-label="Decrease quantity">–</button>
+            <span>${item.qty}</span>
+            <button type="button" data-action="inc" data-id="${item.id}" aria-label="Increase quantity">+</button>
+          </div>
+          <button type="button" class="cart-line-item__remove" data-action="remove" data-id="${item.id}">Remove</button>
+        </div>
+      </div>
+      <div class="cart-line-item__prices">
+        <span class="cart-line-item__compare">${formatEUR((item.unitComparePrice||item.unitPrice)*item.qty)}</span>
+        <span class="cart-line-item__price">${formatEUR(item.unitPrice*item.qty)}</span>
+      </div>
+    </div>
+  `).join('');
+  wrap.querySelectorAll('button[data-action]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-id');
+      const action = btn.getAttribute('data-action');
+      const item = findCartItem(id);
+      if (!item) return;
+      if (action === 'inc') item.qty = Math.min(10, item.qty + 1);
+      if (action === 'dec') item.qty = Math.max(1, item.qty - 1);
+      if (action === 'remove') cart.items = cart.items.filter((i) => i.id !== id);
+      persistCart();
+      renderCart();
+    });
+  });
+}
+
+function renderShippingBar() {
+  const fill = document.getElementById('cart-shipping-fill');
+  const msg = document.getElementById('cart-shipping-msg');
+  if (cart.items.length === 0) { fill.style.width = '0%'; msg.textContent = ''; return; }
+  fill.style.width = '100%';
+  msg.textContent = "Congrats! You've unlocked free shipping!";
+}
+
+function renderFooter() {
+  document.getElementById('cart-item-count').textContent = cartTotalQty();
+  document.getElementById('cart-subtotal-compare').textContent = formatEUR(cartCompareSubtotal());
+  document.getElementById('cart-subtotal-now').textContent = formatEUR(cartSubtotal());
+  document.getElementById('cart-checkout-btn').disabled = cart.items.length === 0;
+  document.getElementById('header-cart-count').textContent = cartTotalQty();
+}
+
+function renderCart() { renderLineItems(); document.getElementById('cart-upsell-section').innerHTML=''; renderShippingBar(); renderFooter(); }
+
+const cartDrawer = document.getElementById('cart-drawer');
+const cartOverlay = document.getElementById('cart-overlay');
+function openCart(){ cartDrawer.classList.add('is-open'); cartOverlay.classList.add('is-open'); cartDrawer.setAttribute('aria-hidden','false'); }
+function closeCart(){ cartDrawer.classList.remove('is-open'); cartOverlay.classList.remove('is-open'); cartDrawer.setAttribute('aria-hidden','true'); }
+document.getElementById('cart-close-btn').addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
+document.getElementById('cart-continue-btn').addEventListener('click', closeCart);
+document.getElementById('header-cart-btn').addEventListener('click', () => { renderCart(); openCart(); });
+document.getElementById('cart-checkout-btn').addEventListener('click', () => {
+  if (cart.items.length === 0) return;
+  persistCart();
+  if (typeof fbq === 'function') {
+    fbq('track', 'InitiateCheckout', { content_ids: cart.items.map(i=>i.id), content_type:'product', num_items: cartTotalQty(), value: cartSubtotal(), currency:'EUR' });
+  }
+  window.location.href = '/checkout.html';
+});
+
+const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+const mobileNav = document.getElementById('mobile-nav');
+mobileNavToggle.addEventListener('click', () => {
+  const isOpen = mobileNav.classList.toggle('is-open');
+  mobileNavToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+});
+
+renderCart();
+</script>
+
+</body>
+</html>

@@ -23,6 +23,26 @@ const CATALOG = {
     unitPrice: 149,
     maxQty: 1,
   },
+  "bundle-shilajit-bogo": {
+    name: "Shilajit Buy 1 Get 1 Free (2x Himalayan Shilajit Resin 45g)",
+    unitPrice: 94.5,
+    maxQty: 10,
+  },
+  "bundle-ashwagandha-3m": {
+    name: "Ashwagandha 3-Month Bundle (3x Ashwagandha Kapseln)",
+    unitPrice: 149,
+    maxQty: 5,
+  },
+  "bundle-daily-wellness": {
+    name: "Daily Wellness Stack (1x Shilajit + 1x Ashwagandha)",
+    unitPrice: 119,
+    maxQty: 5,
+  },
+  "bundle-peak-performance": {
+    name: "Peak Performance Bundle (2x Shilajit + 3x Ashwagandha)",
+    unitPrice: 219,
+    maxQty: 5,
+  },
 };
 
 // Validates and normalizes the `items` array sent from the cart.

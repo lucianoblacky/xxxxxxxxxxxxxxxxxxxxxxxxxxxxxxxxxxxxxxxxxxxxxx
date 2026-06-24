@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — The Story of PeakModo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '876944531341744');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
+
+<style>
+:root{
+  --bg:#f4f2ed;
+  --bg-rich:#0d0d0c;
+  --bg-soft:#ece7dc;
+  --ink:#1c1c1c;
+  --ink-soft:#1c1c1cb3;
+  --ink-muted:#5f5a51;
+  --accent:#c0392b;
+  --green:#1a7a4c;
+  --gold-1:#7a5a23;
+  --gold-2:#caa544;
+  --gold-3:#f0d889;
+  --line:#dcdcdc;
+  --container-max:75rem;
+  --article-max:42rem;
+  --font-heading:"Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body:"Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden;}
+body{ background:#fff; color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+img{max-width:100%;display:block;}
+h1,h2,h3{font-family:var(--font-heading); margin:0; font-weight:800; letter-spacing:-0.01em;}
+p{margin:0;}
+a{color:inherit;text-decoration:none;}
+.container{max-width:var(--container-max); margin:0 auto; padding:0 1.25rem;}
+.gold-text{
+  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 35%,var(--gold-3) 50%,var(--gold-2) 65%,var(--gold-1) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+/* Header */
+.site-header{ padding:1.1rem 0; border-bottom:1px solid var(--line); background:#fff; }
+.site-header .container{ display:flex; align-items:center; justify-content:space-between; }
+.site-header img{ height:2rem; }
+.site-nav{ display:none; gap:2rem; font-size:0.9rem; font-weight:700; }
+@media (min-width:800px){ .site-nav{ display:flex; } }
+.site-nav a:hover{ color:var(--gold-1); }
+.header-cta{ background:var(--ink); color:#fff; font-weight:700; font-size:0.85rem; padding:0.65rem 1.2rem; border-radius:0.4rem; }
+
+/* Hero */
+.about-hero{ background:var(--bg-rich); color:#fff; padding:4rem 0 3.5rem; position:relative; overflow:hidden; }
+.about-hero::before{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(circle at 75% 30%, rgba(202,165,68,0.18), transparent 60%);
+  pointer-events:none;
+}
+.about-hero .container{ position:relative; max-width:var(--article-max); }
+.about-hero p.eyebrow{ font-size:0.8rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-3); font-weight:800; margin-bottom:0.8rem; }
+.about-hero h1{ font-size:2.1rem; line-height:1.18; margin-bottom:1rem; }
+@media (min-width:600px){ .about-hero h1{ font-size:2.6rem; } }
+.about-hero p.lede{ color:#f4f2edcc; font-size:1.05rem; line-height:1.65; }
+
+/* Article body */
+.about-article{ max-width:var(--article-max); margin:0 auto; padding:3.2rem 1.25rem 1rem; }
+.about-article h2{ font-size:1.4rem; margin:2.4rem 0 0.9rem; }
+.about-article p{ font-size:1rem; color:var(--ink-soft); margin-bottom:1.1rem; }
+.about-article p:first-of-type{ font-size:1.08rem; }
+.about-article strong{ color:var(--ink); }
+.about-article blockquote{
+  border-left:3px solid var(--gold-2); margin:1.8rem 0; padding:0.2rem 0 0.2rem 1.2rem;
+  font-family:var(--font-heading); font-style:italic; font-size:1.15rem; color:var(--ink);
+}
+
+.founder-row{
+  display:grid; grid-template-columns:1fr; gap:1.4rem; margin:2.2rem 0;
+  background:var(--bg-soft); border-radius:0.9rem; padding:1.6rem;
+}
+@media (min-width:600px){ .founder-row{ grid-template-columns:9rem 1fr; align-items:center; } }
+.founder-row__avatar{
+  width:6rem; height:6rem; border-radius:50%; background:linear-gradient(135deg,var(--gold-2),var(--gold-1));
+  display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:1.6rem;
+  font-family:var(--font-heading); margin:0 auto;
+}
+@media (min-width:600px){ .founder-row__avatar{ margin:0; } }
+.founder-row__name{ font-weight:800; font-size:1.05rem; margin-bottom:0.3rem; }
+.founder-row__role{ font-size:0.85rem; color:var(--ink-muted); margin-bottom:0.6rem; }
+.founder-row__quote{ font-size:0.92rem; color:var(--ink-soft); line-height:1.55; }
+
+.values-grid{ display:grid; grid-template-columns:1fr; gap:1rem; margin:2.2rem 0; }
+@media (min-width:650px){ .values-grid{ grid-template-columns:repeat(3,1fr); } }
+.value-card{ border:1px solid var(--line); border-radius:0.7rem; padding:1.2rem; }
+.value-card__icon{ font-size:1.5rem; margin-bottom:0.6rem; }
+.value-card h3{ font-size:0.95rem; margin-bottom:0.4rem; }
+.value-card p{ font-size:0.85rem; color:var(--ink-muted); margin-bottom:0; }
+
+.timeline-mini{ margin:2.2rem 0; display:flex; flex-direction:column; gap:0; }
+.timeline-mini__item{ display:flex; gap:1.1rem; padding:0.9rem 0; border-bottom:1px solid var(--line); }
+.timeline-mini__item:last-child{ border-bottom:none; }
+.timeline-mini__year{ font-family:var(--font-heading); font-weight:800; color:var(--gold-1); flex:0 0 4.2rem; font-size:0.95rem; }
+.timeline-mini__body h4{ font-size:0.92rem; margin-bottom:0.25rem; font-family:var(--font-body); font-weight:800; }
+.timeline-mini__body p{ font-size:0.85rem; color:var(--ink-muted); margin-bottom:0; }
+
+.cert-strip{ background:var(--bg-soft); padding:2.4rem 0; margin-top:1rem; text-align:center; }
+.cert-strip h3{ font-size:1rem; margin-bottom:1.2rem; }
+.cert-strip-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:0.7rem; }
+.cert-pill{ background:var(--gold-3); color:#000; font-weight:700; font-size:0.82rem; padding:0.55rem 1rem; border-radius:1rem; }
+
+.cta-band{ background:var(--bg-rich); color:#fff; padding:3rem 0; text-align:center; }
+.cta-band h2{ font-size:1.5rem; margin-bottom:0.8rem; color:#fff; }
+.cta-band p{ color:#f4f2edb3; font-size:0.95rem; margin-bottom:1.6rem; max-width:30rem; margin-left:auto; margin-right:auto; }
+.cta-row{ display:flex; flex-wrap:wrap; gap:0.8rem; justify-content:center; }
+.btn-gold{
+  display:inline-flex; align-items:center; justify-content:center; gap:0.5rem;
+  background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 25%,var(--gold-3) 50%,var(--gold-2) 75%,var(--gold-1) 100%);
+  color:#2a1f08; font-weight:800; font-size:0.92rem; padding:0.95rem 1.9rem; border-radius:0.5rem;
+}
+.btn-outline{ border:1px solid #ffffff44; color:#fff; font-weight:700; font-size:0.92rem; padding:0.95rem 1.9rem; border-radius:0.5rem; }
+
+/* Footer (shared) */
+.footer{ background:var(--bg-rich); color:#f4f2edcc; padding:3rem 0 2rem; }
+.footer-grid{ display:grid; grid-template-columns:1fr; gap:2rem; margin-bottom:2rem; }
+@media (min-width:700px){ .footer-grid{ grid-template-columns:2fr 1fr 1fr 1fr; } }
+.footer-col h4{ color:#fff; font-size:0.85rem; margin-bottom:0.8rem; }
+.footer-col a, .footer-col p{ display:block; font-size:0.85rem; color:#f4f2edb3; margin-bottom:0.5rem; }
+.footer-col a:hover{ color:#fff; }
+.footer-bottom{ border-top:1px solid #ffffff22; padding-top:1.4rem; font-size:0.78rem; color:#f4f2ed80; text-align:center; }
+.footer-logo{ height:1.8rem; margin-bottom:0.8rem; filter:brightness(0) invert(1); }
+
+.mobile-nav-toggle{ display:flex; flex-direction:column; justify-content:center; gap:0.28rem; width:1.8rem; height:1.6rem; padding:0; border:none; background:none; cursor:pointer; }
+.mobile-nav-toggle span{ display:block; height:2px; width:100%; background:var(--ink); border-radius:1px; }
+@media (min-width:800px){ .mobile-nav-toggle{ display:none; } }
+.mobile-nav{ display:none; flex-direction:column; background:#fff; border-bottom:1px solid var(--line); padding:0.4rem 1.25rem 1rem; }
+.mobile-nav.is-open{ display:flex; }
+@media (min-width:800px){ .mobile-nav{ display:none !important; } }
+.mobile-nav a{ padding:0.75rem 0; font-size:0.92rem; font-weight:700; border-bottom:1px solid var(--line); }
+.mobile-nav a:last-child{ border-bottom:none; }
+.header-actions{ display:flex; align-items:center; gap:0.7rem; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html"><img src="images/logo_website.png" alt="PeakModo"></a>
+    <nav class="site-nav">
+      <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html">Himalayan Shilajit</a>
+      <a href="hidden-truth-about-ashwagandha.html">Ashwagandha</a>
+      <a href="bundles.html">Bundles</a>
+      <a href="ueber-uns.html">About Us</a>
+      <a href="hidden-truth-about-ashwagandha.html#kontakt">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html" class="header-cta">Shop Now</a>
+      <button type="button" class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html">Himalayan Shilajit</a>
+    <a href="hidden-truth-about-ashwagandha.html">Ashwagandha</a>
+    <a href="bundles.html">Bundles</a>
+    <a href="hidden-truth-about-ashwagandha.html#kontakt">Contact</a>
+  </nav>
+</header>
+
+<section class="about-hero">
+  <div class="container">
+    <p class="eyebrow">Our Story</p>
+    <h1>From a question in the mountains to a brand thousands trust</h1>
+    <p class="lede">PeakModo wasn't invented in a lab — it started on a journey that raised a simple question: why is it so hard to find truly pure Shilajit?</p>
+  </div>
+</section>
+
+<article class="about-article">
+
+  <p>It started in 2019 on a hike through the Himalayas, not with a business plan. Our founder was on a multi-week trip through Northern India when he was shown raw Shilajit for the first time in a small mountain village — a resin-like substance that's been used in Ayurvedic practice for thousands of years, but was barely known in the West.</p>
+
+  <p>Back in Europe, he tried to buy the same product he'd seen in the mountains. What he found were mostly heavily-marketed online shops with unclear sourcing, no lab certificates, and products that sometimes didn't even meet minimum purity standards for human consumption. <strong>That exact frustration was the starting point for PeakModo.</strong></p>
+
+  <blockquote>"If I, as an informed consumer, already struggle to find a trustworthy product — how is anyone hearing about this for the first time supposed to manage?"</blockquote>
+
+  <div class="founder-row">
+    <div class="founder-row__avatar">PM</div>
+    <div>
+      <div class="founder-row__name">The PeakModo Founding Team</div>
+      <div class="founder-row__role">Morocco · Founded 2020</div>
+      <div class="founder-row__quote">"We didn't want to be another wellness label making big promises without substance. Every batch we sell is the same one we'd give to our own family."</div>
+    </div>
+  </div>
+
+  <h2>From Idea to First Jar</h2>
+  <p>The team spent the first two years building direct relationships with harvesting communities above 3,000 meters in the Himalayas — where Shilajit naturally seeps out of rock crevices, far from industry and pollution. Instead of buying through multiple middlemen, as is common in the industry, every step of the supply chain was built and documented individually.</p>
+
+  <p>At the same time, the idea for <strong>Sentuel™</strong>, our Ashwagandha formula, took shape. While Shilajit is mainly known for energy and vitality, customers kept telling us about a second recurring need: something for everyday stress that doesn't take months to work and that you can take daily without worry. After more than a year of testing different extract ratios, the final formula landed at 10% withanolide content — a deliberately high but well-tolerated concentration.</p>
+
+  <h2>What Makes Us Different</h2>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="value-card__icon">🏔️</div>
+      <h3>Direct Sourcing</h3>
+      <p>We buy as close to the source as possible, above 3,000m altitude, instead of through interchangeable middlemen.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-card__icon">🔬</div>
+      <h3>Independent Lab Testing</h3>
+      <p>Every batch is tested for heavy metals, purity, and active ingredient content before it leaves our warehouse.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-card__icon">🤝</div>
+      <h3>Honest Communication</h3>
+      <p>No exaggerated health claims — only what research and our customers actually confirm.</p>
+    </div>
+  </div>
+
+  <h2>Our Journey So Far</h2>
+  <div class="timeline-mini">
+    <div class="timeline-mini__item">
+      <div class="timeline-mini__year">2019</div>
+      <div class="timeline-mini__body">
+        <h4>The trip that started it all</h4>
+        <p>First encounter with raw Himalayan Shilajit, and the realization of how hard it is to find pure products in the West.</p>
+      </div>
+    </div>
+    <div class="timeline-mini__item">
+      <div class="timeline-mini__year">2020</div>
+      <div class="timeline-mini__body">
+        <h4>PeakModo is born</h4>
+        <p>Building direct relationships with harvesting communities and the first small test batches for friends and family.</p>
+      </div>
+    </div>
+    <div class="timeline-mini__item">
+      <div class="timeline-mini__year">2022</div>
+      <div class="timeline-mini__body">
+        <h4>First independent lab certificates</h4>
+        <p>Introduction of systematic heavy metal and purity testing for every single batch.</p>
+      </div>
+    </div>
+    <div class="timeline-mini__item">
+      <div class="timeline-mini__year">2024</div>
+      <div class="timeline-mini__body">
+        <h4>Sentuel™ Ashwagandha launches</h4>
+        <p>After more than a year of development, our Ashwagandha formula with 10% withanolide content launches.</p>
+      </div>
+    </div>
+    <div class="timeline-mini__item">
+      <div class="timeline-mini__year">Today</div>
+      <div class="timeline-mini__body">
+        <h4>Over 25,000 jars shipped</h4>
+        <p>Thousands of customers now trust PeakModo for their daily routine.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Where We're Headed</h2>
+  <p>PeakModo will never be the company with the most products on the shelf. Our goal is to be the reference point for quality among the few products we do carry — tested, transparent, and without marketing promises we can't keep.</p>
+
+</article>
+
+<div class="cert-strip">
+  <div class="container">
+    <h3>Tested to International Standards</h3>
+    <div class="cert-strip-row">
+      <span class="cert-pill">GMP Certification</span>
+      <span class="cert-pill">HACCP Certification</span>
+      <span class="cert-pill">IFS Certification</span>
+      <span class="cert-pill">ISO 9001:2015</span>
+    </div>
+  </div>
+</div>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Get to Know Our Products</h2>
+    <p>Discover why thousands of customers trust PeakModo.</p>
+    <div class="cta-row">
+      <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html" class="btn-gold">Discover Himalayan Shilajit →</a>
+      <a href="hidden-truth-about-ashwagandha.html" class="btn-outline">Discover Sentuel™ Ashwagandha</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <img src="images/logo_website.png" alt="PeakModo" class="footer-logo">
+        <p>We source and deliver authentic, premium-grade Shilajit and Ashwagandha — and turn them into natural wellness products.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html">Himalayan Shilajit</a>
+        <a href="hidden-truth-about-ashwagandha.html">Sentuel™ Ashwagandha</a>
+        <a href="bundles.html">All Bundles</a>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <a href="ueber-uns.html">Our Story</a>
+        <a href="hidden-truth-about-ashwagandha.html#faq">FAQ</a>
+        <a href="hidden-truth-about-ashwagandha.html#kontakt">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="widerrufsrecht.html">Right of Withdrawal & Refunds</a>
+        <a href="impressum-agb.html">Imprint & Terms</a>
+        <a href="versand-transparenz.html">Shipping & Transparency</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © PeakModo. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script>
+const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+const mobileNav = document.getElementById('mobile-nav');
+mobileNavToggle.addEventListener('click', () => {
+  const isOpen = mobileNav.classList.toggle('is-open');
+  mobileNavToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+});
+</script>
+
+</body>
+</html>
