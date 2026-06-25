@@ -160,9 +160,117 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
 .cart-continue-btn{ display:block; width:100%; text-align:center; background:#fff; color:#2a6ed4; border:1px solid var(--line); font-weight:700; font-size:0.85rem; padding:0.75rem 1rem; border-radius:0.4rem; }
 .cart-continue-btn:hover{ background:var(--bg-soft); }
 @media (max-width:480px){ .cart-drawer{ max-width:100%; } }
+/* ====================================================================
+   DISCOUNT POPUP SYSTEM (email capture -> code verification -> success)
+   ==================================================================== */
+.discount-popup-overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:1100;
+  display:flex; align-items:center; justify-content:center; padding:1rem;
+  opacity:0; pointer-events:none; transition:opacity .25s ease;
+}
+.discount-popup-overlay.is-open{ opacity:1; pointer-events:auto; }
+.discount-popup{
+  background:#fff; border-radius:1rem; max-width:26rem; width:100%;
+  padding:2.2rem 1.8rem; position:relative; text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  transform:translateY(12px); transition:transform .25s ease;
+}
+.discount-popup-overlay.is-open .discount-popup{ transform:translateY(0); }
+.discount-popup__close{
+  position:absolute; top:0.8rem; right:0.9rem; font-size:1.3rem; line-height:1;
+  color:var(--ink-soft); background:none; border:none; cursor:pointer; padding:0.3rem;
+}
+.discount-popup__close:hover{ color:var(--ink); }
+.discount-popup__badge{
+  display:inline-block; background:linear-gradient(90deg,var(--gold-1) 0%,var(--gold-2) 50%,var(--gold-3) 100%);
+  color:#241b06; font-weight:800; font-size:0.78rem; letter-spacing:0.03em; text-transform:uppercase;
+  padding:0.4rem 1rem; border-radius:1.2rem; margin-bottom:1rem;
+}
+.discount-popup h2{
+  font-size:1.7rem; font-weight:900; margin:0 0 0.5rem; line-height:1.2; color:var(--ink);
+}
+.discount-popup h2 .accent{ color:var(--accent); }
+.discount-popup p.dp-sub{ font-size:0.92rem; color:var(--ink-soft); margin:0 0 1.4rem; line-height:1.5; }
+.discount-popup__field{ margin-bottom:0.9rem; text-align:left; }
+.discount-popup__field label{ display:block; font-size:0.78rem; font-weight:700; margin-bottom:0.35rem; color:var(--ink); }
+.discount-popup__field input{
+  width:100%; border:1.5px solid var(--line); border-radius:0.5rem; padding:0.75rem 0.9rem;
+  font-size:1rem; font-family:inherit; color:var(--ink); text-align:center; letter-spacing:0.02em;
+}
+.discount-popup__field input:focus{ outline:none; border-color:var(--gold-2); }
+.discount-popup__submit{
+  width:100%; background:var(--ink); color:#fff; font-weight:800; font-size:0.95rem;
+  padding:0.9rem; border-radius:0.5rem; margin-top:0.4rem; border:none; cursor:pointer;
+}
+.discount-popup__submit:hover{ filter:brightness(1.2); }
+.discount-popup__submit:disabled{ opacity:0.6; cursor:default; filter:none; }
+.discount-popup__error{ color:var(--accent); font-size:0.82rem; font-weight:700; margin-top:0.7rem; min-height:1.2em; }
+.discount-popup__resend{ font-size:0.8rem; color:var(--ink-soft); margin-top:0.9rem; }
+.discount-popup__resend button{ background:none; border:none; color:#2a6ed4; font-weight:700; cursor:pointer; padding:0; font-size:0.8rem; }
+.discount-popup__resend button:disabled{ color:var(--ink-soft); cursor:default; }
+.discount-popup__success-icon{
+  width:4rem; height:4rem; border-radius:50%; background:#e9f7ef; color:#1a7a4c;
+  display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto 1rem;
+}
+.discount-popup__code-badge{
+  display:inline-block; background:#1c1c1c; color:var(--gold-3); font-weight:900; font-size:1.4rem;
+  letter-spacing:0.1em; padding:0.6rem 1.4rem; border-radius:0.5rem; margin:0.4rem 0 1.2rem;
+}
+
 </style>
 </head>
 <body>
+
+<!-- DISCOUNT POPUP — STAGE 1: email capture -->
+<div class="discount-popup-overlay" id="discount-popup-step1">
+  <div class="discount-popup">
+    <button type="button" class="discount-popup__close" data-close-popup aria-label="Close">✕</button>
+    <span class="discount-popup__badge">Limited offer</span>
+    <h2>Unlock <span class="accent">52% OFF</span> your first order</h2>
+    <p class="dp-sub">Enter your email below and we'll send you a one-time code to verify and unlock your discount instantly.</p>
+    <form id="discount-step1-form">
+      <div class="discount-popup__field">
+        <label for="discount-email-input">Email address</label>
+        <input type="email" id="discount-email-input" name="email" placeholder="you@example.com" required>
+      </div>
+      <button type="submit" class="discount-popup__submit" id="discount-step1-submit">Send My Code</button>
+      <p class="discount-popup__error" id="discount-step1-error"></p>
+    </form>
+  </div>
+</div>
+
+<!-- DISCOUNT POPUP — STAGE 2: code verification -->
+<div class="discount-popup-overlay" id="discount-popup-step2">
+  <div class="discount-popup">
+    <button type="button" class="discount-popup__close" data-close-popup aria-label="Close">✕</button>
+    <span class="discount-popup__badge">Almost there</span>
+    <h2>Enter your code</h2>
+    <p class="dp-sub" id="discount-step2-sub">We just sent a 6-digit verification code to your email. Enter it below to unlock your discount.</p>
+    <form id="discount-step2-form">
+      <div class="discount-popup__field">
+        <label for="discount-code-input">Verification code</label>
+        <input type="text" id="discount-code-input" name="code" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code" required>
+      </div>
+      <button type="submit" class="discount-popup__submit" id="discount-step2-submit">Verify Code</button>
+      <p class="discount-popup__error" id="discount-step2-error"></p>
+    </form>
+    <p class="discount-popup__resend">Didn't get it? <button type="button" id="discount-resend-btn">Resend code</button></p>
+  </div>
+</div>
+
+<!-- DISCOUNT POPUP — STAGE 3: success -->
+<div class="discount-popup-overlay" id="discount-popup-step3">
+  <div class="discount-popup">
+    <button type="button" class="discount-popup__close" data-close-popup aria-label="Close">✕</button>
+    <div class="discount-popup__success-icon">✓</div>
+    <h2>Congratulations!</h2>
+    <p class="dp-sub">You've successfully unlocked your discount.</p>
+    <div class="discount-popup__code-badge">PEAK52</div>
+    <p class="dp-sub" style="margin-bottom:1.4rem;">Use this code at checkout to get 52% off your order. We've also sent it to your email for safekeeping.</p>
+    <button type="button" class="discount-popup__submit" data-close-popup>Continue Shopping</button>
+  </div>
+</div>
+
 
 <header class="site-header">
   <div class="container">
@@ -494,6 +602,137 @@ mobileNavToggle.addEventListener('click', () => {
 });
 
 renderCart();
+
+// ====================================================================
+// DISCOUNT POPUP SYSTEM (email -> verification code -> success)
+// ====================================================================
+(function () {
+  const POPUP_DELAY_MS = 6000;
+  const STORAGE_KEY = 'peakmodo_discount_popup_shown';
+
+  const step1 = document.getElementById('discount-popup-step1');
+  const step2 = document.getElementById('discount-popup-step2');
+  const step3 = document.getElementById('discount-popup-step3');
+
+  let currentToken = null;
+  let currentEmail = '';
+
+  function openPopup(el) {
+    document.querySelectorAll('.discount-popup-overlay').forEach((p) => p.classList.remove('is-open'));
+    el.classList.add('is-open');
+  }
+  function closeAllPopups() {
+    document.querySelectorAll('.discount-popup-overlay').forEach((p) => p.classList.remove('is-open'));
+  }
+
+  document.querySelectorAll('[data-close-popup]').forEach((btn) => {
+    btn.addEventListener('click', closeAllPopups);
+  });
+  document.querySelectorAll('.discount-popup-overlay').forEach((overlay) => {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeAllPopups();
+    });
+  });
+
+  // ---------- Step 1: submit email, request a code ----------
+  const step1Form = document.getElementById('discount-step1-form');
+  const step1Submit = document.getElementById('discount-step1-submit');
+  const step1Error = document.getElementById('discount-step1-error');
+
+  async function requestCode(email) {
+    step1Error.textContent = '';
+    step1Submit.disabled = true;
+    step1Submit.textContent = 'Sending…';
+    try {
+      const response = await fetch('/.netlify/functions/send-verification-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Could not send code.');
+
+      currentToken = data.token;
+      currentEmail = email;
+      document.getElementById('discount-step2-sub').textContent =
+        `We just sent a 6-digit verification code to ${email}. Enter it below to unlock your discount.`;
+      openPopup(step2);
+    } catch (err) {
+      step1Error.textContent = err.message || 'Something went wrong. Please try again.';
+    } finally {
+      step1Submit.disabled = false;
+      step1Submit.textContent = 'Send My Code';
+    }
+  }
+
+  step1Form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('discount-email-input').value.trim();
+    if (!email) return;
+    requestCode(email);
+  });
+
+  // ---------- Step 2: submit code, verify ----------
+  const step2Form = document.getElementById('discount-step2-form');
+  const step2Submit = document.getElementById('discount-step2-submit');
+  const step2Error = document.getElementById('discount-step2-error');
+
+  step2Form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const code = document.getElementById('discount-code-input').value.trim();
+    if (!code || !currentToken) return;
+
+    step2Error.textContent = '';
+    step2Submit.disabled = true;
+    step2Submit.textContent = 'Verifying…';
+
+    try {
+      const response = await fetch('/.netlify/functions/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code, token: currentToken }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.verified) throw new Error(data.error || 'Incorrect code.');
+
+      try {
+        localStorage.setItem(STORAGE_KEY, 'redeemed');
+        localStorage.setItem('peakmodo_discount_email', currentEmail);
+      } catch (err) {}
+
+      openPopup(step3);
+    } catch (err) {
+      step2Error.textContent = err.message || 'Incorrect code. Please try again.';
+    } finally {
+      step2Submit.disabled = false;
+      step2Submit.textContent = 'Verify Code';
+    }
+  });
+
+  // ---------- Resend code ----------
+  const resendBtn = document.getElementById('discount-resend-btn');
+  resendBtn.addEventListener('click', () => {
+    if (!currentEmail) return;
+    resendBtn.disabled = true;
+    resendBtn.textContent = 'Sending…';
+    requestCode(currentEmail).finally(() => {
+      resendBtn.disabled = false;
+      resendBtn.textContent = 'Resend code';
+    });
+  });
+
+  // ---------- Trigger after 6 seconds, once per browser ----------
+  let alreadyShown = false;
+  try {
+    alreadyShown = !!localStorage.getItem(STORAGE_KEY);
+  } catch (err) {}
+
+  if (!alreadyShown) {
+    setTimeout(() => {
+      openPopup(step1);
+    }, POPUP_DELAY_MS);
+  }
+})();
 </script>
 
 </body>

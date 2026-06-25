@@ -1,12 +1,18 @@
 // netlify/functions/paypal-capture-order.js
 //
 // Captures (finalizes) a previously created PayPal order once the
-// shopper approves it in the PayPal popup.
+// shopper approves it in the PayPal popup. On success, also sends an
+// order notification email to the store owner.
 //
 // Required environment variables (set in Netlify dashboard):
 //   PAYPAL_CLIENT_ID
 //   PAYPAL_CLIENT_SECRET
 //   PAYPAL_ENVIRONMENT
+//   RESEND_API_KEY           — see _mailer.js
+//   ORDER_NOTIFICATION_EMAIL — where order alerts are sent, e.g.
+//                              anassasilem9@gmail.com
+
+const { sendMail } = require("./_mailer");
 
 function getApiBase() {
   return process.env.PAYPAL_ENVIRONMENT === "live"
@@ -79,6 +85,40 @@ exports.handler = async (event) => {
         statusCode: 500,
         body: JSON.stringify({ error: "Unable to capture PayPal order." }),
       };
+    }
+
+    // Payment succeeded — notify the store owner. We never block the
+    // shopper's success response on this; if the email fails, the
+    // order is still valid and the shopper still sees their confirmation.
+    try {
+      const notifyTo = process.env.ORDER_NOTIFICATION_EMAIL;
+      if (notifyTo) {
+        const purchaseUnit = data.purchase_units?.[0];
+        const capture = purchaseUnit?.payments?.captures?.[0];
+        const amount = capture?.amount?.value || "unknown";
+        const currency = capture?.amount?.currency_code || "EUR";
+        const payerEmail = data.payer?.email_address || "unknown";
+        const itemsHtml = (purchaseUnit?.items || [])
+          .map((it) => `<li>${it.quantity} × ${it.name}</li>`)
+          .join("");
+
+        await sendMail({
+          to: notifyTo,
+          subject: `New order — ${amount} ${currency} (PayPal)`,
+          html: `
+            <div style="font-family:sans-serif;max-width:480px;margin:0 auto;">
+              <h2>New order received (PayPal)</h2>
+              <p><strong>Customer:</strong> ${payerEmail}</p>
+              <p><strong>Items:</strong></p>
+              <ul>${itemsHtml}</ul>
+              <p><strong>Total:</strong> ${amount} ${currency}</p>
+              <p style="color:#999;font-size:12px;">PayPal order: ${orderID}</p>
+            </div>
+          `,
+        });
+      }
+    } catch (mailError) {
+      console.error("Failed to send PayPal order notification email:", mailError);
     }
 
     return {
