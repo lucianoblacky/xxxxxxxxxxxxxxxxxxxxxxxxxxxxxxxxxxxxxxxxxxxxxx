@@ -20,11 +20,116 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1011003394626105');
-fbq('track', 'PageView');
+var __pmPageViewEventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(36).slice(2));
+fbq('track', 'PageView', {}, { eventID: __pmPageViewEventId });
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1011003394626105&ev=PageView&noscript=1"
 /></noscript>
+
+<!-- Meta Conversions API helper (shared across all pages) -->
+<script>
+// ====================================================================
+// pmMetaCapi — shared helper that mirrors every fbq() pixel call to
+// Meta's Conversions API server-side, using the same event_id so Meta
+// deduplicates the browser and server events into a single event.
+//
+// Usage: pmMetaCapi.track('AddToCart', { content_ids: [...], value: 1, currency: 'EUR' })
+// Optionally pass customer data: pmMetaCapi.track('Purchase', customData, { email, phone, firstName, lastName, country, externalId })
+// ====================================================================
+window.pmMetaCapi = (function () {
+  function getCookie(name) {
+    const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match[2]) : undefined;
+  }
+
+  function makeEventId() {
+    return (window.crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : (Date.now() + '-' + Math.random().toString(36).slice(2));
+  }
+
+  // Sends the event payload to meta-capi. Uses navigator.sendBeacon
+  // when available so the request survives an immediate page
+  // navigation/redirect right after this call (e.g. window.location.href
+  // straight after tracking InitiateCheckout) — a plain fetch() can be
+  // aborted mid-flight by the browser in that situation, silently
+  // dropping the event. sendBeacon is fire-and-forget by design, which
+  // is fine here since the caller never needs the response body. Falls
+  // back to fetch with keepalive when sendBeacon is unavailable, and a
+  // request failure here never throws — analytics delivery is always
+  // best-effort and never blocks the calling page's own flow.
+  function sendEvent(payload) {
+    try {
+      const json = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        const blob = new Blob([json], { type: 'application/json' });
+        const ok = navigator.sendBeacon('/.netlify/functions/meta-capi', blob);
+        if (ok) return;
+      }
+    } catch (err) {
+      // fall through to fetch below
+    }
+    try {
+      fetch('/.netlify/functions/meta-capi', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      }).catch(function (err) {
+        console.error('meta-capi request failed:', err);
+      });
+    } catch (err) {
+      console.error('meta-capi request failed:', err);
+    }
+  }
+
+  // Sends the same event to fbq() (browser pixel) and to our
+  // meta-capi Netlify Function (server-side), sharing one event_id
+  // so Meta's deduplication treats them as a single event.
+  function track(eventName, customData, customerData) {
+    const eventId = makeEventId();
+
+    if (typeof fbq === 'function') {
+      fbq('track', eventName, customData || {}, { eventID: eventId });
+    }
+
+    const fbp = getCookie('_fbp');
+    const fbc = getCookie('_fbc');
+
+    sendEvent({
+      eventName: eventName,
+      eventId: eventId,
+      eventSourceUrl: window.location.href,
+      customData: customData || {},
+      userData: Object.assign({ fbp: fbp, fbc: fbc }, customerData || {}),
+    });
+
+    return eventId;
+  }
+
+  // Sends a server-side event for an id that was already fired on the
+  // browser pixel (e.g. the inline PageView above), reusing the same
+  // event_id so Meta deduplicates the pair.
+  function trackServerOnly(eventName, eventId, customData, customerData) {
+    const fbp = getCookie('_fbp');
+    const fbc = getCookie('_fbc');
+    sendEvent({
+      eventName: eventName,
+      eventId: eventId,
+      eventSourceUrl: window.location.href,
+      customData: customData || {},
+      userData: Object.assign({ fbp: fbp, fbc: fbc }, customerData || {}),
+    });
+  }
+
+  return { track: track, trackServerOnly: trackServerOnly, getCookie: getCookie, makeEventId: makeEventId };
+})();
+
+// Mirror the PageView event we already fired above to the server side,
+// reusing the exact same event_id for deduplication.
+pmMetaCapi.trackServerOnly('PageView', __pmPageViewEventId, {});
+</script>
 <!-- End Meta Pixel Code -->
 
 <style>
@@ -1370,15 +1475,13 @@ function addBundleToCart(bundleId) {
     });
   }
   persistCart();
-  if (typeof fbq === 'function') {
-    fbq('track', 'AddToCart', {
-      content_name: bundle.name,
-      content_ids: [bundle.id],
-      content_type: 'product',
-      value: bundle.unitPrice,
-      currency: 'EUR',
-    });
-  }
+  pmMetaCapi.track('AddToCart', {
+    content_name: bundle.name,
+    content_ids: [bundle.id],
+    content_type: 'product',
+    value: bundle.unitPrice,
+    currency: 'EUR',
+  });
   renderCart();
   openCart();
 }
@@ -1491,15 +1594,13 @@ function renderUpsells() {
         isUpsell: true,
       });
       persistCart();
-      if (typeof fbq === 'function') {
-        fbq('track', 'AddToCart', {
-          content_name: upsell.label,
-          content_ids: [upsell.id],
-          content_type: 'product',
-          value: upsell.price,
-          currency: 'EUR',
-        });
-      }
+      pmMetaCapi.track('AddToCart', {
+        content_name: upsell.label,
+        content_ids: [upsell.id],
+        content_type: 'product',
+        value: upsell.price,
+        currency: 'EUR',
+      });
       renderCart();
     });
   });
@@ -1562,15 +1663,13 @@ document.getElementById('header-cart-btn').addEventListener('click', () => {
 document.getElementById('cart-checkout-btn').addEventListener('click', () => {
   if (cart.items.length === 0) return;
   persistCart();
-  if (typeof fbq === 'function') {
-    fbq('track', 'InitiateCheckout', {
-      content_ids: cart.items.map((i) => i.id),
-      content_type: 'product',
-      num_items: cartTotalQty(),
-      value: cartSubtotal(),
-      currency: 'EUR',
-    });
-  }
+  pmMetaCapi.track('InitiateCheckout', {
+    content_ids: cart.items.map((i) => i.id),
+    content_type: 'product',
+    num_items: cartTotalQty(),
+    value: cartSubtotal(),
+    currency: 'EUR',
+  });
   window.location.href = '/checkout.html';
 });
 

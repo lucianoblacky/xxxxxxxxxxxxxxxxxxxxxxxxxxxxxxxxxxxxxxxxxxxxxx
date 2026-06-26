@@ -16,8 +16,114 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1011003394626105');
-fbq('track', 'PageView');
+var __pmPageViewEventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(36).slice(2));
+var __pmViewContentEventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(36).slice(2) + '-2');
+fbq('track', 'PageView', {}, { eventID: __pmPageViewEventId });
 fbq('track', 'ViewContent', {
+  content_name: 'Himalayan Shilajit 45g (Buy 1 Get 1 Free)',
+  content_ids: ['main'],
+  content_type: 'product',
+  value: 94.50,
+  currency: 'EUR'
+}, { eventID: __pmViewContentEventId });
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1011003394626105&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<!-- Meta Conversions API helper (shared across all pages) -->
+<script>
+window.pmMetaCapi = (function () {
+  function getCookie(name) {
+    const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match[2]) : undefined;
+  }
+
+  function makeEventId() {
+    return (window.crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : (Date.now() + '-' + Math.random().toString(36).slice(2));
+  }
+
+  // Sends the event payload to meta-capi. Uses navigator.sendBeacon
+  // when available so the request survives an immediate page
+  // navigation/redirect right after this call (e.g. window.location.href
+  // straight after tracking InitiateCheckout or Purchase) — a plain
+  // fetch() can be aborted mid-flight by the browser in that situation,
+  // silently dropping the event. sendBeacon is fire-and-forget by
+  // design (no response is readable), which is fine here since the
+  // caller never needs the response body. Falls back to fetch with
+  // keepalive when sendBeacon is unavailable or rejects the payload
+  // (e.g. payload too large), and a request failure here never throws —
+  // analytics delivery is always best-effort and never blocks the
+  // calling page's own flow (checkout, navigation, etc.).
+  function sendEvent(payload) {
+    try {
+      const json = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        const blob = new Blob([json], { type: 'application/json' });
+        const ok = navigator.sendBeacon('/.netlify/functions/meta-capi', blob);
+        if (ok) return;
+      }
+    } catch (err) {
+      // fall through to fetch below
+    }
+    try {
+      fetch('/.netlify/functions/meta-capi', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      }).catch(function (err) {
+        console.error('meta-capi request failed:', err);
+      });
+    } catch (err) {
+      console.error('meta-capi request failed:', err);
+    }
+  }
+
+  function track(eventName, customData, customerData) {
+    const eventId = makeEventId();
+
+    if (typeof fbq === 'function') {
+      fbq('track', eventName, customData || {}, { eventID: eventId });
+    }
+
+    const fbp = getCookie('_fbp');
+    const fbc = getCookie('_fbc');
+
+    sendEvent({
+      eventName: eventName,
+      eventId: eventId,
+      eventSourceUrl: window.location.href,
+      customData: customData || {},
+      userData: Object.assign({ fbp: fbp, fbc: fbc }, customerData || {}),
+    });
+
+    return eventId;
+  }
+
+  // Sends a server-side event for an id that was already fired on the
+  // browser pixel (e.g. the inline PageView/ViewContent above), reusing
+  // the same event_id so Meta deduplicates the pair.
+  function trackServerOnly(eventName, eventId, customData, customerData) {
+    const fbp = getCookie('_fbp');
+    const fbc = getCookie('_fbc');
+    sendEvent({
+      eventName: eventName,
+      eventId: eventId,
+      eventSourceUrl: window.location.href,
+      customData: customData || {},
+      userData: Object.assign({ fbp: fbp, fbc: fbc }, customerData || {}),
+    });
+  }
+
+  return { track: track, trackServerOnly: trackServerOnly, getCookie: getCookie, makeEventId: makeEventId };
+})();
+
+pmMetaCapi.trackServerOnly('PageView', __pmPageViewEventId, {});
+pmMetaCapi.trackServerOnly('ViewContent', __pmViewContentEventId, {
   content_name: 'Himalayan Shilajit 45g (Buy 1 Get 1 Free)',
   content_ids: ['main'],
   content_type: 'product',
@@ -25,10 +131,6 @@ fbq('track', 'ViewContent', {
   currency: 'EUR'
 });
 </script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1011003394626105&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2102,15 +2204,13 @@ document.getElementById('add-to-cart-btn').addEventListener('click', () => {
       isUpsell: false,
     });
   }
-  if (typeof fbq === 'function') {
-    fbq('track', 'AddToCart', {
-      content_name: MAIN_PRODUCT.name,
-      content_ids: [MAIN_PRODUCT.id],
-      content_type: 'product',
-      value: MAIN_PRODUCT.unitPrice * buyBoxQty,
-      currency: 'EUR',
-    });
-  }
+  pmMetaCapi.track('AddToCart', {
+    content_name: MAIN_PRODUCT.name,
+    content_ids: [MAIN_PRODUCT.id],
+    content_type: 'product',
+    value: MAIN_PRODUCT.unitPrice * buyBoxQty,
+    currency: 'EUR',
+  });
   renderCart();
   openCart();
 });
@@ -2208,15 +2308,13 @@ function renderUpsells() {
         qty: 1,
         isUpsell: true,
       });
-      if (typeof fbq === 'function') {
-        fbq('track', 'AddToCart', {
-          content_name: upsell.label,
-          content_ids: [upsell.id],
-          content_type: 'product',
-          value: upsell.price,
-          currency: 'EUR',
-        });
-      }
+      pmMetaCapi.track('AddToCart', {
+        content_name: upsell.label,
+        content_ids: [upsell.id],
+        content_type: 'product',
+        value: upsell.price,
+        currency: 'EUR',
+      });
       renderCart();
     });
   });
@@ -2281,15 +2379,13 @@ const CART_STORAGE_KEY = 'peakmodo_checkout_cart';
 document.getElementById('cart-checkout-btn').addEventListener('click', () => {
   if (cart.items.length === 0) return;
   sessionStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart.items));
-  if (typeof fbq === 'function') {
-    fbq('track', 'InitiateCheckout', {
-      content_ids: cart.items.map((i) => i.id),
-      content_type: 'product',
-      num_items: cartTotalQty(),
-      value: cartSubtotal(),
-      currency: 'EUR',
-    });
-  }
+  pmMetaCapi.track('InitiateCheckout', {
+    content_ids: cart.items.map((i) => i.id),
+    content_type: 'product',
+    num_items: cartTotalQty(),
+    value: cartSubtotal(),
+    currency: 'EUR',
+  });
   window.location.href = '/checkout.html';
 });
 

@@ -16,12 +16,103 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1011003394626105');
-fbq('track', 'PageView');
+var __pmPageViewEventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(36).slice(2));
+fbq('track', 'PageView', {}, { eventID: __pmPageViewEventId });
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1011003394626105&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+
+<!-- Meta Conversions API helper (shared across all pages) -->
+<script>
+window.pmMetaCapi = (function () {
+  function getCookie(name) {
+    const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match[2]) : undefined;
+  }
+
+  function makeEventId() {
+    return (window.crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : (Date.now() + '-' + Math.random().toString(36).slice(2));
+  }
+
+  // Sends the event payload to meta-capi. Uses navigator.sendBeacon
+  // when available so the request survives an immediate page
+  // navigation/redirect right after this call (e.g. window.location.href
+  // straight after tracking InitiateCheckout or Purchase) — a plain
+  // fetch() can be aborted mid-flight by the browser in that situation,
+  // silently dropping the event. sendBeacon is fire-and-forget by
+  // design (no response is readable), which is fine here since the
+  // caller never needs the response body. Falls back to fetch with
+  // keepalive when sendBeacon is unavailable or rejects the payload
+  // (e.g. payload too large), and a request failure here never throws —
+  // analytics delivery is always best-effort and never blocks the
+  // calling page's own flow (checkout, navigation, etc.).
+  function sendEvent(payload) {
+    try {
+      const json = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        const blob = new Blob([json], { type: 'application/json' });
+        const ok = navigator.sendBeacon('/.netlify/functions/meta-capi', blob);
+        if (ok) return;
+      }
+    } catch (err) {
+      // fall through to fetch below
+    }
+    try {
+      fetch('/.netlify/functions/meta-capi', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      }).catch(function (err) {
+        console.error('meta-capi request failed:', err);
+      });
+    } catch (err) {
+      console.error('meta-capi request failed:', err);
+    }
+  }
+
+  function track(eventName, customData, customerData) {
+    const eventId = makeEventId();
+
+    if (typeof fbq === 'function') {
+      fbq('track', eventName, customData || {}, { eventID: eventId });
+    }
+
+    const fbp = getCookie('_fbp');
+    const fbc = getCookie('_fbc');
+
+    sendEvent({
+      eventName: eventName,
+      eventId: eventId,
+      eventSourceUrl: window.location.href,
+      customData: customData || {},
+      userData: Object.assign({ fbp: fbp, fbc: fbc }, customerData || {}),
+    });
+
+    return eventId;
+  }
+
+  function trackServerOnly(eventName, eventId, customData, customerData) {
+    const fbp = getCookie('_fbp');
+    const fbc = getCookie('_fbc');
+    sendEvent({
+      eventName: eventName,
+      eventId: eventId,
+      eventSourceUrl: window.location.href,
+      customData: customData || {},
+      userData: Object.assign({ fbp: fbp, fbc: fbc }, customerData || {}),
+    });
+  }
+
+  return { track: track, trackServerOnly: trackServerOnly, getCookie: getCookie, makeEventId: makeEventId };
+})();
+
+pmMetaCapi.trackServerOnly('PageView', __pmPageViewEventId, {});
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,6 +124,9 @@ src="https://www.facebook.com/tr?id=1011003394626105&ev=PageView&noscript=1"
   ============================================================
 -->
 <script src="https://www.paypal.com/sdk/js?client-id=AW8ouWXFmMbBVDz3OW4wNVlEcwMmmoDdwbUobtXcNpj94QRt8LdKuaNwsvYl-C3oa2cUttGHmKMq5FZd&currency=EUR&intent=capture"></script>
+
+<!-- Stripe.js — required for Stripe Elements (embedded card form), loaded fresh on every page per Stripe's own security requirements -->
+<script src="https://js.stripe.com/v3/"></script>
 
 <style>
 :root{
@@ -84,11 +178,39 @@ input{font-family:var(--font-body);font-size:0.95rem;}
   .checkout-summary{ border-left:1px solid var(--line); }
 }
 
-.checkout-main{ padding:2rem 1.5rem 4rem; }
-@media (min-width:900px){ .checkout-main{ padding:2.5rem 3.5rem 4rem; max-width:34rem; margin-left:auto; } }
+.checkout-main{ padding:2rem 1.5rem 4rem; order:2; }
+@media (min-width:900px){ .checkout-main{ padding:2.5rem 3.5rem 4rem; max-width:34rem; margin-left:auto; order:initial; } }
 
-.checkout-summary{ background:#faf8f4; padding:2rem 1.5rem 3rem; }
-@media (min-width:900px){ .checkout-summary{ padding:2.5rem 3rem; } }
+.checkout-summary{ background:#faf8f4; padding:1.5rem 1.5rem 1.25rem; order:1; }
+@media (min-width:900px){ .checkout-summary{ padding:2.5rem 3rem; order:initial; } }
+
+/* ----------------------------------------------------------------------
+   MOBILE CONVERSION IMPROVEMENTS
+   - Order summary is shown collapsed-by-default above the form on
+     small screens (via <details>), so shoppers see the total before
+     filling anything in, without pushing the form below the fold.
+   - All interactive elements get larger touch targets on touch devices.
+   - A sticky bottom bar keeps the running total and primary pay action
+     visible while scrolling through the form, matching the pattern
+     used by major ecommerce checkouts.
+   ---------------------------------------------------------------------- */
+@media (max-width:899px){
+  .checkout-summary-toggle{
+    display:flex; align-items:center; justify-content:space-between;
+    width:100%; background:none; border:none; padding:0; cursor:pointer;
+    font-size:0.88rem; font-weight:700; color:var(--ink);
+  }
+  .checkout-summary-toggle__chevron{ transition:transform 0.2s ease; font-size:0.8rem; color:var(--ink-soft); }
+  .checkout-summary[open] .checkout-summary-toggle__chevron{ transform:rotate(180deg); }
+  .checkout-summary-toggle__total{ font-weight:800; }
+  #checkout-summary-items, #checkout-summary-totals{ margin-top:1rem; }
+
+  .field input, .checkout-pay-btn, .checkout-success-view__btn{ min-height:3rem; }
+  .checkout-section h2{ font-size:1rem; }
+}
+@media (min-width:900px){
+  .checkout-summary-toggle{ display:none; }
+}
 
 .checkout-guarantee{
   display:flex; gap:0.7rem; align-items:flex-start;
@@ -99,26 +221,50 @@ input{font-family:var(--font-body);font-size:0.95rem;}
 .checkout-guarantee__title{ font-size:0.85rem; font-weight:800; color:#1a7a4c; margin-bottom:0.25rem; }
 .checkout-guarantee__text{ font-size:0.78rem; color:#2f5e45; line-height:1.45; }
 
-.express-label{ text-align:center; font-size:0.78rem; color:var(--ink-soft); font-weight:700; margin-bottom:0.8rem; }
-.express-row{ display:flex; flex-direction:column; gap:0.7rem; margin-bottom:1.5rem; }
-#checkout-stripe-btn{
+.checkout-payment-section{ margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--line); }
+.checkout-field-hint{ font-size:0.76rem; color:var(--ink-soft); margin-top:0.3rem; }
+
+#checkout-express-checkout-element{ margin-bottom:0.5rem; min-height:0; }
+
+.checkout-pay-btn{
   display:flex; align-items:center; justify-content:center; gap:0.55rem;
   background:var(--ink);
-  color:#ffffff; font-weight:700; font-size:0.92rem; letter-spacing:0; text-transform:none;
-  padding:0.9rem 1rem; border-radius:0.5rem; width:100%;
+  color:#ffffff; font-weight:700; font-size:0.95rem; letter-spacing:0; text-transform:none;
+  padding:0.95rem 1rem; border-radius:0.5rem; width:100%; margin-top:1rem; border:none; cursor:pointer;
 }
-#checkout-stripe-btn:hover{ filter:brightness(1.15); }
-#checkout-stripe-btn:disabled{ opacity:0.6; filter:none; cursor:default; }
-#checkout-stripe-btn svg{ flex:0 0 auto; }
+.checkout-pay-btn:hover{ filter:brightness(1.15); }
+.checkout-pay-btn:disabled{ opacity:0.6; filter:none; cursor:default; }
 
-.checkout-divider{ display:flex; align-items:center; gap:0.75rem; margin:0.5rem 0 1.4rem; font-size:0.78rem; color:var(--ink-soft); }
+#checkout-payment-element{ margin-bottom:0.5rem; }
+
+.checkout-divider{ display:flex; align-items:center; gap:0.75rem; margin:1.2rem 0 1.4rem; font-size:0.78rem; color:var(--ink-soft); }
 .checkout-divider span{ flex:1; height:1px; background:var(--line); }
 
-#checkout-paypal-container{ min-height:3rem; margin-bottom:0.5rem; }
+#checkout-paypal-container{ min-height:3rem; margin-top:0.5rem; }
 
-.checkout-error{ display:none !important; }
+.checkout-error{
+  display:none; color:#c0392b; font-size:0.82rem; font-weight:600; margin:0.5rem 0 0;
+  padding:0.6rem 0.8rem; background:#fdecea; border-radius:0.4rem;
+}
+.checkout-error.is-visible{ display:block; }
 
 .checkout-section{ margin-bottom:1.75rem; }
+
+.checkout-success-view{
+  text-align:center; padding:3rem 1.5rem; background:#fff; border-radius:0.75rem;
+  border:1px solid var(--line);
+}
+.checkout-success-view__icon{
+  width:4rem; height:4rem; border-radius:50%; background:#e9f7ef; color:#1a7a4c;
+  display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto 1.2rem;
+}
+.checkout-success-view h2{ font-size:1.4rem; margin-bottom:0.6rem; color:var(--ink); }
+.checkout-success-view__sub{ font-size:0.92rem; color:var(--ink-soft); margin-bottom:1.6rem; line-height:1.5; }
+.checkout-success-view__btn{
+  display:inline-block; background:var(--ink); color:#fff; font-weight:700; font-size:0.9rem;
+  padding:0.8rem 1.8rem; border-radius:0.5rem; text-decoration:none;
+}
+.checkout-success-view__btn:hover{ filter:brightness(1.15); }
 .checkout-section h2{
   font-size:0.95rem; font-weight:800; margin-bottom:0.8rem; display:flex; align-items:center; justify-content:space-between;
 }
@@ -149,6 +295,8 @@ input{font-family:var(--font-body);font-size:0.95rem;}
 .summary-totals__row{ display:flex; justify-content:space-between; font-size:0.85rem; padding:0.45rem 0; color:var(--ink-soft); }
 .summary-totals__row.grand{ font-size:1rem; font-weight:800; color:var(--ink); border-top:1px solid var(--line); margin-top:0.4rem; padding-top:0.8rem; }
 .summary-totals__row.grand .now{ color:var(--ink); }
+.summary-totals__row.savings{ color:#1a7a4c; font-weight:700; }
+.summary-totals__row .compare-value{ text-decoration:line-through; color:#b3b3b3; margin-right:0.4rem; }
 
 .checkout-empty{ text-align:center; padding:3rem 1rem; color:var(--ink-soft); font-size:0.9rem; }
 
@@ -191,65 +339,99 @@ input{font-family:var(--font-body);font-size:0.95rem;}
       </div>
     </div>
 
-    <p class="express-label">Express checkout</p>
-
-    <div class="express-row">
-      <button type="button" id="checkout-stripe-btn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/>
-          <line x1="2" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="1.8"/>
-        </svg>
-        Pay with Card / Apple Pay / Google Pay
-      </button>
-    </div>
-    <p id="checkout-stripe-error" class="checkout-error"></p>
-
-    <div class="checkout-divider"><span></span>or<span></span></div>
-
-    <div id="checkout-paypal-container"></div>
-    <p id="checkout-paypal-error" class="checkout-error"></p>
-
-    <div class="checkout-divider"><span></span>or<span></span></div>
-
-    <div class="checkout-section">
-      <h2>Contact <a href="#" id="checkout-signin-link">Sign in</a></h2>
-      <div class="field">
-        <input type="email" id="checkout-email" placeholder="Email (optional)" autocomplete="email">
-      </div>
+    <!-- ================================================================
+         INLINE ORDER SUCCESS VIEW
+         Shown in place of the form + payment sections once a payment
+         (Stripe or PayPal) succeeds. No redirect to another page.
+         ================================================================ -->
+    <div id="checkout-success-view" class="checkout-success-view" style="display:none;">
+      <div class="checkout-success-view__icon">✓</div>
+      <h2>Thank you — your order is confirmed!</h2>
+      <p class="checkout-success-view__sub">A confirmation has been sent to your email. Your order number is <strong id="checkout-success-order-id"></strong>.</p>
+      <a href="/index.html" class="checkout-success-view__btn">Continue Shopping</a>
     </div>
 
-    <div class="checkout-section">
-      <h2>Delivery</h2>
-      <div class="field">
-        <input type="text" id="checkout-country" placeholder="Country/Region" value="Germany" autocomplete="country-name">
-      </div>
-      <div class="field field-row">
-        <input type="text" id="checkout-firstname" placeholder="First name" autocomplete="given-name">
-        <input type="text" id="checkout-lastname" placeholder="Last name" autocomplete="family-name">
-      </div>
-      <div class="field">
-        <input type="text" id="checkout-address" placeholder="Address" autocomplete="address-line1">
-      </div>
-      <div class="field">
-        <input type="text" id="checkout-address2" placeholder="Apartment, suite, etc. (optional)" autocomplete="address-line2">
-      </div>
-      <div class="field field-row">
-        <input type="text" id="checkout-city" placeholder="City" autocomplete="address-level2">
-        <input type="text" id="checkout-zip" placeholder="Postal code" autocomplete="postal-code">
-      </div>
-    </div>
+    <!-- ================================================================
+         CHECKOUT FORM — collected ONCE, reused for both Stripe and
+         PayPal. The shopper is never asked to retype this information.
+         ================================================================ -->
+    <div id="checkout-form-section">
 
-    <p class="checkout-note">Your delivery details above are used for both card and PayPal payments — you won't be asked for your address again.</p>
+      <div class="checkout-section">
+        <h2>Contact <a href="#" id="checkout-signin-link">Sign in</a></h2>
+        <div class="field">
+          <input type="email" id="checkout-email" placeholder="Email" autocomplete="email" required>
+        </div>
+        <p class="checkout-field-hint">We'll send your order confirmation and receipt here.</p>
+      </div>
+
+      <div class="checkout-section">
+        <h2>Delivery</h2>
+        <div class="field">
+          <input type="text" id="checkout-country" placeholder="Country/Region" value="Germany" autocomplete="country-name">
+        </div>
+        <div class="field field-row">
+          <input type="text" id="checkout-firstname" placeholder="First name" autocomplete="given-name">
+          <input type="text" id="checkout-lastname" placeholder="Last name" autocomplete="family-name">
+        </div>
+        <div class="field">
+          <input type="text" id="checkout-address" placeholder="Address" autocomplete="address-line1">
+        </div>
+        <div class="field">
+          <input type="text" id="checkout-address2" placeholder="Apartment, suite, etc. (optional)" autocomplete="address-line2">
+        </div>
+        <div class="field field-row">
+          <input type="text" id="checkout-city" placeholder="City" autocomplete="address-level2">
+          <input type="text" id="checkout-zip" placeholder="Postal code" autocomplete="postal-code">
+        </div>
+      </div>
+
+      <p class="checkout-note">Your details above are used for payment, receipt, and delivery — you'll never be asked to enter them again on this page.</p>
+
+      <!-- ============================================================
+           PAYMENT — Express button (Apple Pay / Google Pay, when
+           available on the shopper's device/browser) + embedded card
+           form, both powered by the same Stripe PaymentIntent. No
+           redirect to a Stripe-hosted page at any point.
+           ============================================================ -->
+      <div class="checkout-section checkout-payment-section">
+        <h2>Payment</h2>
+
+        <div id="checkout-express-checkout-element"></div>
+        <p id="checkout-express-error" class="checkout-error"></p>
+
+        <div class="checkout-divider" id="checkout-express-divider" style="display:none;"><span></span>or pay with card<span></span></div>
+
+        <div id="checkout-payment-element"></div>
+        <p id="checkout-stripe-error" class="checkout-error"></p>
+        <button type="button" id="checkout-stripe-btn" class="checkout-pay-btn">
+          <span id="checkout-stripe-btn-label">Pay</span>
+        </button>
+
+        <div class="checkout-divider"><span></span>or<span></span></div>
+
+        <div id="checkout-paypal-container"></div>
+        <p id="checkout-paypal-error" class="checkout-error"></p>
+      </div>
+
+    </div>
 
   </div>
 
-  <div class="checkout-summary">
+  <details class="checkout-summary" open id="checkout-summary-details">
+    <summary class="checkout-summary-toggle">
+      <span>Order summary</span>
+      <span class="checkout-summary-toggle__total">
+        <span id="checkout-summary-toggle-amount">EUR 0.00 €</span>
+        <span class="checkout-summary-toggle__chevron">▾</span>
+      </span>
+    </summary>
 
     <div id="checkout-summary-items"></div>
 
     <div class="summary-totals" id="checkout-summary-totals"></div>
 
-  </div>
+  </details>
 
 </div>
 
@@ -307,6 +489,9 @@ function renderSummary() {
 
   itemsWrap.innerHTML = cartItems.map((item) => {
     const catalogEntry = CATALOG[item.id] || {};
+    const compareTotal = (item.unitComparePrice || item.unitPrice) * item.qty;
+    const priceTotal = item.unitPrice * item.qty;
+    const hasDiscount = compareTotal > priceTotal;
     return `
       <div class="summary-line-item">
         <img class="summary-line-item__img" src="${catalogEntry.image || ''}" alt="${item.name}">
@@ -314,30 +499,72 @@ function renderSummary() {
           <div class="summary-line-item__name">${item.name}</div>
           <div class="summary-line-item__qty">Qty ${item.qty}</div>
         </div>
-        <div class="summary-line-item__price">${formatEUR(item.unitPrice * item.qty)}</div>
+        <div class="summary-line-item__price">${hasDiscount ? `<span class="compare-value">${formatEUR(compareTotal)}</span>` : ''}${formatEUR(priceTotal)}</div>
       </div>
     `;
   }).join('');
 
-  // The promo banner is shown purely as a trust signal confirming the
+  // The promo banner and the "original price / you save" lines below
+  // are shown purely as a trust and transparency signal confirming the
   // shopper is buying at the already-discounted price shown throughout
-  // the site. It does NOT apply any additional reduction here — the
-  // prices in CATALOG already reflect the real, final price.
+  // the site. They do NOT apply any additional reduction here — the
+  // prices in CATALOG already reflect the real, final price, and the
+  // "original price" is simply the existing unitComparePrice already
+  // stored on each cart item (the same one shown as a strikethrough
+  // price everywhere else on the site).
   const subtotal = cartItems.reduce((sum, i) => sum + i.unitPrice * i.qty, 0);
+  const compareSubtotal = cartItems.reduce((sum, i) => sum + (i.unitComparePrice || i.unitPrice) * i.qty, 0);
+  const totalSavings = Math.max(0, compareSubtotal - subtotal);
   const promoActive = isPromoActive();
 
   const promoBannerHtml = promoActive
     ? `<div class="promo-active-banner" style="margin-bottom:0.9rem;"><span class="promo-active-banner__check">✓</span> Promo code <strong>PEAK52</strong> active — your 52% discount is already included in this price</div>`
     : '';
 
+  const originalPriceRowHtml = totalSavings > 0
+    ? `<div class="summary-totals__row"><span>Original price</span><span class="compare-value">${formatEUR(compareSubtotal)}</span></div>`
+    : '';
+  const savingsRowHtml = totalSavings > 0
+    ? `<div class="summary-totals__row savings"><span>You save</span><span>-${formatEUR(totalSavings)}</span></div>`
+    : '';
+
   totalsWrap.innerHTML = `
     ${promoBannerHtml}
+    ${originalPriceRowHtml}
+    ${savingsRowHtml}
     <div class="summary-totals__row"><span>Subtotal</span><span>${formatEUR(subtotal)}</span></div>
     <div class="summary-totals__row"><span>Shipping</span><span>Free</span></div>
     <div class="summary-totals__row grand"><span>Total</span><span class="now">EUR ${formatEUR(subtotal)}</span></div>
   `;
+
+  // Keep the pay button label in sync with the actual total so the
+  // shopper always sees the exact amount they're about to be charged
+  // before clicking, right on the button itself.
+  const stripeBtnLabel = document.getElementById('checkout-stripe-btn-label');
+  if (stripeBtnLabel) {
+    stripeBtnLabel.textContent = `Pay ${formatEUR(subtotal)}`;
+  }
+
+  // Mirror the same total into the mobile summary toggle, so shoppers
+  // can see what they owe without expanding the full line-item list.
+  const toggleAmount = document.getElementById('checkout-summary-toggle-amount');
+  if (toggleAmount) {
+    toggleAmount.textContent = `EUR ${formatEUR(subtotal)}`;
+  }
 }
 renderSummary();
+
+// On small screens, start with the order summary collapsed so the
+// shopper sees the form right away with just the total visible in the
+// toggle bar above it — expanding it is one tap away. On desktop the
+// <details> stays open via its `open` attribute regardless, since the
+// toggle itself is hidden there (see the @media rule in the stylesheet).
+(function () {
+  const detailsEl = document.getElementById('checkout-summary-details');
+  if (detailsEl && window.innerWidth < 900) {
+    detailsEl.removeAttribute('open');
+  }
+})();
 
 function buildCheckoutItemsPayload() {
   return cartItems.map((item) => ({
@@ -346,17 +573,75 @@ function buildCheckoutItemsPayload() {
   }));
 }
 
+function buildCustomerDataForCapi() {
+  // external_id: a stable-ish, non-PII identifier for this browser/cart
+  // session, used as an extra matching signal. Not a real account ID
+  // since this store has no login — falls back to the session's cart
+  // storage key plus a random suffix stored in localStorage so the
+  // same browser reuses it across visits.
+  let externalId;
+  try {
+    externalId = localStorage.getItem('peakmodo_external_id');
+    if (!externalId) {
+      externalId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(36).slice(2));
+      localStorage.setItem('peakmodo_external_id', externalId);
+    }
+  } catch (err) {
+    externalId = undefined;
+  }
+
+  return {
+    email: formFields.email.value.trim() || undefined,
+    // No phone field exists in this checkout form today, so this is
+    // left undefined — meta-capi.js already skips any field that's
+    // not provided rather than sending an empty hash.
+    phone: undefined,
+    firstName: formFields.firstName.value.trim() || undefined,
+    lastName: formFields.lastName.value.trim() || undefined,
+    country: resolveCountryCode(formFields.country.value) || undefined,
+    externalId: externalId,
+  };
+}
+
+// Purchase uses a DETERMINISTIC event_id derived from the order ID
+// (PaymentIntent ID for Stripe, PayPal Order ID for PayPal), rather
+// than pmMetaCapi.track()'s normal random event_id. This matters
+// specifically for Purchase: if this function were ever somehow
+// invoked twice for the same order (e.g. the localStorage dedup guard
+// in completeOrder() failed in some edge case, like a browser that
+// blocks all storage), a random event_id would produce two distinct
+// Purchase events that Meta cannot deduplicate. A deterministic id
+// guarantees the browser and server events for the same order always
+// carry the exact same event_id, and that a second accidental call
+// for the same order_id produces an id Meta has already seen before —
+// giving Meta's own deduplication a real chance to catch it as a
+// second line of defense behind the localStorage check.
+function purchaseEventIdFor(orderId) {
+  return 'purchase-' + String(orderId).replace(/[^a-zA-Z0-9_-]/g, '');
+}
+
 function trackPurchase(orderId) {
-  if (typeof fbq !== 'function') return;
   const totalValue = cartItems.reduce((sum, i) => sum + i.unitPrice * i.qty, 0);
-  fbq('track', 'Purchase', {
+  const eventId = purchaseEventIdFor(orderId);
+  const customData = {
     content_ids: cartItems.map((i) => i.id),
     content_type: 'product',
     num_items: cartItems.reduce((sum, i) => sum + i.qty, 0),
     value: totalValue,
     currency: 'EUR',
     order_id: orderId,
-  });
+  };
+  const customerData = buildCustomerDataForCapi();
+
+  if (typeof fbq === 'function') {
+    fbq('track', 'Purchase', customData, { eventID: eventId });
+  }
+
+  if (typeof pmMetaCapi !== 'undefined') {
+    pmMetaCapi.trackServerOnly('Purchase', eventId, customData, customerData);
+  }
+
+  return eventId;
 }
 
 const formFields = {
@@ -442,18 +727,126 @@ function showProcessing(show) {
   document.getElementById('processing-overlay').classList.toggle('is-active', show);
 }
 
+// ----------------------------------------------------------------------
+// Shared validation: email is required now (it wasn't before), since
+// Stripe Elements needs a real email for the receipt, and every order
+// — Stripe or PayPal — should always have a way to reach the customer.
+// ----------------------------------------------------------------------
+function validateCheckoutForm() {
+  const formValid = validateDeliveryForm();
+  const emailValue = formFields.email.value.trim();
+  const emailValid = isValidEmail(emailValue);
+  if (!emailValid) {
+    formFields.email.classList.add('field-invalid');
+    if (formValid) {
+      // Delivery fields were fine, but email wasn't — focus it directly
+      // since validateDeliveryForm() only scrolls to delivery fields.
+      formFields.email.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      formFields.email.focus();
+    }
+  } else {
+    formFields.email.classList.remove('field-invalid');
+  }
+  return formValid && emailValid;
+}
+
+// ----------------------------------------------------------------------
+// Shared inline order-success handling, used by both Stripe and PayPal.
+// Neither payment path redirects to another page — the form/payment
+// section is simply replaced with a confirmation message in place.
+// ----------------------------------------------------------------------
+const ORDER_TRACKED_KEY_PREFIX = 'peakmodo_order_tracked_';
+
+function isOrderAlreadyTracked(orderId) {
+  const key = ORDER_TRACKED_KEY_PREFIX + orderId;
+  try {
+    return !!localStorage.getItem(key);
+  } catch (err) {
+    try {
+      return !!sessionStorage.getItem(key);
+    } catch (err2) {
+      return false;
+    }
+  }
+}
+
+function markOrderTracked(orderId) {
+  const key = ORDER_TRACKED_KEY_PREFIX + orderId;
+  try {
+    localStorage.setItem(key, '1');
+  } catch (err) {
+    try {
+      sessionStorage.setItem(key, '1');
+    } catch (err2) {
+      // No storage available — the deterministic event_id used in
+      // trackPurchase() is the last line of defense against double
+      // counting on Meta's side.
+    }
+  }
+}
+
+function showOrderSuccess(orderId) {
+  document.getElementById('checkout-form-section').style.display = 'none';
+  document.getElementById('checkout-success-order-id').textContent = orderId;
+  document.getElementById('checkout-success-view').style.display = 'block';
+  document.getElementById('checkout-success-view').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Called exactly once per order, regardless of which payment method was
+// used. Guards against double-firing Purchase if this were ever somehow
+// invoked twice for the same order (e.g. a duplicate event from a
+// payment provider's SDK).
+function completeOrder(orderId, providerLabel) {
+  if (!isOrderAlreadyTracked(orderId)) {
+    trackPurchase(orderId);
+    markOrderTracked(orderId);
+  }
+  sessionStorage.removeItem(CART_STORAGE_KEY);
+  showProcessing(false);
+  showOrderSuccess(orderId);
+}
+
+function showFieldError(elId, message) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  el.textContent = message;
+  el.classList.toggle('is-visible', !!message);
+}
+
+// ========================================================================
+// STRIPE ELEMENTS — embedded card form + Express Checkout (Apple Pay /
+// Google Pay), no redirect to a Stripe-hosted page at any point.
+// ========================================================================
+//
+// IMPORTANT SETUP STEP: replace the placeholder below with your real
+// Stripe PUBLISHABLE key (starts with "pk_live_" or "pk_test_") from
+// the Stripe Dashboard → Developers → API keys. This key is public by
+// design (it's meant to be visible in frontend code) and is different
+// from your secret key, which only ever lives in Netlify environment
+// variables and is never put in this file.
+const STRIPE_PUBLISHABLE_KEY = 'pk_live_51TXfOmDDNzNSiSkehCIHpZpTH0cUDUmzpCBOR4FDo1zy3PSRu0LjQCsyOepDr9NRNVsPhaUKI6BypDOYlK5KDQmP00sFzS9sNc';
+
+const stripe = (typeof Stripe === 'function' && STRIPE_PUBLISHABLE_KEY.indexOf('REPLACE_WITH') === -1)
+  ? Stripe(STRIPE_PUBLISHABLE_KEY)
+  : null;
+
+let stripeElements = null;
+let stripePaymentElement = null;
+let stripeExpressCheckoutElement = null;
+let stripeClientSecret = null;
+
 const stripeBtn = document.getElementById('checkout-stripe-btn');
 
-stripeBtn.addEventListener('click', async () => {
+async function initStripeElements() {
+  if (!stripe) {
+    showFieldError('checkout-stripe-error', 'Card payment is not configured yet. Please use PayPal below, or contact support.');
+    stripeBtn.disabled = true;
+    return;
+  }
   if (cartItems.length === 0) return;
-  if (!validateDeliveryForm()) return;
-
-  stripeBtn.disabled = true;
-  stripeBtn.textContent = 'Redirecting…';
-  showProcessing(true);
 
   try {
-    const response = await fetch('/.netlify/functions/create-checkout', {
+    const response = await fetch('/.netlify/functions/create-payment-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -462,16 +855,174 @@ stripeBtn.addEventListener('click', async () => {
       }),
     });
     const data = await response.json();
-    if (!response.ok || !data.url) throw new Error(data.error || 'Could not start checkout.');
-    window.location.href = data.url;
+    if (!response.ok || !data.clientSecret) throw new Error(data.error || 'Could not start payment.');
+
+    stripeClientSecret = data.clientSecret;
+
+    stripeElements = stripe.elements({
+      clientSecret: stripeClientSecret,
+      appearance: {
+        theme: 'stripe',
+        variables: {
+          colorPrimary: '#1c1c1c',
+          colorText: '#1c1c1c',
+          borderRadius: '8px',
+          fontFamily: 'inherit',
+        },
+      },
+    });
+
+    // Express Checkout Element automatically shows Apple Pay / Google
+    // Pay / Link buttons when the shopper's browser/device supports
+    // them, and renders nothing at all otherwise — no manual detection
+    // needed, and the divider above "or pay with card" only shows once
+    // we know there's actually a button to separate from the card form.
+    stripeExpressCheckoutElement = stripeElements.create('expressCheckout');
+    stripeExpressCheckoutElement.mount('#checkout-express-checkout-element');
+    stripeExpressCheckoutElement.on('ready', (event) => {
+      const hasButtons = event.availablePaymentMethods && Object.keys(event.availablePaymentMethods).length > 0;
+      document.getElementById('checkout-express-divider').style.display = hasButtons ? 'flex' : 'none';
+    });
+    stripeExpressCheckoutElement.on('confirm', async () => {
+      if (!validateCheckoutForm()) return;
+      showProcessing(true);
+      const { error } = await stripe.confirmPayment({
+        elements: stripeElements,
+        confirmParams: { return_url: window.location.href },
+        redirect: 'if_required',
+      });
+      if (error) {
+        showProcessing(false);
+        showFieldError('checkout-express-error', error.message || 'Payment could not be completed.');
+        return;
+      }
+      completeOrder(stripeClientSecret.split('_secret_')[0], 'stripe');
+    });
+
+    stripePaymentElement = stripeElements.create('payment', {
+      layout: 'tabs',
+    });
+    stripePaymentElement.mount('#checkout-payment-element');
+
+    stripeBtn.disabled = false;
   } catch (err) {
-    console.error('Stripe checkout error:', err);
+    console.error('Stripe Elements init error:', err);
+    showFieldError('checkout-stripe-error', 'Unable to load payment form. Please refresh the page or use PayPal below.');
+  }
+}
+
+stripeBtn.addEventListener('click', async () => {
+  if (cartItems.length === 0 || !stripe || !stripeElements) return;
+  if (!validateCheckoutForm()) return;
+
+  showFieldError('checkout-stripe-error', '');
+  stripeBtn.disabled = true;
+  showProcessing(true);
+
+  try {
+    const { error } = await stripe.confirmPayment({
+      elements: stripeElements,
+      confirmParams: { return_url: window.location.href },
+      redirect: 'if_required',
+    });
+
+    if (error) {
+      // Card declined, validation failed, etc. — show the shopper
+      // exactly what went wrong so they can fix it and try again,
+      // rather than silently failing.
+      showFieldError('checkout-stripe-error', error.message || 'Payment could not be completed. Please check your details and try again.');
+      showProcessing(false);
+      stripeBtn.disabled = false;
+      return;
+    }
+
+    completeOrder(stripeClientSecret.split('_secret_')[0], 'stripe');
+  } catch (err) {
+    console.error('Stripe payment error:', err);
+    showFieldError('checkout-stripe-error', 'Something went wrong while processing your payment. Please try again.');
     showProcessing(false);
     stripeBtn.disabled = false;
-    stripeBtn.textContent = 'Pay with Card / Apple Pay / Google Pay';
   }
 });
 
+// ========================================================================
+// 3D SECURE RETURN HANDLING
+//
+// When a card requires 3D Secure (SCA) authentication, Stripe briefly
+// redirects the shopper to their bank's own page, then back to our
+// `return_url` (which we set to the current checkout.html URL). On
+// that return, Stripe appends `payment_intent` and
+// `payment_intent_client_secret` as query parameters.
+//
+// This must be checked BEFORE initStripeElements() runs, so we never
+// create a second, unrelated PaymentIntent for what is actually a
+// completed payment returning from authentication.
+// ========================================================================
+async function checkForStripeReturnAndMaybeComplete() {
+  const params = new URLSearchParams(window.location.search);
+  const returnedClientSecret = params.get('payment_intent_client_secret');
+  const returnedPaymentIntentId = params.get('payment_intent');
+
+  if (!returnedClientSecret || !returnedPaymentIntentId || !stripe) {
+    return false;
+  }
+
+  // Always clean the sensitive params out of the URL immediately,
+  // regardless of outcome, so a manual refresh afterward doesn't
+  // re-trigger this branch with a stale/already-resolved PaymentIntent.
+  const cleanUrl = window.location.pathname;
+  window.history.replaceState({}, document.title, cleanUrl);
+
+  showProcessing(true);
+  try {
+    const { paymentIntent, error } = await stripe.retrievePaymentIntent(returnedClientSecret);
+
+    if (error) {
+      console.error('Stripe retrievePaymentIntent error:', error.message);
+      showProcessing(false);
+      showFieldError('checkout-stripe-error', 'We could not confirm your payment status. Please check your email for a receipt, or contact support before trying again.');
+      return true; // handled (as a failure) — don't fall through to a fresh initStripeElements()
+    }
+
+    if (paymentIntent && paymentIntent.status === 'succeeded') {
+      stripeClientSecret = returnedClientSecret;
+      completeOrder(returnedPaymentIntentId, 'stripe');
+      return true;
+    }
+
+    if (paymentIntent && (paymentIntent.status === 'processing')) {
+      showProcessing(false);
+      showFieldError('checkout-stripe-error', 'Your payment is still processing. We will email your confirmation as soon as it completes — please avoid submitting another payment.');
+      return true;
+    }
+
+    // requires_payment_method, canceled, etc. — authentication failed
+    // or was abandoned. Let the shopper try again normally rather than
+    // silently creating a new PaymentIntent behind their back.
+    showProcessing(false);
+    showFieldError('checkout-stripe-error', 'Your payment was not completed (authentication failed or was canceled). Please try again.');
+    return true;
+  } catch (err) {
+    console.error('3D Secure return handling error:', err);
+    showProcessing(false);
+    showFieldError('checkout-stripe-error', 'We could not confirm your payment status. Please check your email for a receipt, or contact support before trying again.');
+    return true;
+  }
+}
+
+(async function bootStripeCheckout() {
+  const handled3ds = await checkForStripeReturnAndMaybeComplete();
+  if (!handled3ds) {
+    initStripeElements();
+  }
+})();
+
+// ========================================================================
+// PAYPAL — already embedded (no redirect to PayPal-hosted pages beyond
+// PayPal's own login popup, which shoppers already expect). Approval
+// now shows the same inline success view as Stripe instead of
+// redirecting to success.html.
+// ========================================================================
 function renderPayPalButton() {
   const container = document.getElementById('checkout-paypal-container');
   if (cartItems.length === 0) return;
@@ -482,7 +1033,7 @@ function renderPayPalButton() {
   paypal.Buttons({
     style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
     onClick: (data, actions) => {
-      if (!validateDeliveryForm()) {
+      if (!validateCheckoutForm()) {
         return actions.reject();
       }
       return actions.resolve();
@@ -501,6 +1052,7 @@ function renderPayPalButton() {
       return data.id;
     },
     onApprove: async (data) => {
+      showFieldError('checkout-paypal-error', '');
       showProcessing(true);
       try {
         const response = await fetch('/.netlify/functions/paypal-capture-order', {
@@ -512,16 +1064,16 @@ function renderPayPalButton() {
         if (!response.ok) {
           throw new Error(result.error || 'Payment could not be captured.');
         }
-        trackPurchase(data.orderID);
-        sessionStorage.removeItem(CART_STORAGE_KEY);
-        window.location.href = '/success.html?provider=paypal&order_id=' + data.orderID;
+        completeOrder(data.orderID, 'paypal');
       } catch (err) {
         console.error('PayPal capture error:', err);
+        showFieldError('checkout-paypal-error', 'Your payment could not be completed. Please try again or use a different payment method.');
         showProcessing(false);
       }
     },
     onError: (err) => {
       console.error('PayPal error:', err);
+      showFieldError('checkout-paypal-error', 'PayPal could not be loaded. Please try again or use card payment above.');
     },
     onCancel: () => {
     },

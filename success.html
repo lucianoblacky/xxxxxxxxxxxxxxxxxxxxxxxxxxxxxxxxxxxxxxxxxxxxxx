@@ -20,12 +20,103 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1011003394626105');
-fbq('track', 'PageView');
+var __pmPageViewEventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(36).slice(2));
+fbq('track', 'PageView', {}, { eventID: __pmPageViewEventId });
 </script>
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1011003394626105&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+
+<!-- Meta Conversions API helper (shared across all pages) -->
+<script>
+window.pmMetaCapi = (function () {
+  function getCookie(name) {
+    const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match[2]) : undefined;
+  }
+
+  function makeEventId() {
+    return (window.crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : (Date.now() + '-' + Math.random().toString(36).slice(2));
+  }
+
+  // Sends the event payload to meta-capi. Uses navigator.sendBeacon
+  // when available so the request survives an immediate page
+  // navigation/redirect right after this call — a plain fetch() can be
+  // aborted mid-flight by the browser in that situation, silently
+  // dropping the event. sendBeacon is fire-and-forget by design, which
+  // is fine here since the caller never needs the response body. Falls
+  // back to fetch with keepalive when sendBeacon is unavailable, and a
+  // request failure here never throws — analytics delivery is always
+  // best-effort and never blocks the calling page's own flow.
+  function sendEvent(payload) {
+    try {
+      const json = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        const blob = new Blob([json], { type: 'application/json' });
+        const ok = navigator.sendBeacon('/.netlify/functions/meta-capi', blob);
+        if (ok) return;
+      }
+    } catch (err) {
+      // fall through to fetch below
+    }
+    try {
+      fetch('/.netlify/functions/meta-capi', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      }).catch(function (err) {
+        console.error('meta-capi request failed:', err);
+      });
+    } catch (err) {
+      console.error('meta-capi request failed:', err);
+    }
+  }
+
+  function track(eventName, customData, customerData) {
+    const eventId = makeEventId();
+
+    if (typeof fbq === 'function') {
+      fbq('track', eventName, customData || {}, { eventID: eventId });
+    }
+
+    const fbp = getCookie('_fbp');
+    const fbc = getCookie('_fbc');
+
+    sendEvent({
+      eventName: eventName,
+      eventId: eventId,
+      eventSourceUrl: window.location.href,
+      customData: customData || {},
+      userData: Object.assign({ fbp: fbp, fbc: fbc }, customerData || {}),
+    });
+
+    return eventId;
+  }
+
+  // Used here for the Stripe Purchase event: the browser pixel call
+  // below already uses `eventId` directly via fbq's eventID option,
+  // so this only needs to mirror that exact same id server-side.
+  function trackServerOnly(eventName, eventId, customData, customerData) {
+    const fbp = getCookie('_fbp');
+    const fbc = getCookie('_fbc');
+    sendEvent({
+      eventName: eventName,
+      eventId: eventId,
+      eventSourceUrl: window.location.href,
+      customData: customData || {},
+      userData: Object.assign({ fbp: fbp, fbc: fbc }, customerData || {}),
+    });
+  }
+
+  return { track: track, trackServerOnly: trackServerOnly, getCookie: getCookie, makeEventId: makeEventId };
+})();
+
+pmMetaCapi.trackServerOnly('PageView', __pmPageViewEventId, {});
+</script>
 
 <style>
 :root{
@@ -103,13 +194,38 @@ if (sessionId) {
 // For Stripe, the shopper leaves our site entirely for Stripe's hosted
 // checkout page, so by the time they land back here, sessionStorage may
 // already be empty and checkout.html's JS is long gone. This page is
-// therefore the only place a Stripe Purchase event can be fired. We use
-// a one-time flag so a page refresh doesn't fire Purchase twice for the
-// same session.
+// therefore the only place a Stripe Purchase event can be fired.
+//
+// The dedup flag is stored in localStorage rather than sessionStorage:
+// sessionStorage is scoped to a single browser tab, so if a shopper
+// closed the tab and later reopened the success URL from history, a
+// bookmark, or a second tab, a sessionStorage-only flag would not catch
+// it and Purchase could fire again for the same order. localStorage
+// persists across tabs and browser restarts, so the same Stripe
+// session_id can never trigger a second Purchase event from this page.
+//
+// The same event_id is used for both the browser pixel call and the
+// mirrored server-side Conversions API call below, so Meta deduplicates
+// them into a single Purchase event even in the unlikely case this
+// script ran twice before the flag below was set.
 // ----------------------------------------------------------------------
 if (sessionId && typeof fbq === 'function') {
   const trackedKey = 'peakmodo_purchase_tracked_' + sessionId;
-  if (!sessionStorage.getItem(trackedKey)) {
+  let alreadyTracked = false;
+  try {
+    alreadyTracked = !!localStorage.getItem(trackedKey);
+  } catch (err) {
+    // If localStorage is unavailable (e.g. private browsing in some
+    // browsers), fall back to sessionStorage so we still have some
+    // protection rather than none.
+    try {
+      alreadyTracked = !!sessionStorage.getItem(trackedKey);
+    } catch (err2) {
+      alreadyTracked = false;
+    }
+  }
+
+  if (!alreadyTracked) {
     let cartItems = [];
     try {
       const raw = sessionStorage.getItem('peakmodo_checkout_cart');
@@ -119,15 +235,48 @@ if (sessionId && typeof fbq === 'function') {
       cartItems = [];
     }
     const value = cartItems.reduce((sum, i) => sum + i.unitPrice * i.qty, 0);
-    fbq('track', 'Purchase', {
+    const purchaseCustomData = {
       content_ids: cartItems.map((i) => i.id),
       content_type: 'product',
       num_items: cartItems.reduce((sum, i) => sum + i.qty, 0),
       value: value,
       currency: 'EUR',
       order_id: sessionId,
-    });
-    sessionStorage.setItem(trackedKey, '1');
+    };
+
+    // event_id is derived from the Stripe session_id so it stays
+    // identical even if this script were to run twice for the same
+    // session before the dedup flag below is set — Stripe's
+    // session_id is already unique per checkout.
+    const purchaseEventId = 'stripe-purchase-' + sessionId;
+
+    fbq('track', 'Purchase', purchaseCustomData, { eventID: purchaseEventId });
+
+    // Pull whatever matching signals are available on this page. Email
+    // and name are not available here since Stripe collects them on
+    // its own hosted page rather than ours — fbp/fbc and the
+    // external_id set during checkout.html are still sent.
+    let externalId;
+    try {
+      externalId = localStorage.getItem('peakmodo_external_id') || undefined;
+    } catch (err) {
+      externalId = undefined;
+    }
+    if (typeof pmMetaCapi !== 'undefined') {
+      pmMetaCapi.trackServerOnly('Purchase', purchaseEventId, purchaseCustomData, { externalId: externalId });
+    }
+
+    try {
+      localStorage.setItem(trackedKey, '1');
+    } catch (err) {
+      try {
+        sessionStorage.setItem(trackedKey, '1');
+      } catch (err2) {
+        // No storage available at all — nothing more we can do here;
+        // the deterministic event_id above is the last line of defense
+        // against double-counting on Meta's side.
+      }
+    }
   }
 }
 
