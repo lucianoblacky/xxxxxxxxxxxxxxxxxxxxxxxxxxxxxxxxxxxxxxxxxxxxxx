@@ -2535,6 +2535,13 @@ guestReviewForm.addEventListener('submit', (e) => {
 
       currentToken = data.token;
       currentEmail = email;
+      // Advanced Matching: re-init the pixel with the email now that we
+      // have it, so Facebook can hash it and match this visitor to a
+      // known profile for better ad attribution. fbq hashes this
+      // client-side before sending anything to Facebook's servers.
+      if (typeof fbq === 'function') {
+        fbq('init', '1011003394626105', { em: email });
+      }
       document.getElementById('discount-step2-sub').textContent =
         `We just sent a 6-digit verification code to ${email}. Enter it below to unlock your discount.`;
       openPopup(step2);

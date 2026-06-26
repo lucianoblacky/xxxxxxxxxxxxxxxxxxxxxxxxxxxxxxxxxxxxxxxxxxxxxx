@@ -428,6 +428,16 @@ function buildShippingPayload() {
   };
 }
 
+// Advanced Matching: once the shopper enters a valid email in the
+// checkout form, re-init the pixel with it so Facebook can hash it
+// client-side and match this visitor to a known profile.
+formFields.email.addEventListener('blur', () => {
+  const emailValue = formFields.email.value.trim();
+  if (isValidEmail(emailValue) && typeof fbq === 'function') {
+    fbq('init', '1011003394626105', { em: emailValue });
+  }
+});
+
 function showProcessing(show) {
   document.getElementById('processing-overlay').classList.toggle('is-active', show);
 }

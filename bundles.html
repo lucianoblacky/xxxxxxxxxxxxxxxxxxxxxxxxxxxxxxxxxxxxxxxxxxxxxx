@@ -657,6 +657,9 @@ renderCart();
 
       currentToken = data.token;
       currentEmail = email;
+      if (typeof fbq === 'function') {
+        fbq('init', '1011003394626105', { em: email });
+      }
       document.getElementById('discount-step2-sub').textContent =
         `We just sent a 6-digit verification code to ${email}. Enter it below to unlock your discount.`;
       openPopup(step2);

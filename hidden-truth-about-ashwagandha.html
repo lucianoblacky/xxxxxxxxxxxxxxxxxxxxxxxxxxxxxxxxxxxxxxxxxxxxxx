@@ -1395,6 +1395,10 @@ contactForm.addEventListener('submit', (e) => {
   const message = document.getElementById('contact-message').value.trim();
   const note = document.getElementById('contact-form-note');
 
+  if (email && typeof fbq === 'function') {
+    fbq('init', '1011003394626105', { em: email });
+  }
+
   const subject = encodeURIComponent('Contact request from ' + name);
   const body = encodeURIComponent(message + '\n\n— ' + name + ' (' + email + ')');
   window.location.href = `mailto:support@peakmodo.com?subject=${subject}&body=${body}`;
@@ -1454,6 +1458,9 @@ contactForm.addEventListener('submit', (e) => {
 
       currentToken = data.token;
       currentEmail = email;
+      if (typeof fbq === 'function') {
+        fbq('init', '1011003394626105', { em: email });
+      }
       document.getElementById('discount-step2-sub').textContent =
         `We just sent a 6-digit verification code to ${email}. Enter it below to unlock your discount.`;
       openPopup(step2);
