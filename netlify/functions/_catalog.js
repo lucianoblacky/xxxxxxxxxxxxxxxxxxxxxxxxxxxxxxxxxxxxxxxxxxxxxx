@@ -29,7 +29,7 @@ const CATALOG = {
     maxQty: 10,
   },
   "bundle-ashwagandha-3m": {
-    name: "Ashwagandha 3-Month Bundle (3x Ashwagandha Kapseln)",
+    name: "Ashwagandha 3-Month Bundle (3x Ashwagandha Capsules)",
     unitPrice: 149,
     maxQty: 5,
   },

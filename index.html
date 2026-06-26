@@ -19,7 +19,7 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '876944531341744');
+fbq('init', '1011003394626105');
 fbq('track', 'PageView');
 </script>
 <!-- End Meta Pixel Code -->
@@ -291,39 +291,124 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
 .footer-bottom{ border-top:1px solid #ffffff22; padding-top:1.4rem; font-size:0.78rem; color:#f4f2ed80; text-align:center; }
 .footer-logo{ height:1.8rem; margin-bottom:0.8rem; filter:brightness(0) invert(1); }
 .img-placeholder{ aspect-ratio:1/1; background:repeating-linear-gradient(45deg,#ece7dc,#ece7dc 10px,#e2dccb 10px,#e2dccb 20px); display:flex; align-items:center; justify-content:center; text-align:center; padding:1rem; font-size:0.76rem; color:var(--ink-muted); }
-.stats-bar{
-    width:100%;
-    padding:0;
-    margin:80px 0;
+/* ====================================================================
+   TRUST STATEMENT BAR (large bold trust text under hero)
+   ==================================================================== */
+.trust-statement-bar{
+  background:linear-gradient(135deg,#0d0d0b 0%,#1d1a15 55%,#0d0d0b 100%);
+  padding:2.6rem 0 2.8rem;
+  text-align:center;
+}
+.trust-statement-bar__main{
+  font-family:var(--font-heading);
+  font-size:clamp(1.5rem, 1.2rem + 1.4vw, 2.3rem);
+  font-weight:900;
+  color:#fff;
+  letter-spacing:-0.01em;
+  margin:0 0 2rem;
+  line-height:1.25;
+}
+.trust-statement-bar__row{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:1.4rem;
+  max-width:60rem;
+  margin:0 auto;
+}
+.trust-statement-bar__item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-width:7rem;
+}
+.trust-statement-bar__num{
+  font-family:var(--font-heading);
+  font-size:clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  font-weight:900;
+  color:var(--gold-3);
+  letter-spacing:-0.01em;
+}
+.trust-statement-bar__label{
+  font-size:0.74rem;
+  font-weight:700;
+  letter-spacing:0.03em;
+  text-transform:uppercase;
+  color:#cfc9b8;
+  margin-top:0.3rem;
+}
+.trust-statement-bar__divider{
+  width:1px;
+  height:2.6rem;
+  background:rgba(255,255,255,0.18);
+  flex:0 0 auto;
+}
+@media (max-width:700px){
+  .trust-statement-bar__row{ gap:1rem 0.5rem; }
+  .trust-statement-bar__divider{ display:none; }
+  .trust-statement-bar__item{ min-width:6.2rem; }
 }
 
-.stats-banner{
-    width:100%;
-    display:block;
-    height:auto;
+/* ====================================================================
+   WHY PEAKMODO (premium trust section, between stats bar and products)
+   ==================================================================== */
+.why-peakmodo{ padding:5rem 0 5.5rem; background:#fff; }
+.why-peakmodo__grid{
+  display:grid; grid-template-columns:1fr; gap:3rem; align-items:start;
 }
-.stats-bar{
-    margin:40px 0;
+@media (min-width:960px){ .why-peakmodo__grid{ grid-template-columns:1.22fr 1fr; gap:4rem; } }
+
+.why-peakmodo__eyebrow{
+  display:inline-block; font-size:0.74rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase;
+  color:var(--gold-1); margin-bottom:1rem;
+}
+.why-peakmodo__title{ font-size:clamp(1.7rem,1.3rem+1.6vw,2.5rem); line-height:1.2; margin-bottom:1.6rem; color:var(--ink); max-width:32rem; }
+.why-peakmodo__text{ font-size:1rem; color:var(--ink-soft); line-height:1.75; margin-bottom:1.2rem; max-width:34rem; }
+.why-peakmodo__text strong{ color:var(--ink); }
+
+.why-peakmodo__subhead{
+  font-size:1.25rem; font-weight:800; color:var(--ink); margin:2.2rem 0 1.1rem; letter-spacing:-0.01em;
+}
+.why-peakmodo__reasons{ list-style:none; margin:0 0 2rem; padding:0; display:grid; gap:0.75rem; max-width:34rem; }
+.why-peakmodo__reasons li{
+  display:flex; gap:0.7rem; align-items:flex-start; font-size:0.94rem; color:var(--ink-soft); line-height:1.55;
+}
+.why-peakmodo__reasons li::before{
+  content:""; flex:0 0 auto; width:0.4rem; height:0.4rem; border-radius:50%;
+  background:var(--gold-2); margin-top:0.55rem;
+}
+.why-peakmodo__reasons li strong{ color:var(--ink); }
+
+/* ---------- Right side: image collage ---------- */
+.why-peakmodo__collage{
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  grid-template-rows:auto auto;
+  gap:0.85rem;
+}
+.why-peakmodo__collage-main{ grid-row:1/3; border-radius:1.1rem; overflow:hidden; box-shadow:0 28px 56px -18px rgba(0,0,0,0.22); }
+.why-peakmodo__collage-main img{ width:100%; height:100%; object-fit:cover; display:block; aspect-ratio:3/4; }
+.why-peakmodo__collage-sub{ border-radius:1.1rem; overflow:hidden; box-shadow:0 18px 36px -16px rgba(0,0,0,0.18); }
+.why-peakmodo__collage-sub img{ width:100%; height:100%; object-fit:cover; display:block; aspect-ratio:1/1; }
+@media (max-width:700px){
+  .why-peakmodo__collage{ grid-template-columns:1fr 1fr; }
 }
 
-.stats-banner{
-    width:100%;
-    display:block;
-    height:auto;
+/* ---------- Feature cards below collage ---------- */
+.why-peakmodo__cards{
+  margin-top:1.4rem; display:grid; grid-template-columns:1fr 1fr; gap:0.85rem;
 }
-
-@media (max-width:768px){
-
-    .stats-bar{
-        margin:20px 0;
-    }
-
-    .stats-banner{
-        max-height:80px;
-        object-fit:contain;
-    }
-
+.why-peakmodo__card{
+  background:var(--bg); border:1px solid var(--line); border-radius:0.9rem; padding:1.2rem 1.1rem;
+  box-shadow:0 10px 24px -16px rgba(0,0,0,0.1);
 }
+.why-peakmodo__card-check{
+  display:inline-flex; align-items:center; justify-content:center; width:1.7rem; height:1.7rem;
+  border-radius:50%; background:linear-gradient(135deg,var(--gold-1) 0%,var(--gold-2) 50%,var(--gold-3) 100%);
+  color:#241b06; font-weight:900; font-size:0.85rem; margin-bottom:0.7rem;
+}
+.why-peakmodo__card-label{ font-size:0.86rem; font-weight:800; color:var(--ink); line-height:1.35; }
 
 /* ====================================================================
    CART DRAWER (shared system, same as product pages)
@@ -418,7 +503,7 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
 }
 
 .cart-upsell-card{
-  border:1.5px solid #8fb8f6; border-radius:0.6rem; padding:0.85rem;
+  border:1px solid var(--line); border-radius:0.6rem; padding:0.9rem;
   margin-bottom:0.7rem; background:#ffffff;
 }
 .cart-upsell-card__top{ display:flex; align-items:flex-start; justify-content:space-between; gap:0.6rem; }
@@ -428,20 +513,20 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
   width:3.4rem; height:3.4rem; border-radius:0.45rem; object-fit:cover; flex:0 0 auto;
   border:1px solid var(--line); background:#fff;
 }
-.cart-upsell-card__label{ font-size:0.85rem; font-weight:800; color:var(--ink); margin-bottom:0.35rem; }
+.cart-upsell-card__label{ font-size:0.85rem; font-weight:800; color:var(--ink); margin-bottom:0.35rem; letter-spacing:-0.01em; }
 .cart-upsell-card__desc{ font-size:0.76rem; color:var(--ink-soft); margin-bottom:0.45rem; line-height:1.4; }
 .cart-upsell-card__prices{ font-size:0.78rem; }
 .cart-upsell-card__prices .compare{ color:#b3b3b3; text-decoration:line-through; margin-right:0.4rem; }
 .cart-upsell-card__prices .now{ color:var(--accent); font-weight:800; }
 .cart-upsell-card__save{ font-size:0.72rem; color:#1a7a4c; font-weight:700; margin-top:0.2rem; }
 .cart-upsell-card__btn{
-  flex:0 0 auto; background:#4a90e2;
-  color:#ffffff; font-weight:800; font-size:0.72rem; letter-spacing:0.03em; text-transform:uppercase;
-  padding:0.5rem 1rem; border-radius:0.35rem;
-  white-space:nowrap;
+  flex:0 0 auto; background:var(--ink);
+  color:#ffffff; font-weight:700; font-size:0.72rem; letter-spacing:0.04em; text-transform:uppercase;
+  padding:0.55rem 1.1rem; border-radius:0.35rem;
+  white-space:nowrap; border:1px solid var(--ink);
 }
-.cart-upsell-card__btn:hover{ filter:brightness(1.08); }
-.cart-upsell-card__btn:disabled{ opacity:0.5; filter:none; cursor:default; background:#9bb8d9; }
+.cart-upsell-card__btn:hover{ filter:brightness(1.3); }
+.cart-upsell-card__btn:disabled{ opacity:0.5; filter:none; cursor:default; background:#888; border-color:#888; }
 
 .cart-guarantee{
   display:flex; gap:0.7rem; align-items:flex-start;
@@ -535,6 +620,18 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
   display:inline-block; background:#1c1c1c; color:var(--gold-3); font-weight:900; font-size:1.4rem;
   letter-spacing:0.1em; padding:0.6rem 1.4rem; border-radius:0.5rem; margin:0.4rem 0 1.2rem;
 }
+.promo-active-banner{
+  display:flex; align-items:center; gap:0.5rem; justify-content:center;
+  background:#e9f7ef; border:1px solid #b6e3c8; color:#1a7a4c;
+  font-weight:700; font-size:0.82rem; padding:0.65rem 0.9rem; border-radius:0.5rem;
+  margin-bottom:0.9rem;
+}
+.promo-active-banner__check{ font-weight:900; }
+.discount-popup__close-link{
+  display:block; width:100%; background:none; border:none; color:var(--ink-soft);
+  font-size:0.85rem; font-weight:600; padding:0.7rem; margin-top:0.4rem; cursor:pointer;
+}
+.discount-popup__close-link:hover{ color:var(--ink); text-decoration:underline; }
 </style>
 </head>
 <body>
@@ -582,10 +679,9 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
     <button type="button" class="discount-popup__close" data-close-popup aria-label="Close">✕</button>
     <div class="discount-popup__success-icon">✓</div>
     <h2>Congratulations!</h2>
-    <p class="dp-sub">You've successfully unlocked your discount.</p>
-    <div class="discount-popup__code-badge">PEAK52</div>
-    <p class="dp-sub" style="margin-bottom:1.4rem;">Use this code at checkout to get 52% off your order. We've also sent it to your email for safekeeping.</p>
-    <button type="button" class="discount-popup__submit" data-close-popup>Continue Shopping</button>
+    <p class="dp-sub" style="margin-bottom:1.4rem;">Your promo code has been successfully activated. Your 52% discount is now applied automatically — no code needed at checkout.</p>
+    <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html" class="discount-popup__submit" style="display:block; text-decoration:none;">Shop Now</a>
+    <button type="button" class="discount-popup__close-link" data-close-popup>Continue Shopping</button>
   </div>
 </div>
 
@@ -662,11 +758,93 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
   </div>
 </section>
 
-<section class="stats-bar">
-    <img src="images/trustbar.png" alt="Trustpilot Statistics" class="stats-banner">
+<section class="trust-statement-bar">
+  <div class="container">
+    <p class="trust-statement-bar__main">Trusted by over <span class="gold-text">25,000 customers</span> across Europe</p>
+    <div class="trust-statement-bar__row">
+      <div class="trust-statement-bar__item">
+        <span class="trust-statement-bar__num">1,200+</span>
+        <span class="trust-statement-bar__label">Verified Reviews</span>
+      </div>
+      <div class="trust-statement-bar__divider"></div>
+      <div class="trust-statement-bar__item">
+        <span class="trust-statement-bar__num">6+</span>
+        <span class="trust-statement-bar__label">Independent Lab Certificates</span>
+      </div>
+      <div class="trust-statement-bar__divider"></div>
+      <div class="trust-statement-bar__item">
+        <span class="trust-statement-bar__num">25,000+</span>
+        <span class="trust-statement-bar__label">Jars Shipped Worldwide</span>
+      </div>
+      <div class="trust-statement-bar__divider"></div>
+      <div class="trust-statement-bar__item">
+        <span class="trust-statement-bar__num">4.7/5</span>
+        <span class="trust-statement-bar__label">Average Rating</span>
+      </div>
+    </div>
+  </div>
 </section>
-</div>
 
+<!-- WHY PEAKMODO: premium trust section -->
+<section class="why-peakmodo">
+  <div class="container">
+    <div class="why-peakmodo__grid">
+
+      <div>
+        <span class="why-peakmodo__eyebrow">Why PeakModo</span>
+        <h2 class="why-peakmodo__title">Why over 25,000 customers trust PeakModo</h2>
+
+        <p class="why-peakmodo__text">PeakModo was built because we were tired of low-quality supplements filled with unnecessary fillers and weak ingredients.</p>
+        <p class="why-peakmodo__text">We believe supplements should start with exceptional raw materials, transparent sourcing, and independent laboratory testing.</p>
+        <p class="why-peakmodo__text">Every product is carefully selected, manufactured under strict quality standards, and designed for people who value quality over shortcuts.</p>
+        <p class="why-peakmodo__text">Thousands of customers return because they know they receive premium products, honest formulations, and consistent quality every time.</p>
+
+        <h3 class="why-peakmodo__subhead">Why are our products sometimes more expensive?</h3>
+        <ul class="why-peakmodo__reasons">
+          <li><strong>Premium raw ingredients</strong> cost more to source responsibly.</li>
+          <li><strong>Independent laboratory testing</strong> costs more, on every single batch.</li>
+          <li><strong>Small batch production</strong> costs more than mass manufacturing.</li>
+          <li><strong>Higher quality standards</strong> cost more to maintain consistently.</li>
+          <li>We never compromise quality just to reduce price.</li>
+        </ul>
+
+        <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html" class="btn-gold">Explore PeakModo →</a>
+      </div>
+
+      <div>
+        <div class="why-peakmodo__collage">
+          <div class="why-peakmodo__collage-main">
+            <img src="images/ASHWAGANDHAImage.JPG" alt="PeakModo team at an industry trade show">
+          </div>
+          <div class="why-peakmodo__collage-sub">
+            <img src="images/anass-compressed.jpg" alt="PeakModo at a wellness event">
+          </div>
+          <div class="why-peakmodo__collage-sub">
+            <img src="images/numberoneshilajit.jpg" alt="PeakModo laboratory quality testing">
+          </div>
+        </div>
+
+        <div class="why-peakmodo__cards">
+          <div class="why-peakmodo__card">
+            <span class="why-peakmodo__card-check">✓</span>
+            <div class="why-peakmodo__card-label">Independent Lab Tested</div>
+          </div>
+          <div class="why-peakmodo__card">
+            <span class="why-peakmodo__card-check">✓</span>
+            <div class="why-peakmodo__card-label">Premium Ingredients</div>
+          </div>
+          <div class="why-peakmodo__card">
+            <span class="why-peakmodo__card-check">✓</span>
+            <div class="why-peakmodo__card-label">Trusted Across Europe</div>
+          </div>
+          <div class="why-peakmodo__card">
+            <span class="why-peakmodo__card-check">✓</span>
+            <div class="why-peakmodo__card-label">Small Batch Quality</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -1044,6 +1222,9 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
   </div>
 
   <div class="cart-drawer__footer" id="cart-view-list-footer">
+    <div class="promo-active-banner" id="cart-promo-banner" style="display:none;">
+      <span class="promo-active-banner__check">✓</span> Promo code <strong>PEAK52</strong> active — your 52% discount is already included in this price
+    </div>
     <div class="cart-subtotal-row">
       <span class="cart-subtotal-row__label">Subtotal (<span id="cart-item-count">0</span> items)</span>
       <span class="cart-subtotal-row__prices">
@@ -1140,6 +1321,24 @@ function formatEUR(value) {
 function findCartItem(id) {
   return cart.items.find((i) => i.id === id);
 }
+
+// ---------- Promo code state (shared across all pages via localStorage) ----------
+const PROMO_STORAGE_KEY = 'peakmodo_promo_active';
+const PROMO_PCT = 0.52;
+
+function isPromoActive() {
+  try {
+    return localStorage.getItem(PROMO_STORAGE_KEY) === '1';
+  } catch (err) {
+    return false;
+  }
+}
+function activatePromo() {
+  try {
+    localStorage.setItem(PROMO_STORAGE_KEY, '1');
+  } catch (err) {}
+}
+
 function cartTotalQty() {
   return cart.items.reduce((sum, i) => sum + i.qty, 0);
 }
@@ -1255,7 +1454,7 @@ function renderUpsells() {
           <a href="${u.link}" class="cart-upsell-card__link-area">
             <img class="cart-upsell-card__img" src="${u.image}" alt="${u.label}">
             <div>
-              <div class="cart-upsell-card__label">${u.badge} ${u.label}</div>
+              <div class="cart-upsell-card__label">${u.label}</div>
               <div class="cart-upsell-card__desc">${u.desc}</div>
               <div class="cart-upsell-card__prices">
                 <span class="compare">${formatEUR(u.comparePrice)}</span>
@@ -1323,6 +1522,10 @@ function renderFooter() {
   const checkoutBtn = document.getElementById('cart-checkout-btn');
   checkoutBtn.disabled = cart.items.length === 0;
   document.getElementById('header-cart-count').textContent = cartTotalQty();
+  const promoBanner = document.getElementById('cart-promo-banner');
+  if (promoBanner) {
+    promoBanner.style.display = isPromoActive() ? 'flex' : 'none';
+  }
 }
 
 function renderCart() {
@@ -1474,6 +1677,8 @@ renderCart();
         localStorage.setItem(STORAGE_KEY, 'redeemed');
         localStorage.setItem('peakmodo_discount_email', currentEmail);
       } catch (err) {}
+      activatePromo();
+      renderCart();
 
       openPopup(step3);
     } catch (err) {

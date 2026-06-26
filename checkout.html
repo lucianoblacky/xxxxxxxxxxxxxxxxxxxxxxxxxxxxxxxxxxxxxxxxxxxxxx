@@ -15,11 +15,11 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '876944531341744');
+fbq('init', '1011003394626105');
 fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=876944531341744&ev=PageView&noscript=1"
+src="https://www.facebook.com/tr?id=1011003394626105&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
@@ -164,6 +164,12 @@ input{font-family:var(--font-body);font-size:0.95rem;}
 }
 @keyframes spin{ to{ transform:rotate(360deg); } }
 .processing-text{ font-size:0.85rem; font-weight:700; color:var(--ink); }
+.promo-active-banner{
+  display:flex; align-items:center; gap:0.5rem; justify-content:center;
+  background:#e9f7ef; border:1px solid #b6e3c8; color:#1a7a4c;
+  font-weight:700; font-size:0.82rem; padding:0.65rem 0.9rem; border-radius:0.5rem;
+}
+.promo-active-banner__check{ font-weight:900; }
 </style>
 </head>
 <body>
@@ -281,6 +287,14 @@ function loadCart() {
 
 const cartItems = loadCart();
 
+function isPromoActive() {
+  try {
+    return localStorage.getItem('peakmodo_promo_active') === '1';
+  } catch (err) {
+    return false;
+  }
+}
+
 function renderSummary() {
   const itemsWrap = document.getElementById('checkout-summary-items');
   const totalsWrap = document.getElementById('checkout-summary-totals');
@@ -305,9 +319,19 @@ function renderSummary() {
     `;
   }).join('');
 
+  // The promo banner is shown purely as a trust signal confirming the
+  // shopper is buying at the already-discounted price shown throughout
+  // the site. It does NOT apply any additional reduction here — the
+  // prices in CATALOG already reflect the real, final price.
   const subtotal = cartItems.reduce((sum, i) => sum + i.unitPrice * i.qty, 0);
+  const promoActive = isPromoActive();
+
+  const promoBannerHtml = promoActive
+    ? `<div class="promo-active-banner" style="margin-bottom:0.9rem;"><span class="promo-active-banner__check">✓</span> Promo code <strong>PEAK52</strong> active — your 52% discount is already included in this price</div>`
+    : '';
 
   totalsWrap.innerHTML = `
+    ${promoBannerHtml}
     <div class="summary-totals__row"><span>Subtotal</span><span>${formatEUR(subtotal)}</span></div>
     <div class="summary-totals__row"><span>Shipping</span><span>Free</span></div>
     <div class="summary-totals__row grand"><span>Total</span><span class="now">EUR ${formatEUR(subtotal)}</span></div>

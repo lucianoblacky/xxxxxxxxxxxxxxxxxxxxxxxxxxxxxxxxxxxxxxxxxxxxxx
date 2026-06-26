@@ -15,7 +15,7 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '876944531341744');
+fbq('init', '1011003394626105');
 fbq('track', 'PageView');
 fbq('track', 'ViewContent', {
   content_name: 'Himalayan Shilajit 45g (Buy 1 Get 1 Free)',
@@ -26,7 +26,7 @@ fbq('track', 'ViewContent', {
 });
 </script>
 <noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=876944531341744&ev=PageView&noscript=1"
+src="https://www.facebook.com/tr?id=1011003394626105&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 
@@ -125,17 +125,27 @@ ul{margin:0;padding:0;list-style:none;}
 /* ---------- Gold offer bar (top, repeated) ---------- */
 .gold-bar{
   display:block;
+  width:fit-content;
+  margin:1.6rem auto;
   background:linear-gradient(90deg,#6f4f18 0%,#c9a145 32%,#f6dc89 50%,#c9a145 68%,#6f4f18 100%);
   color:#2a1f08;
   text-align:center;
-  padding:0.78rem 1rem;
-  font-size:0.78rem;
+  padding:0.7rem 1.8rem;
+  font-size:0.76rem;
   font-weight:800;
   letter-spacing:0.04em;
   text-transform:uppercase;
+  border-radius:2rem;
   box-shadow:inset 0 1px 0 rgba(255,255,255,0.3), inset 0 -1px 3px rgba(0,0,0,0.12);
 }
 .gold-bar:hover{ filter:brightness(1.04); }
+.gold-bar--full{
+  width:100%;
+  margin:0;
+  padding:0.78rem 1rem;
+  font-size:0.78rem;
+  border-radius:0;
+}
 
 /* ---------- Certificate badge carousel ---------- */
 .badge-carousel{
@@ -1140,7 +1150,7 @@ ul{margin:0;padding:0;list-style:none;}
 }
 
 .cart-upsell-card{
-  border:1.5px solid #8fb8f6; border-radius:0.6rem; padding:0.85rem;
+  border:1px solid var(--line); border-radius:0.6rem; padding:0.9rem;
   margin-bottom:0.7rem; background:#ffffff;
 }
 .cart-upsell-card__top{ display:flex; align-items:flex-start; justify-content:space-between; gap:0.6rem; }
@@ -1150,19 +1160,19 @@ ul{margin:0;padding:0;list-style:none;}
   width:3.4rem; height:3.4rem; border-radius:0.45rem; object-fit:cover; flex:0 0 auto;
   border:1px solid var(--line); background:#fff;
 }
-.cart-upsell-card__label{ font-size:0.85rem; font-weight:800; color:var(--ink); margin-bottom:0.35rem; }
+.cart-upsell-card__label{ font-size:0.85rem; font-weight:800; color:var(--ink); margin-bottom:0.35rem; letter-spacing:-0.01em; }
 .cart-upsell-card__desc{ font-size:0.76rem; color:var(--ink-soft); margin-bottom:0.45rem; line-height:1.4; }
 .cart-upsell-card__prices{ font-size:0.78rem; }
 .cart-upsell-card__prices .compare{ color:#b3b3b3; text-decoration:line-through; margin-right:0.4rem; }
 .cart-upsell-card__prices .now{ color:var(--accent); font-weight:800; }
 .cart-upsell-card__save{ font-size:0.72rem; color:#1a7a4c; font-weight:700; margin-top:0.2rem; }
 .cart-upsell-card__btn{
-  flex:0 0 auto; background:#4a90e2;
-  color:#ffffff; font-weight:800; font-size:0.72rem; letter-spacing:0.03em; text-transform:uppercase;
-  padding:0.5rem 1rem; border-radius:0.35rem;
-  white-space:nowrap;
+  flex:0 0 auto; background:var(--ink);
+  color:#ffffff; font-weight:700; font-size:0.72rem; letter-spacing:0.04em; text-transform:uppercase;
+  padding:0.55rem 1.1rem; border-radius:0.35rem;
+  white-space:nowrap; border:1px solid var(--ink);
 }
-.cart-upsell-card__btn:hover{ filter:brightness(1.08); }
+.cart-upsell-card__btn:hover{ filter:brightness(1.3); }
 .cart-upsell-card__btn:disabled{ opacity:0.5; filter:none; cursor:default; background:#9bb8d9; }
 
 .cart-guarantee{
@@ -1324,11 +1334,23 @@ ul{margin:0;padding:0;list-style:none;}
   display:inline-block; background:#1c1c1c; color:var(--gold-3); font-weight:900; font-size:1.4rem;
   letter-spacing:0.1em; padding:0.6rem 1.4rem; border-radius:0.5rem; margin:0.4rem 0 1.2rem;
 }
+.promo-active-banner{
+  display:flex; align-items:center; gap:0.5rem; justify-content:center;
+  background:#e9f7ef; border:1px solid #b6e3c8; color:#1a7a4c;
+  font-weight:700; font-size:0.82rem; padding:0.65rem 0.9rem; border-radius:0.5rem;
+  margin-bottom:0.9rem;
+}
+.promo-active-banner__check{ font-weight:900; }
+.discount-popup__close-link{
+  display:block; width:100%; background:none; border:none; color:var(--ink-soft);
+  font-size:0.85rem; font-weight:600; padding:0.7rem; margin-top:0.4rem; cursor:pointer;
+}
+.discount-popup__close-link:hover{ color:var(--ink); text-decoration:underline; }
 </style>
 </head>
 <body>
 
-<a href="#offer" class="gold-bar">VIEW THE LIMITED TIME OFFER</a>
+<a href="#offer" class="gold-bar gold-bar--full">VIEW THE LIMITED TIME OFFER</a>
 
 <!-- DISCOUNT POPUP — STAGE 1: email capture -->
 <div class="discount-popup-overlay" id="discount-popup-step1">
@@ -1373,10 +1395,9 @@ ul{margin:0;padding:0;list-style:none;}
     <button type="button" class="discount-popup__close" data-close-popup aria-label="Close">✕</button>
     <div class="discount-popup__success-icon">✓</div>
     <h2>Congratulations!</h2>
-    <p class="dp-sub">You've successfully unlocked your discount.</p>
-    <div class="discount-popup__code-badge">PEAK52</div>
-    <p class="dp-sub" style="margin-bottom:1.4rem;">Use this code at checkout to get 52% off your order. We've also sent it to your email for safekeeping.</p>
-    <button type="button" class="discount-popup__submit" data-close-popup>Continue Shopping</button>
+    <p class="dp-sub" style="margin-bottom:1.4rem;">Your promo code has been successfully activated. Your 52% discount is now applied automatically — no code needed at checkout.</p>
+    <button type="button" class="discount-popup__submit" id="discount-step3-add-to-cart">Add to Cart</button>
+    <button type="button" class="discount-popup__close-link" data-close-popup>Continue Shopping</button>
   </div>
 </div>
 
@@ -1951,6 +1972,9 @@ ul{margin:0;padding:0;list-style:none;}
   </div>
 
   <div class="cart-drawer__footer" id="cart-view-list-footer">
+    <div class="promo-active-banner" id="cart-promo-banner" style="display:none;">
+      <span class="promo-active-banner__check">✓</span> Promo code <strong>PEAK52</strong> active — your 52% discount is already included in this price
+    </div>
     <div class="cart-subtotal-row">
       <span class="cart-subtotal-row__label">Subtotal (<span id="cart-item-count">0</span> items)</span>
       <span class="cart-subtotal-row__prices">
@@ -2016,6 +2040,23 @@ function formatEUR(value) {
 
 function findCartItem(id) {
   return cart.items.find((i) => i.id === id);
+}
+
+// ---------- Promo code state (shared across all pages via localStorage) ----------
+const PROMO_STORAGE_KEY = 'peakmodo_promo_active';
+const PROMO_PCT = 0.52;
+
+function isPromoActive() {
+  try {
+    return localStorage.getItem(PROMO_STORAGE_KEY) === '1';
+  } catch (err) {
+    return false;
+  }
+}
+function activatePromo() {
+  try {
+    localStorage.setItem(PROMO_STORAGE_KEY, '1');
+  } catch (err) {}
 }
 
 function cartTotalQty() {
@@ -2131,7 +2172,7 @@ function renderUpsells() {
           <a href="${u.link}" class="cart-upsell-card__link-area">
             <img class="cart-upsell-card__img" src="${u.image}" alt="${u.label}">
             <div>
-              <div class="cart-upsell-card__label">${u.badge} ${u.label}</div>
+              <div class="cart-upsell-card__label">${u.label}</div>
               <div class="cart-upsell-card__desc">${u.desc}</div>
               <div class="cart-upsell-card__prices">
                 <span class="compare">${formatEUR(u.comparePrice)}</span>
@@ -2203,6 +2244,10 @@ function renderFooter() {
   const checkoutBtn = document.getElementById('cart-checkout-btn');
   checkoutBtn.disabled = cart.items.length === 0;
   checkoutBtn.style.opacity = cart.items.length === 0 ? '0.5' : '1';
+  const promoBanner = document.getElementById('cart-promo-banner');
+  if (promoBanner) {
+    promoBanner.style.display = isPromoActive() ? 'flex' : 'none';
+  }
 }
 
 function renderCart() {
@@ -2459,6 +2504,17 @@ guestReviewForm.addEventListener('submit', (e) => {
     });
   });
 
+  // Stage 3 popup: "Add to Cart" button adds the main product (with the
+  // 52% promo already applied) and opens the cart drawer.
+  const step3AddToCartBtn = document.getElementById('discount-step3-add-to-cart');
+  if (step3AddToCartBtn) {
+    step3AddToCartBtn.addEventListener('click', () => {
+      const mainAddToCartBtn = document.getElementById('add-to-cart-btn');
+      if (mainAddToCartBtn) mainAddToCartBtn.click();
+      closeAllPopups();
+    });
+  }
+
   // ---------- Step 1: submit email, request a code ----------
   const step1Form = document.getElementById('discount-step1-form');
   const step1Submit = document.getElementById('discount-step1-submit');
@@ -2524,6 +2580,8 @@ guestReviewForm.addEventListener('submit', (e) => {
         localStorage.setItem(STORAGE_KEY, 'redeemed');
         localStorage.setItem('peakmodo_discount_email', currentEmail);
       } catch (err) {}
+      activatePromo();
+      renderCart();
 
       openPopup(step3);
     } catch (err) {
