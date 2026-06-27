@@ -407,33 +407,41 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
 }
 
 /* ====================================================================
-   TRUST STATEMENT — "why PeakModo, not somewhere else" + guarantee
+   TRUST STATEMENT — brand story, values, and guarantee (2-column)
    ==================================================================== */
-.trust-mastery{ background:#fff; padding:3.5rem 0; }
-.trust-mastery__inner{ max-width:42rem; margin:0 auto; text-align:center; }
+.trust-mastery{ background:#fff; padding:2.2rem 0; }
+.trust-mastery__grid{
+  display:grid; grid-template-columns:1fr; gap:2.5rem; align-items:start;
+}
+@media (min-width:960px){ .trust-mastery__grid{ grid-template-columns:1fr 1fr; gap:4rem; } }
+
 .trust-mastery__eyebrow{
   display:inline-block; font-size:0.74rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase;
   color:var(--gold-1); margin-bottom:0.9rem;
 }
 .trust-mastery h2{
-  font-size:clamp(1.5rem,1.2rem+1.2vw,2rem); line-height:1.25; margin-bottom:1.1rem; color:var(--ink);
+  font-size:clamp(1.5rem,1.2rem+1.1vw,2rem); line-height:1.22; margin-bottom:1.2rem; color:var(--ink);
 }
+.trust-mastery h3{
+  font-size:1.05rem; font-weight:800; color:var(--ink); margin:1.6rem 0 0.7rem;
+}
+.trust-mastery h3:first-child{ margin-top:0; }
 .trust-mastery p{
-  font-size:1rem; color:var(--ink-soft); line-height:1.7; margin-bottom:1rem;
+  font-size:0.96rem; color:var(--ink-soft); line-height:1.75; margin-bottom:1rem;
 }
-.trust-mastery p:last-of-type{ margin-bottom:1.8rem; }
+.trust-mastery__col p:last-of-type{ margin-bottom:0; }
 .trust-mastery__guarantee{
-  display:inline-flex; align-items:center; gap:0.7rem; background:var(--bg-soft);
-  border:1px solid rgba(122,90,35,0.25); border-radius:0.7rem; padding:0.9rem 1.4rem;
-  text-align:left; max-width:32rem; margin:0 auto;
+  display:flex; align-items:flex-start; gap:0.9rem; background:var(--bg-soft);
+  border:1px solid rgba(122,90,35,0.25); border-radius:0.8rem; padding:1.2rem 1.4rem;
+  margin-top:1.8rem;
 }
 .trust-mastery__guarantee-icon{
-  flex:0 0 auto; width:2.4rem; height:2.4rem; border-radius:50%;
+  flex:0 0 auto; width:2.6rem; height:2.6rem; border-radius:50%;
   background:linear-gradient(135deg,var(--gold-1) 0%,var(--gold-2) 50%,var(--gold-3) 100%);
-  display:flex; align-items:center; justify-content:center; font-size:1.1rem; color:#241b06; font-weight:900;
+  display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:#241b06; font-weight:900;
 }
-.trust-mastery__guarantee-text{ font-size:0.88rem; color:var(--ink); line-height:1.4; }
-.trust-mastery__guarantee-text strong{ display:block; font-size:0.95rem; margin-bottom:0.15rem; }
+.trust-mastery__guarantee-text{ font-size:0.9rem; color:var(--ink); line-height:1.55; }
+.trust-mastery__guarantee-text strong{ display:block; font-size:1rem; margin-bottom:0.2rem; }
 
 /* ====================================================================
    CART DRAWER (shared system, same as product pages)
@@ -812,17 +820,37 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
 
 <!-- TRUST STATEMENT: why PeakModo, not somewhere else, + guarantee -->
 <section class="trust-mastery">
-  <div class="container trust-mastery__inner">
-    <span class="trust-mastery__eyebrow">Why PeakModo</span>
-    <h2>The standard other brands talk about — we actually test for it</h2>
-    <p>Most Shilajit and Ashwagandha sold online comes from anonymous middlemen, gets relabeled half a dozen times, and is never independently verified. We do it differently: we buy directly from harvesters above 3,000 meters, send every single batch to an independent lab before it ships, and publish the results — not just the marketing claims.</p>
-    <p>That's the difference between a supplement that might work and one that's actually proven to. It's also why thousands of customers who tried cheaper alternatives first end up switching to PeakModo and staying.</p>
-    <div class="trust-mastery__guarantee">
-      <span class="trust-mastery__guarantee-icon">✓</span>
-      <div class="trust-mastery__guarantee-text">
-        <strong>Every order, fully guaranteed</strong>
-        Not satisfied for any reason? You get your money back within 50 days — no fine print, no questions asked.
+  <div class="container">
+    <div class="trust-mastery__grid">
+
+      <div class="trust-mastery__col">
+        <span class="trust-mastery__eyebrow">Our Story</span>
+        <h2>Why PeakModo exists — and why it's different by design</h2>
+        <p>PeakModo didn't start in a boardroom. It started with a simple, frustrating discovery: the overwhelming majority of Shilajit and Ashwagandha sold online — even the products wrapped in beautiful packaging and confident marketing language — comes from the same handful of anonymous bulk suppliers. The resin gets harvested at low altitude, processed with heat and chemical shortcuts that destroy its mineral content, relabeled three or four times as it changes hands, and finally sold to a customer who has no real way of knowing what they're actually putting in their body.</p>
+        <p>We built PeakModo because we refused to accept that as the standard. Real Shilajit only forms above 3,000 meters in the Himalayas, where the air is thin, the rock is mineral-dense, and the resin seeps out in a process that takes the mountain decades to complete. We go there. We work directly with the small harvesting communities who have collected it for generations, rather than buying through trading houses who have never seen the source themselves. Every relationship is direct, every step is documented, and every batch can be traced back to exactly where it came from.</p>
+        <p>The same philosophy shaped our Ashwagandha line. Instead of settling for a generic root powder at a low withanolide percentage — the industry default — we spent over a year working with cultivators to develop a standardized extract at a meaningfully higher concentration, then verified it independently rather than simply printing a number on the label and hoping nobody checked.</p>
+        <p>This is, deliberately, a slower and more expensive way to build a supplement brand. It's also the only way we were willing to do it.</p>
       </div>
+
+      <div class="trust-mastery__col">
+        <h3>What you're actually paying for</h3>
+        <p>Premium positioning means nothing without substance behind it, so here is exactly what separates a PeakModo order from a typical online supplement purchase: direct-from-source sourcing with no anonymous middlemen, independent third-party laboratory verification of every single batch — not just an occasional sample — full purity testing for heavy metals and contaminants before anything ships, and complete transparency about where your specific jar or bottle came from and what was found in it.</p>
+
+        <h3>A brand built for people who already know better</h3>
+        <p>Our customers tend to be people who have already tried the cheaper alternative once, felt nothing, and started asking harder questions about sourcing and dosage. They're not looking for hype. They're looking for a product that survives scrutiny — lab reports, sourcing documentation, and consistent batch-to-batch quality, every single time. That is the only kind of customer relationship we're interested in building, and it's why so many of them stay long after their first order.</p>
+
+        <h3>The promise behind every order</h3>
+        <p>We stand behind every jar and every bottle we ship without exception. If something about your order doesn't meet your expectations for any reason — the experience, the texture, the effect, anything at all — we don't ask you to justify it or jump through hoops. We make it right.</p>
+
+        <div class="trust-mastery__guarantee">
+          <span class="trust-mastery__guarantee-icon">✓</span>
+          <div class="trust-mastery__guarantee-text">
+            <strong>Every order, fully guaranteed for 50 days</strong>
+            Not satisfied for any reason? You get a full refund within 50 days of your order — no fine print, no complicated process, no questions asked. If we can't earn your trust with the product itself, we don't think we've earned your money either.
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
