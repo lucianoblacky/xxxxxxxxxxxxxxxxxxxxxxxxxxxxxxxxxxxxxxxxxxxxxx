@@ -2020,7 +2020,7 @@ ul{margin:0;padding:0;list-style:none;}
       <a href="hidden-truth-about-ashwagandha.html">Ashwagandha</a>
       <a href="bundles.html">Bundles</a>
       <a href="ueber-uns.html">About Us</a>
-      <a href="hidden-truth-about-ashwagandha.html#faq">FAQ</a>
+      <a href="faq.html">FAQ</a>
       <a href="hidden-truth-about-ashwagandha.html#kontakt">Contact</a>
     </div>
     <div class="foot-row">
@@ -2497,6 +2497,31 @@ function shilajitStarString(n) {
   return '★'.repeat(n) + '☆'.repeat(5 - n);
 }
 
+// Turns a days_ago integer into natural relative time language instead
+// of an exact date or an awkward literal "1 days ago" / "224 days ago".
+function humanizeDaysAgo(days, seedKey) {
+  if (days <= 0) return 'Just now';
+  if (days === 1) {
+    const hash = Math.abs(String(seedKey || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0));
+    const bucket = hash % 4;
+    if (bucket === 0) return `${(hash % 50) + 5} minutes ago`;
+    if (bucket === 1) return `${(hash % 11) + 1} hours ago`;
+    if (bucket === 2) return 'Yesterday';
+    return '1 day ago';
+  }
+  if (days < 7) return `${days} days ago`;
+  if (days < 30) {
+    const weeks = Math.round(days / 7);
+    return weeks <= 1 ? '1 week ago' : `${weeks} weeks ago`;
+  }
+  if (days < 365) {
+    const months = Math.round(days / 30);
+    return months <= 1 ? '1 month ago' : `${months} months ago`;
+  }
+  const years = Math.round(days / 365);
+  return years <= 1 ? '1 year ago' : `${years} years ago`;
+}
+
 function renderShilajitReviewCard(r) {
   const card = document.createElement('div');
   card.className = 'shilajit-review-card';
@@ -2505,7 +2530,7 @@ function renderShilajitReviewCard(r) {
       <span class="shilajit-review-card__name">${r.name}</span>
       <span class="stars">${shilajitStarString(r.stars)}</span>
     </div>
-    <div class="shilajit-review-card__date">${r.days_ago} days ago</div>
+    <div class="shilajit-review-card__date">${humanizeDaysAgo(r.days_ago, r.name + r.text)}</div>
     <p class="shilajit-review-card__text">${r.text}</p>
     ${r.verified ? '<div class="shilajit-review-card__verified">✓ Verified purchase</div>' : ''}
   `;

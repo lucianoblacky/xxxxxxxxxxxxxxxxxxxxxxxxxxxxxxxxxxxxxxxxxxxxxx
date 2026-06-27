@@ -19,116 +19,8 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1011003394626105');
-var __pmPageViewEventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(36).slice(2));
-fbq('track', 'PageView', {}, { eventID: __pmPageViewEventId });
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1011003394626105&ev=PageView&noscript=1"
-/></noscript>
-
-<!-- Meta Conversions API helper (shared across all pages) -->
-<script>
-// ====================================================================
-// pmMetaCapi — shared helper that mirrors every fbq() pixel call to
-// Meta's Conversions API server-side, using the same event_id so Meta
-// deduplicates the browser and server events into a single event.
-//
-// Usage: pmMetaCapi.track('AddToCart', { content_ids: [...], value: 1, currency: 'EUR' })
-// Optionally pass customer data: pmMetaCapi.track('Purchase', customData, { email, phone, firstName, lastName, country, externalId })
-// ====================================================================
-window.pmMetaCapi = (function () {
-  function getCookie(name) {
-    const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-    return match ? decodeURIComponent(match[2]) : undefined;
-  }
-
-  function makeEventId() {
-    return (window.crypto && crypto.randomUUID)
-      ? crypto.randomUUID()
-      : (Date.now() + '-' + Math.random().toString(36).slice(2));
-  }
-
-  // Sends the event payload to meta-capi. Uses navigator.sendBeacon
-  // when available so the request survives an immediate page
-  // navigation/redirect right after this call (e.g. window.location.href
-  // straight after tracking InitiateCheckout) — a plain fetch() can be
-  // aborted mid-flight by the browser in that situation, silently
-  // dropping the event. sendBeacon is fire-and-forget by design, which
-  // is fine here since the caller never needs the response body. Falls
-  // back to fetch with keepalive when sendBeacon is unavailable, and a
-  // request failure here never throws — analytics delivery is always
-  // best-effort and never blocks the calling page's own flow.
-  function sendEvent(payload) {
-    try {
-      const json = JSON.stringify(payload);
-      if (navigator.sendBeacon) {
-        const blob = new Blob([json], { type: 'application/json' });
-        const ok = navigator.sendBeacon('/.netlify/functions/meta-capi', blob);
-        if (ok) return;
-      }
-    } catch (err) {
-      // fall through to fetch below
-    }
-    try {
-      fetch('/.netlify/functions/meta-capi', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        keepalive: true,
-      }).catch(function (err) {
-        console.error('meta-capi request failed:', err);
-      });
-    } catch (err) {
-      console.error('meta-capi request failed:', err);
-    }
-  }
-
-  // Sends the same event to fbq() (browser pixel) and to our
-  // meta-capi Netlify Function (server-side), sharing one event_id
-  // so Meta's deduplication treats them as a single event.
-  function track(eventName, customData, customerData) {
-    const eventId = makeEventId();
-
-    if (typeof fbq === 'function') {
-      fbq('track', eventName, customData || {}, { eventID: eventId });
-    }
-
-    const fbp = getCookie('_fbp');
-    const fbc = getCookie('_fbc');
-
-    sendEvent({
-      eventName: eventName,
-      eventId: eventId,
-      eventSourceUrl: window.location.href,
-      customData: customData || {},
-      userData: Object.assign({ fbp: fbp, fbc: fbc }, customerData || {}),
-    });
-
-    return eventId;
-  }
-
-  // Sends a server-side event for an id that was already fired on the
-  // browser pixel (e.g. the inline PageView above), reusing the same
-  // event_id so Meta deduplicates the pair.
-  function trackServerOnly(eventName, eventId, customData, customerData) {
-    const fbp = getCookie('_fbp');
-    const fbc = getCookie('_fbc');
-    sendEvent({
-      eventName: eventName,
-      eventId: eventId,
-      eventSourceUrl: window.location.href,
-      customData: customData || {},
-      userData: Object.assign({ fbp: fbp, fbc: fbc }, customerData || {}),
-    });
-  }
-
-  return { track: track, trackServerOnly: trackServerOnly, getCookie: getCookie, makeEventId: makeEventId };
-})();
-
-// Mirror the PageView event we already fired above to the server side,
-// reusing the exact same event_id for deduplication.
-pmMetaCapi.trackServerOnly('PageView', __pmPageViewEventId, {});
+fbq('init', '876944531341744');
+fbq('track', 'PageView');
 </script>
 <!-- End Meta Pixel Code -->
 
@@ -334,6 +226,62 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
 .testimonial-card h4{ font-size:0.95rem; margin-bottom:0.4rem; }
 .testimonial-card p{ font-size:0.86rem; color:var(--ink-muted); line-height:1.55; }
 
+/* ---------- Full review database (1200 reviews, "show more" loaded) ---------- */
+.all-reviews-wrap{ min-width:0; }
+.all-reviews-summary{
+  display:flex; align-items:center; justify-content:center; gap:0.6rem;
+  margin-bottom:1.6rem; flex-wrap:wrap; text-align:center;
+}
+.all-reviews-summary__score{ font-size:1.3rem; font-weight:800; color:var(--ink); }
+.all-reviews-summary__score .stars{ color:var(--gold-2); margin-left:0.3rem; }
+.all-reviews-summary__count{ font-size:0.85rem; color:var(--ink-muted); }
+.all-reviews-grid{
+  display:grid; grid-template-columns:1fr; gap:0.6rem;
+}
+@media (min-width:600px){ .all-reviews-grid{ grid-template-columns:repeat(2,1fr); } }
+.all-reviews-grid .testimonial-card{ height:100%; }
+.all-reviews-grid .testimonial-card__verified{
+  display:inline-flex; align-items:center; gap:0.3rem; font-size:0.7rem; font-weight:700; color:#1a7a4c; margin-top:0.5rem;
+}
+.all-reviews-loadmore{
+  display:block; margin:1.6rem auto 0; background:#fff; border:1px solid var(--ink);
+  color:var(--ink); font-weight:700; font-size:0.88rem; padding:0.8rem 1.8rem; border-radius:0.45rem; cursor:pointer;
+}
+.all-reviews-loadmore:hover{ background:var(--ink); color:#fff; }
+
+/* ---------- Guest review form ---------- */
+.review-form-section{ background:var(--bg-soft); padding-top:0; }
+.review-form-wrap{
+  max-width:34rem; margin:0 auto; background:#fff; border:1px solid var(--line);
+  border-radius:0.9rem; padding:1.8rem 1.6rem; box-shadow:0 8px 24px -16px rgba(0,0,0,0.1);
+}
+.review-form-wrap h3{ font-size:1.15rem; margin:0 0 0.3rem; text-align:center; color:var(--ink); }
+.review-form-wrap__sub{ text-align:center; font-size:0.85rem; color:var(--ink-muted); margin:0 0 1.3rem; }
+.review-form__guest-badge{
+  display:flex; align-items:center; gap:0.5rem; justify-content:center; margin-bottom:1.1rem;
+  font-size:0.78rem; color:var(--ink-muted); font-weight:600;
+}
+.review-form__stars{
+  display:flex; justify-content:center; gap:0.35rem; font-size:1.8rem; margin-bottom:1.2rem; cursor:pointer;
+}
+.review-form__stars span{ color:#d8d2c4; transition:color .15s ease; }
+.review-form__stars span.is-active{ color:var(--gold-2); }
+.review-form__row{ display:grid; grid-template-columns:1fr; gap:1rem; }
+@media (min-width:520px){ .review-form__row{ grid-template-columns:1fr 1fr; } }
+.review-form__field{ margin-bottom:1rem; }
+.review-form__field label{ display:block; font-size:0.8rem; font-weight:700; margin-bottom:0.4rem; color:var(--ink); }
+.review-form__field input, .review-form__field textarea{
+  width:100%; border:1px solid var(--line); border-radius:0.4rem; padding:0.65rem 0.85rem;
+  font-family:inherit; font-size:0.9rem; color:var(--ink); background:#fff; resize:vertical;
+}
+.review-form__field input:focus, .review-form__field textarea:focus{ outline:2px solid var(--gold-2); outline-offset:1px; }
+.review-form__submit{
+  width:100%; background:var(--ink); color:#fff; font-weight:800; font-size:0.92rem;
+  padding:0.85rem; border-radius:0.45rem; margin-top:0.3rem; border:none; cursor:pointer;
+}
+.review-form__submit:hover{ filter:brightness(1.2); }
+.review-form__note{ text-align:center; font-size:0.85rem; margin-top:0.9rem; color:#1a7a4c; font-weight:700; }
+
 /* ---------- "5 reasons" accordion (dark) ---------- */
 .reasons-section{ background:var(--bg-rich); color:#fff; }
 .reasons-grid{ display:grid; grid-template-columns:1fr; gap:1rem; }
@@ -457,66 +405,6 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
   .trust-statement-bar__divider{ display:none; }
   .trust-statement-bar__item{ min-width:6.2rem; }
 }
-
-/* ====================================================================
-   WHY PEAKMODO (premium trust section, between stats bar and products)
-   ==================================================================== */
-.why-peakmodo{ padding:5rem 0 5.5rem; background:#fff; }
-.why-peakmodo__grid{
-  display:grid; grid-template-columns:1fr; gap:3rem; align-items:start;
-}
-@media (min-width:960px){ .why-peakmodo__grid{ grid-template-columns:1.22fr 1fr; gap:4rem; } }
-
-.why-peakmodo__eyebrow{
-  display:inline-block; font-size:0.74rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase;
-  color:var(--gold-1); margin-bottom:1rem;
-}
-.why-peakmodo__title{ font-size:clamp(1.7rem,1.3rem+1.6vw,2.5rem); line-height:1.2; margin-bottom:1.6rem; color:var(--ink); max-width:32rem; }
-.why-peakmodo__text{ font-size:1rem; color:var(--ink-soft); line-height:1.75; margin-bottom:1.2rem; max-width:34rem; }
-.why-peakmodo__text strong{ color:var(--ink); }
-
-.why-peakmodo__subhead{
-  font-size:1.25rem; font-weight:800; color:var(--ink); margin:2.2rem 0 1.1rem; letter-spacing:-0.01em;
-}
-.why-peakmodo__reasons{ list-style:none; margin:0 0 2rem; padding:0; display:grid; gap:0.75rem; max-width:34rem; }
-.why-peakmodo__reasons li{
-  display:flex; gap:0.7rem; align-items:flex-start; font-size:0.94rem; color:var(--ink-soft); line-height:1.55;
-}
-.why-peakmodo__reasons li::before{
-  content:""; flex:0 0 auto; width:0.4rem; height:0.4rem; border-radius:50%;
-  background:var(--gold-2); margin-top:0.55rem;
-}
-.why-peakmodo__reasons li strong{ color:var(--ink); }
-
-/* ---------- Right side: image collage ---------- */
-.why-peakmodo__collage{
-  display:grid;
-  grid-template-columns:1.3fr 1fr;
-  grid-template-rows:auto auto;
-  gap:0.85rem;
-}
-.why-peakmodo__collage-main{ grid-row:1/3; border-radius:1.1rem; overflow:hidden; box-shadow:0 28px 56px -18px rgba(0,0,0,0.22); }
-.why-peakmodo__collage-main img{ width:100%; height:100%; object-fit:cover; display:block; aspect-ratio:3/4; }
-.why-peakmodo__collage-sub{ border-radius:1.1rem; overflow:hidden; box-shadow:0 18px 36px -16px rgba(0,0,0,0.18); }
-.why-peakmodo__collage-sub img{ width:100%; height:100%; object-fit:cover; display:block; aspect-ratio:1/1; }
-@media (max-width:700px){
-  .why-peakmodo__collage{ grid-template-columns:1fr 1fr; }
-}
-
-/* ---------- Feature cards below collage ---------- */
-.why-peakmodo__cards{
-  margin-top:1.4rem; display:grid; grid-template-columns:1fr 1fr; gap:0.85rem;
-}
-.why-peakmodo__card{
-  background:var(--bg); border:1px solid var(--line); border-radius:0.9rem; padding:1.2rem 1.1rem;
-  box-shadow:0 10px 24px -16px rgba(0,0,0,0.1);
-}
-.why-peakmodo__card-check{
-  display:inline-flex; align-items:center; justify-content:center; width:1.7rem; height:1.7rem;
-  border-radius:50%; background:linear-gradient(135deg,var(--gold-1) 0%,var(--gold-2) 50%,var(--gold-3) 100%);
-  color:#241b06; font-weight:900; font-size:0.85rem; margin-bottom:0.7rem;
-}
-.why-peakmodo__card-label{ font-size:0.86rem; font-weight:800; color:var(--ink); line-height:1.35; }
 
 /* ====================================================================
    CART DRAWER (shared system, same as product pages)
@@ -893,69 +781,6 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
   </div>
 </section>
 
-<!-- WHY PEAKMODO: premium trust section -->
-<section class="why-peakmodo">
-  <div class="container">
-    <div class="why-peakmodo__grid">
-
-      <div>
-        <span class="why-peakmodo__eyebrow">Why PeakModo</span>
-        <h2 class="why-peakmodo__title">Why over 25,000 customers trust PeakModo</h2>
-
-        <p class="why-peakmodo__text">PeakModo was built because we were tired of low-quality supplements filled with unnecessary fillers and weak ingredients.</p>
-        <p class="why-peakmodo__text">We believe supplements should start with exceptional raw materials, transparent sourcing, and independent laboratory testing.</p>
-        <p class="why-peakmodo__text">Every product is carefully selected, manufactured under strict quality standards, and designed for people who value quality over shortcuts.</p>
-        <p class="why-peakmodo__text">Thousands of customers return because they know they receive premium products, honest formulations, and consistent quality every time.</p>
-
-        <h3 class="why-peakmodo__subhead">Why are our products sometimes more expensive?</h3>
-        <ul class="why-peakmodo__reasons">
-          <li><strong>Premium raw ingredients</strong> cost more to source responsibly.</li>
-          <li><strong>Independent laboratory testing</strong> costs more, on every single batch.</li>
-          <li><strong>Small batch production</strong> costs more than mass manufacturing.</li>
-          <li><strong>Higher quality standards</strong> cost more to maintain consistently.</li>
-          <li>We never compromise quality just to reduce price.</li>
-        </ul>
-
-        <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html" class="btn-gold">Explore PeakModo →</a>
-      </div>
-
-      <div>
-        <div class="why-peakmodo__collage">
-          <div class="why-peakmodo__collage-main">
-            <img src="images/ASHWAGANDHAImage.JPG" alt="PeakModo team at an industry trade show">
-          </div>
-          <div class="why-peakmodo__collage-sub">
-            <img src="images/anass-compressed.jpg" alt="PeakModo at a wellness event">
-          </div>
-          <div class="why-peakmodo__collage-sub">
-            <img src="images/numberoneshilajit.jpg" alt="PeakModo laboratory quality testing">
-          </div>
-        </div>
-
-        <div class="why-peakmodo__cards">
-          <div class="why-peakmodo__card">
-            <span class="why-peakmodo__card-check">✓</span>
-            <div class="why-peakmodo__card-label">Independent Lab Tested</div>
-          </div>
-          <div class="why-peakmodo__card">
-            <span class="why-peakmodo__card-check">✓</span>
-            <div class="why-peakmodo__card-label">Premium Ingredients</div>
-          </div>
-          <div class="why-peakmodo__card">
-            <span class="why-peakmodo__card-check">✓</span>
-            <div class="why-peakmodo__card-label">Trusted Across Europe</div>
-          </div>
-          <div class="why-peakmodo__card">
-            <span class="why-peakmodo__card-check">✓</span>
-            <div class="why-peakmodo__card-label">Small Batch Quality</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 <section class="section">
   <div class="diff-grid">
 
@@ -1083,56 +908,17 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
     <h2 class="section-title center">Real, lasting improvements in energy, focus &amp; vitality</h2>
     <p class="section-sub center">Over 10,000 people have transformed their routine.</p>
     <div class="testimonial-layout">
-      <div class="testimonial-grid">
-        <div class="testimonial-card">
-          <div class="testimonial-card__top">
-            <div class="testimonial-card__avatar">M</div>
-            <div>
-              <div class="testimonial-card__name">Mark B.</div>
-              <div class="testimonial-card__date">October 3, 2025</div>
-            </div>
-          </div>
-          <span class="stars">★★★★★</span>
-          <h4>Shilajit works like magic</h4>
-          <p>I bought it for my mom, who was struggling with low energy. After a few weeks she was noticeably more active and even started exercising again.</p>
+
+      <!-- FULL REVIEW DATABASE — 1200 reviews, 8 shown initially -->
+      <div class="all-reviews-wrap" id="all-reviews">
+        <div class="all-reviews-summary">
+          <div class="all-reviews-summary__score">4.7 <span class="stars">★★★★★</span></div>
+          <div class="all-reviews-summary__count" id="all-reviews-count-label">Based on 1,200+ reviews</div>
         </div>
-        <div class="testimonial-card">
-          <div class="testimonial-card__top">
-            <div class="testimonial-card__avatar">J</div>
-            <div>
-              <div class="testimonial-card__name">Julia R.</div>
-              <div class="testimonial-card__date">September 28, 2025</div>
-            </div>
-          </div>
-          <span class="stars">★★★★★</span>
-          <h4>I can really feel the difference</h4>
-          <p>I've been using the Ashwagandha 3-Month Bundle for two months now. My everyday stress level is noticeably lower, especially when falling asleep at night.</p>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-card__top">
-            <div class="testimonial-card__avatar">D</div>
-            <div>
-              <div class="testimonial-card__name">Daniel K.</div>
-              <div class="testimonial-card__date">September 24, 2025</div>
-            </div>
-          </div>
-          <span class="stars">★★★★★</span>
-          <h4>Quality is top notch</h4>
-          <p>I've tried quite a few brands, but PeakModo's quality is on a different level. Noticeable change, clear recommendation.</p>
-        </div>
-        <div class="testimonial-card">
-          <div class="testimonial-card__top">
-            <div class="testimonial-card__avatar">S</div>
-            <div>
-              <div class="testimonial-card__name">Sandra M.</div>
-              <div class="testimonial-card__date">September 19, 2025</div>
-            </div>
-          </div>
-          <span class="stars">★★★★★</span>
-          <h4>Finally well-rested again</h4>
-          <p>After 6 weeks with the Daily Wellness Stack I notice a clear difference in the mornings. Can only recommend it.</p>
-        </div>
+        <div class="all-reviews-grid" id="all-reviews-grid"></div>
+        <button class="all-reviews-loadmore" id="all-reviews-loadmore">Show more reviews</button>
       </div>
+
       <!--
         CUSTOMER PHOTO COLLAGE
         Replace each placeholder image below with a real customer photo
@@ -1140,12 +926,46 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
       -->
       <div class="testimonial-photo-collage">
         <img src="images/If_You_Did_Not_Feel_A_Difference_You_Never_Took_Shilajit_-_Mountaindrop_Shilajit_Works_Instantly.jpg" alt="">
-        <img src="images/c-compressed.jpg" alt="Customer photo placeholder">
+        <img src="images/EUR_Pre_Order_Red.png" alt="Customer photo placeholder">
         <img src="images/ChatGPT Image 23-compressed (1).jpg" alt="Customer photo placeholder" class="span-2">
         <img src="images/compressdpooi.jpg" alt="Customer photo placeholder">
         <img src="images/A_wide_shot_of_a_202606231246-compressed.JPG" alt="Customer photo placeholder">
         <img src="images/anass-compressed.jpg" alt="Customer photo placeholder">
+        <img src="images/PeakPerformanceBundle.jpg" 
       </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GUEST REVIEW FORM -->
+<section class="section review-form-section">
+  <div class="container">
+    <div class="review-form-wrap">
+      <h3>Share Your Experience</h3>
+      <p class="review-form-wrap__sub">Tried PeakModo? Let other customers know what you think.</p>
+      <div class="review-form__guest-badge">✓ No account needed — post as a guest</div>
+      <form id="guest-review-form">
+        <div class="review-form__stars" id="guest-review-stars" data-rating="5">
+          <span data-value="1">★</span><span data-value="2">★</span><span data-value="3">★</span><span data-value="4">★</span><span data-value="5">★</span>
+        </div>
+        <div class="review-form__row">
+          <div class="review-form__field">
+            <label for="guest-review-name">Name</label>
+            <input type="text" id="guest-review-name" name="name" placeholder="e.g. Sarah L." required>
+          </div>
+          <div class="review-form__field">
+            <label for="guest-review-email">Email (not published)</label>
+            <input type="email" id="guest-review-email" name="email" placeholder="you@example.com" required>
+          </div>
+        </div>
+        <div class="review-form__field">
+          <label for="guest-review-text">Your review</label>
+          <textarea id="guest-review-text" name="text" rows="4" placeholder="What did you notice after using it?" required></textarea>
+        </div>
+        <button type="submit" class="review-form__submit">Post Review</button>
+        <p class="review-form__note" id="guest-review-note"></p>
+      </form>
     </div>
   </div>
 </section>
@@ -1228,7 +1048,7 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
       <h2>Contact Us</h2>
       <p class="lede">We're happy to help — with questions about your order, shipping, or our products.</p>
     </div>
-    <form class="contact-form" onsubmit="event.preventDefault(); var em=document.getElementById('cf-email').value.trim(); if(em && typeof fbq==='function'){fbq('init','1011003394626105',{em:em});} alert('Thank you for your message — we will get back to you shortly.');">
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you for your message — we will get back to you shortly.');">
       <div class="contact-form__row">
         <div>
           <label for="cf-first">First Name</label>
@@ -1283,7 +1103,7 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
       <div class="footer-col">
         <h4>About</h4>
         <a href="ueber-uns.html">Our Story</a>
-        <a href="hidden-truth-about-ashwagandha.html#faq">FAQ</a>
+        <a href="faq.html">FAQ</a>
         <a href="hidden-truth-about-ashwagandha.html#kontakt">Contact</a>
       </div>
       <div class="footer-col">
@@ -1346,6 +1166,7 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;}
 
 </aside>
 
+<script src="peakmodo-reviews-data.js"></script>
 <script>
 // ====================================================================
 // CART SYSTEM (index.html / bundle homepage)
@@ -1475,13 +1296,15 @@ function addBundleToCart(bundleId) {
     });
   }
   persistCart();
-  pmMetaCapi.track('AddToCart', {
-    content_name: bundle.name,
-    content_ids: [bundle.id],
-    content_type: 'product',
-    value: bundle.unitPrice,
-    currency: 'EUR',
-  });
+  if (typeof fbq === 'function') {
+    fbq('track', 'AddToCart', {
+      content_name: bundle.name,
+      content_ids: [bundle.id],
+      content_type: 'product',
+      value: bundle.unitPrice,
+      currency: 'EUR',
+    });
+  }
   renderCart();
   openCart();
 }
@@ -1594,13 +1417,15 @@ function renderUpsells() {
         isUpsell: true,
       });
       persistCart();
-      pmMetaCapi.track('AddToCart', {
-        content_name: upsell.label,
-        content_ids: [upsell.id],
-        content_type: 'product',
-        value: upsell.price,
-        currency: 'EUR',
-      });
+      if (typeof fbq === 'function') {
+        fbq('track', 'AddToCart', {
+          content_name: upsell.label,
+          content_ids: [upsell.id],
+          content_type: 'product',
+          value: upsell.price,
+          currency: 'EUR',
+        });
+      }
       renderCart();
     });
   });
@@ -1663,13 +1488,15 @@ document.getElementById('header-cart-btn').addEventListener('click', () => {
 document.getElementById('cart-checkout-btn').addEventListener('click', () => {
   if (cart.items.length === 0) return;
   persistCart();
-  pmMetaCapi.track('InitiateCheckout', {
-    content_ids: cart.items.map((i) => i.id),
-    content_type: 'product',
-    num_items: cartTotalQty(),
-    value: cartSubtotal(),
-    currency: 'EUR',
-  });
+  if (typeof fbq === 'function') {
+    fbq('track', 'InitiateCheckout', {
+      content_ids: cart.items.map((i) => i.id),
+      content_type: 'product',
+      num_items: cartTotalQty(),
+      value: cartSubtotal(),
+      currency: 'EUR',
+    });
+  }
   window.location.href = '/checkout.html';
 });
 
@@ -1734,9 +1561,6 @@ renderCart();
 
       currentToken = data.token;
       currentEmail = email;
-      if (typeof fbq === 'function') {
-        fbq('init', '1011003394626105', { em: email });
-      }
       document.getElementById('discount-step2-sub').textContent =
         `We just sent a 6-digit verification code to ${email}. Enter it below to unlock your discount.`;
       openPopup(step2);
@@ -1817,6 +1641,148 @@ renderCart();
       openPopup(step1);
     }, POPUP_DELAY_MS);
   }
+})();
+
+// ====================================================================
+// GUEST REVIEW FORM
+// ====================================================================
+(function () {
+  const starsWrap = document.getElementById('guest-review-stars');
+  const form = document.getElementById('guest-review-form');
+  if (!starsWrap || !form) return;
+
+  function setStars(rating) {
+    starsWrap.setAttribute('data-rating', rating);
+    starsWrap.querySelectorAll('span').forEach((s) => {
+      s.classList.toggle('is-active', parseInt(s.getAttribute('data-value'), 10) <= rating);
+    });
+  }
+  starsWrap.querySelectorAll('span').forEach((s) => {
+    s.addEventListener('click', () => setStars(parseInt(s.getAttribute('data-value'), 10)));
+  });
+  setStars(5);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('guest-review-name').value.trim();
+    const text = document.getElementById('guest-review-text').value.trim();
+    const rating = parseInt(starsWrap.getAttribute('data-rating'), 10) || 5;
+    const note = document.getElementById('guest-review-note');
+
+    if (!name || !text) return;
+
+    // Insert the new guest review at the top of the full review
+    // database grid so it's the first card a visitor sees, for an
+    // immediate sense that the review was actually posted.
+    const grid = document.getElementById('all-reviews-grid');
+    if (grid) {
+      const card = document.createElement('div');
+      card.className = 'testimonial-card';
+      const initial = name.trim().charAt(0).toUpperCase() || '?';
+      card.innerHTML = `
+        <div class="testimonial-card__top">
+          <div class="testimonial-card__avatar">${initial}</div>
+          <div>
+            <div class="testimonial-card__name">${name}</div>
+            <div class="testimonial-card__date">Just now</div>
+          </div>
+        </div>
+        <span class="stars">${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}</span>
+        <p>${text}</p>
+      `;
+      grid.insertBefore(card, grid.firstChild);
+    }
+
+    note.textContent = 'Thanks for sharing your review!';
+    form.reset();
+    setStars(5);
+  });
+})();
+
+// ====================================================================
+// FULL REVIEW DATABASE — 1200 reviews, 8 shown initially, "show more"
+// loads the rest in batches.
+// ====================================================================
+(function () {
+  const REVIEWS_PER_PAGE = 8;
+  let reviewsShown = 0;
+  const reviewsData = (typeof PEAKMODO_REVIEWS_DATA !== 'undefined') ? PEAKMODO_REVIEWS_DATA.slice() : [];
+
+  const grid = document.getElementById('all-reviews-grid');
+  const loadMoreBtn = document.getElementById('all-reviews-loadmore');
+  const countLabel = document.getElementById('all-reviews-count-label');
+  if (!grid || !loadMoreBtn) return;
+
+  function starString(n) {
+    return '★'.repeat(n) + '☆'.repeat(5 - n);
+  }
+
+  // Turns a days_ago integer into natural relative time language
+  // ("X minutes ago", "X hours ago", "Yesterday", "X days ago",
+  // "X weeks ago", "X months ago") instead of showing an exact date or
+  // an awkward literal "1 days ago" / "224 days ago".
+  function humanizeDaysAgo(days, seedKey) {
+    if (days <= 0) return 'Just now';
+    if (days === 1) {
+      // Spread very recent reviews across minutes/hours rather than
+      // having every single one say "Yesterday" — deterministic based
+      // on a simple hash of the name/text so it's stable across
+      // re-renders rather than changing on every page load.
+      const hash = Math.abs(String(seedKey || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0));
+      const bucket = hash % 4;
+      if (bucket === 0) return `${(hash % 50) + 5} minutes ago`;
+      if (bucket === 1) return `${(hash % 11) + 1} hours ago`;
+      if (bucket === 2) return 'Yesterday';
+      return '1 day ago';
+    }
+    if (days < 7) return `${days} days ago`;
+    if (days < 30) {
+      const weeks = Math.round(days / 7);
+      return weeks <= 1 ? '1 week ago' : `${weeks} weeks ago`;
+    }
+    if (days < 365) {
+      const months = Math.round(days / 30);
+      return months <= 1 ? '1 month ago' : `${months} months ago`;
+    }
+    const years = Math.round(days / 365);
+    return years <= 1 ? '1 year ago' : `${years} years ago`;
+  }
+
+  function renderReviewCard(r) {
+    const card = document.createElement('div');
+    card.className = 'testimonial-card';
+    const initial = (r.name || '?').trim().charAt(0).toUpperCase();
+    card.innerHTML = `
+      <div class="testimonial-card__top">
+        <div class="testimonial-card__avatar">${initial}</div>
+        <div>
+          <div class="testimonial-card__name">${r.name}</div>
+          <div class="testimonial-card__date">${humanizeDaysAgo(r.days_ago, r.name + r.text)}</div>
+        </div>
+      </div>
+      <span class="stars">${starString(r.stars)}</span>
+      <p>${r.text}</p>
+      ${r.verified ? '<div class="testimonial-card__verified">✓ Verified purchase</div>' : ''}
+    `;
+    return card;
+  }
+
+  function renderMoreReviews() {
+    const next = reviewsData.slice(reviewsShown, reviewsShown + REVIEWS_PER_PAGE);
+    next.forEach((r) => grid.appendChild(renderReviewCard(r)));
+    reviewsShown += next.length;
+
+    if (reviewsShown >= reviewsData.length) {
+      loadMoreBtn.style.display = 'none';
+    }
+    if (countLabel) {
+      const formattedCount = reviewsData.length.toLocaleString('en-US');
+      countLabel.textContent = `Based on ${formattedCount}+ reviews`;
+    }
+  }
+
+  loadMoreBtn.addEventListener('click', renderMoreReviews);
+  renderMoreReviews();
 })();
 </script>
 

@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — PeakModo</title>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1011003394626105');
+var __pmPageViewEventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(36).slice(2));
+fbq('track', 'PageView', {}, { eventID: __pmPageViewEventId });
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1011003394626105&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<!-- Meta Conversions API helper (shared across all pages) -->
+<script>
+window.pmMetaCapi = (function () {
+  function getCookie(name) {
+    const match = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return match ? decodeURIComponent(match[2]) : undefined;
+  }
+
+  function makeEventId() {
+    return (window.crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : (Date.now() + '-' + Math.random().toString(36).slice(2));
+  }
+
+  // Sends the event payload to meta-capi. Uses navigator.sendBeacon
+  // when available so the request survives an immediate page
+  // navigation/redirect right after this call (e.g. window.location.href
+  // straight after tracking InitiateCheckout or Purchase) — a plain
+  // fetch() can be aborted mid-flight by the browser in that situation,
+  // silently dropping the event. sendBeacon is fire-and-forget by
+  // design (no response is readable), which is fine here since the
+  // caller never needs the response body. Falls back to fetch with
+  // keepalive when sendBeacon is unavailable or rejects the payload
+  // (e.g. payload too large), and a request failure here never throws —
+  // analytics delivery is always best-effort and never blocks the
+  // calling page's own flow (checkout, navigation, etc.).
+  function sendEvent(payload) {
+    try {
+      const json = JSON.stringify(payload);
+      if (navigator.sendBeacon) {
+        const blob = new Blob([json], { type: 'application/json' });
+        const ok = navigator.sendBeacon('/.netlify/functions/meta-capi', blob);
+        if (ok) return;
+      }
+    } catch (err) {
+      // fall through to fetch below
+    }
+    try {
+      fetch('/.netlify/functions/meta-capi', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        keepalive: true,
+      }).catch(function (err) {
+        console.error('meta-capi request failed:', err);
+      });
+    } catch (err) {
+      console.error('meta-capi request failed:', err);
+    }
+  }
+
+  function track(eventName, customData, customerData) {
+    const eventId = makeEventId();
+
+    if (typeof fbq === 'function') {
+      fbq('track', eventName, customData || {}, { eventID: eventId });
+    }
+
+    const fbp = getCookie('_fbp');
+    const fbc = getCookie('_fbc');
+
+    sendEvent({
+      eventName: eventName,
+      eventId: eventId,
+      eventSourceUrl: window.location.href,
+      customData: customData || {},
+      userData: Object.assign({ fbp: fbp, fbc: fbc }, customerData || {}),
+    });
+
+    return eventId;
+  }
+
+  function trackServerOnly(eventName, eventId, customData, customerData) {
+    const fbp = getCookie('_fbp');
+    const fbc = getCookie('_fbc');
+    sendEvent({
+      eventName: eventName,
+      eventId: eventId,
+      eventSourceUrl: window.location.href,
+      customData: customData || {},
+      userData: Object.assign({ fbp: fbp, fbc: fbc }, customerData || {}),
+    });
+  }
+
+  return { track: track, trackServerOnly: trackServerOnly, getCookie: getCookie, makeEventId: makeEventId };
+})();
+
+pmMetaCapi.trackServerOnly('PageView', __pmPageViewEventId, {});
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f2ed; --bg-rich:#0d0d0c; --bg-soft:#ece7dc; --ink:#1c1c1c; --ink-soft:#1c1c1cb3; --ink-muted:#5f5a51;
+  --accent:#c0392b; --gold-1:#7a5a23; --gold-2:#caa544; --gold-3:#f0d889; --line:#dcdcdc;
+  --container-max:75rem; --article-max:42rem;
+  --font-heading:"Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body:"Nunito", ui-sans-serif, system-ui, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden;}
+body{ background:#fff; color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; }
+img{max-width:100%;display:block;}
+h1,h2{font-family:var(--font-heading); margin:0; font-weight:800;}
+p,ul{margin:0 0 1.1rem;}
+a{color:#2a6ed4;text-decoration:none;}
+a:hover{text-decoration:underline;}
+.container{max-width:var(--container-max); margin:0 auto; padding:0 1.25rem;}
+.site-header{ padding:1.1rem 0; border-bottom:1px solid var(--line); background:#fff; }
+.site-header .container{ display:flex; align-items:center; justify-content:space-between; }
+.site-header img{ height:2rem; }
+.site-nav{ display:none; gap:1.6rem; font-size:0.85rem; font-weight:700; }
+@media (min-width:800px){ .site-nav{ display:flex; } }
+.site-nav a{ color:var(--ink); }
+.header-cta{ background:var(--ink); color:#fff; font-weight:700; font-size:0.85rem; padding:0.65rem 1.2rem; border-radius:0.4rem; }
+.header-cta:hover{ text-decoration:none; }
+.legal-article{ max-width:var(--article-max); margin:0 auto; padding:3rem 1.25rem 4rem; }
+.legal-article h1{ font-size:1.9rem; margin-bottom:0.6rem; }
+.legal-article .updated{ font-size:0.82rem; color:var(--ink-muted); margin-bottom:2rem; }
+.legal-article h2{ font-size:1.15rem; margin:2.4rem 0 0.6rem; }
+.legal-article h2:first-of-type{ margin-top:0.5rem; }
+.legal-article p, .legal-article li{ font-size:0.95rem; color:#2b2b2b; }
+.legal-article ul{ padding-left:1.3rem; }
+.callout{ background:var(--bg-soft); border-radius:0.7rem; padding:1.1rem 1.3rem; margin:1.6rem 0; font-size:0.9rem; }
+
+/* ---------- FAQ accordion ---------- */
+.faq-group{ margin-top:0.4rem; }
+.faq-item{ border-bottom:1px solid var(--line); padding:1.1rem 0; }
+.faq-item summary{ cursor:pointer; font-weight:700; font-size:0.98rem; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:1rem; color:var(--ink); }
+.faq-item summary::-webkit-details-marker{ display:none; }
+.faq-item summary::after{ content:"+"; font-size:1.3rem; color:var(--gold-1); flex:0 0 auto; }
+.faq-item[open] summary::after{ content:"–"; }
+.faq-item p{ margin:0.7rem 0 0; font-size:0.92rem; color:var(--ink-soft); }
+
+.footer{ background:var(--bg-rich); color:#f4f2edcc; padding:3rem 0 2rem; }
+.footer-grid{ display:grid; grid-template-columns:1fr; gap:2rem; margin-bottom:2rem; }
+@media (min-width:700px){ .footer-grid{ grid-template-columns:2fr 1fr 1fr 1fr; } }
+.footer-col h4{ color:#fff; font-size:0.85rem; margin-bottom:0.8rem; }
+.footer-col a, .footer-col p{ display:block; font-size:0.85rem; color:#f4f2edb3; margin-bottom:0.5rem; }
+.footer-col a:hover{ color:#fff; }
+.footer-bottom{ border-top:1px solid #ffffff22; padding-top:1.4rem; font-size:0.78rem; color:#f4f2ed80; text-align:center; }
+.footer-logo{ height:1.8rem; margin-bottom:0.8rem; filter:brightness(0) invert(1); }
+.mobile-nav-toggle{ display:flex; flex-direction:column; justify-content:center; gap:0.28rem; width:1.8rem; height:1.6rem; padding:0; border:none; background:none; cursor:pointer; }
+.mobile-nav-toggle span{ display:block; height:2px; width:100%; background:var(--ink); border-radius:1px; }
+@media (min-width:800px){ .mobile-nav-toggle{ display:none; } }
+.mobile-nav{ display:none; flex-direction:column; background:#fff; border-bottom:1px solid var(--line); padding:0.4rem 1.25rem 1rem; }
+.mobile-nav.is-open{ display:flex; }
+@media (min-width:800px){ .mobile-nav{ display:none !important; } }
+.mobile-nav a{ padding:0.75rem 0; font-size:0.92rem; font-weight:700; border-bottom:1px solid var(--line); color:var(--ink); }
+.header-actions{ display:flex; align-items:center; gap:0.7rem; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="index.html"><img src="images/logo_website.png" alt="PeakModo"></a>
+    <nav class="site-nav">
+      <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html">Himalayan Shilajit</a>
+      <a href="hidden-truth-about-ashwagandha.html">Ashwagandha</a>
+      <a href="bundles.html">Bundles</a>
+      <a href="ueber-uns.html">About Us</a>
+    </nav>
+    <div class="header-actions">
+      <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html" class="header-cta">Shop Now</a>
+      <button type="button" class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html">Himalayan Shilajit</a>
+    <a href="hidden-truth-about-ashwagandha.html">Ashwagandha</a>
+    <a href="bundles.html">Bundles</a>
+    <a href="ueber-uns.html">About Us</a>
+  </nav>
+</header>
+
+<article class="legal-article">
+  <h1>Frequently Asked Questions</h1>
+  <p class="updated">General questions about ordering, shipping, payment, and refunds. Looking for product-specific questions instead? Visit the <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html">Himalayan Shilajit</a> or <a href="hidden-truth-about-ashwagandha.html">Ashwagandha</a> page.</p>
+
+  <div class="callout">
+    Can't find what you're looking for? Reach out anytime through our <a href="hidden-truth-about-ashwagandha.html#kontakt">contact form</a> or by email at <a href="mailto:support@peakmodo.com">support@peakmodo.com</a>.
+  </div>
+
+  <h2>Ordering</h2>
+  <div class="faq-group">
+    <details class="faq-item" open>
+      <summary>How do I place an order?</summary>
+      <p>Add the products you want to your cart from any product page, then click "Checkout." You'll enter your delivery details once and can pay by card, PayPal, Apple Pay, or Google Pay.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Can I change or cancel my order after placing it?</summary>
+      <p>If your order hasn't shipped yet, contact us as soon as possible at <a href="mailto:support@peakmodo.com">support@peakmodo.com</a> and we'll do our best to adjust or cancel it. Once it has shipped, our standard <a href="widerrufsrecht.html">Right of Withdrawal & Refunds</a> policy applies.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Do I need to create an account to order?</summary>
+      <p>No. You can check out as a guest using just your email address — no account required.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Will I receive an order confirmation?</summary>
+      <p>Yes, you'll receive an email confirmation immediately after your payment is completed, followed by a separate email with tracking information once your order ships.</p>
+    </details>
+  </div>
+
+  <h2>Payment</h2>
+  <div class="faq-group">
+    <details class="faq-item">
+      <summary>What payment methods do you accept?</summary>
+      <p>We accept credit and debit cards, PayPal, Apple Pay, and Google Pay. All payments are processed securely and we never store your card details ourselves.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Is my payment information secure?</summary>
+      <p>Yes. All payments are handled directly by Stripe or PayPal, both of which use industry-standard encryption. PeakModo never sees or stores your full card number.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Why was my payment declined?</summary>
+      <p>This is usually handled directly by your card issuer or bank, often due to insufficient funds, an incorrect billing address, or a temporary security hold. Try a different payment method, or contact your bank for details.</p>
+    </details>
+  </div>
+
+  <h2>Shipping</h2>
+  <div class="faq-group">
+    <details class="faq-item">
+      <summary>Where do you ship to?</summary>
+      <p>We currently ship within Germany, Austria, and Switzerland, as well as to select other EU countries. Full details are available on our <a href="versand-transparenz.html">Shipping & Transparency</a> page.</p>
+    </details>
+    <details class="faq-item">
+      <summary>How long does delivery take?</summary>
+      <p>Typically 2–4 business days within Germany, and 3–7 business days for other supported countries, depending on the destination.</p>
+    </details>
+    <details class="faq-item">
+      <summary>How much does shipping cost?</summary>
+      <p>Shipping is free on all orders, as shown in your cart before checkout.</p>
+    </details>
+    <details class="faq-item">
+      <summary>How do I track my order?</summary>
+      <p>You'll automatically receive an email with tracking information as soon as your order leaves our warehouse.</p>
+    </details>
+  </div>
+
+  <h2>Refunds & Returns</h2>
+  <div class="faq-group">
+    <details class="faq-item">
+      <summary>What is your refund policy?</summary>
+      <p>Beyond your statutory right of withdrawal, we offer a voluntary 50-day money-back guarantee on every product. Full details are on our <a href="widerrufsrecht.html">Right of Withdrawal & Refunds</a> page.</p>
+    </details>
+    <details class="faq-item">
+      <summary>How do I request a refund?</summary>
+      <p>Contact us within 50 days of receiving your order through our <a href="hidden-truth-about-ashwagandha.html#kontakt">contact form</a> or by email, and we'll work out a solution together — whether that's a refund or a replacement.</p>
+    </details>
+    <details class="faq-item">
+      <summary>How long does a refund take to process?</summary>
+      <p>Once we've confirmed your refund, we process it within fourteen days at the latest, using the same payment method you used for the original order.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Do I have to pay for return shipping?</summary>
+      <p>Under our voluntary 50-day guarantee, we generally cover return shipping costs — just reach out to us directly about this when you contact us.</p>
+    </details>
+  </div>
+
+  <h2>Contact</h2>
+  <p>Still have a question? Reach us through our <a href="hidden-truth-about-ashwagandha.html#kontakt">contact form</a> or by email at <a href="mailto:support@peakmodo.com">support@peakmodo.com</a> — we typically respond within 24 hours on business days.</p>
+</article>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <img src="images/logo_website.png" alt="PeakModo" class="footer-logo">
+        <p>We source and deliver authentic, premium-grade Shilajit and Ashwagandha — and turn them into natural wellness products.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="bogo-7-reasons-most-himalayan-shilajit-is-fake.html">Himalayan Shilajit</a>
+        <a href="hidden-truth-about-ashwagandha.html">Sentuel™ Ashwagandha</a>
+        <a href="bundles.html">All Bundles</a>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <a href="ueber-uns.html">Our Story</a>
+        <a href="faq.html">FAQ</a>
+        <a href="hidden-truth-about-ashwagandha.html#kontakt">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="widerrufsrecht.html">Right of Withdrawal & Refunds</a>
+        <a href="impressum-agb.html">Imprint & Terms</a>
+        <a href="versand-transparenz.html">Shipping & Transparency</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© PeakModo. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+const mobileNav = document.getElementById('mobile-nav');
+mobileNavToggle.addEventListener('click', () => {
+  const isOpen = mobileNav.classList.toggle('is-open');
+  mobileNavToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+});
+</script>
+
+</body>
+</html>

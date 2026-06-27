@@ -221,10 +221,13 @@ input{font-family:var(--font-body);font-size:0.95rem;}
 .checkout-guarantee__title{ font-size:0.85rem; font-weight:800; color:#1a7a4c; margin-bottom:0.25rem; }
 .checkout-guarantee__text{ font-size:0.78rem; color:#2f5e45; line-height:1.45; }
 
-.checkout-payment-section{ margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--line); }
+.checkout-express-section{ margin-bottom:1.5rem; }
+.express-checkout-label{ text-align:center; font-size:0.78rem; color:var(--ink-soft); font-weight:700; margin-bottom:0.9rem; }
+
+.checkout-payment-section{ margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid var(--line); }
 .checkout-field-hint{ font-size:0.76rem; color:var(--ink-soft); margin-top:0.3rem; }
 
-#checkout-express-checkout-element{ margin-bottom:0.5rem; min-height:0; }
+#checkout-express-checkout-element{ margin-bottom:0.7rem; min-height:0; }
 
 .checkout-pay-btn{
   display:flex; align-items:center; justify-content:center; gap:0.55rem;
@@ -237,10 +240,10 @@ input{font-family:var(--font-body);font-size:0.95rem;}
 
 #checkout-payment-element{ margin-bottom:0.5rem; }
 
-.checkout-divider{ display:flex; align-items:center; gap:0.75rem; margin:1.2rem 0 1.4rem; font-size:0.78rem; color:var(--ink-soft); }
+.checkout-divider{ display:flex; align-items:center; gap:0.75rem; margin:1.2rem 0 1.4rem; font-size:0.76rem; font-weight:700; letter-spacing:0.04em; color:var(--ink-soft); }
 .checkout-divider span{ flex:1; height:1px; background:var(--line); }
 
-#checkout-paypal-container{ min-height:3rem; margin-top:0.5rem; }
+#checkout-paypal-container{ min-height:3rem; margin-top:0.6rem; }
 
 .checkout-error{
   display:none; color:#c0392b; font-size:0.82rem; font-weight:600; margin:0.5rem 0 0;
@@ -352,6 +355,26 @@ input{font-family:var(--font-body);font-size:0.95rem;}
     </div>
 
     <!-- ================================================================
+         EXPRESS CHECKOUT — Apple Pay / Google Pay (via Stripe's
+         Express Checkout Element) and PayPal, shown first, before any
+         form fields. Apple Pay, Google Pay, and PayPal all collect
+         contact/shipping details themselves through their own native
+         payment sheets, so shoppers who use one of these can check out
+         without ever touching the form below.
+         ================================================================ -->
+    <div class="checkout-section checkout-express-section">
+      <p class="express-checkout-label">Express checkout</p>
+
+      <div id="checkout-express-checkout-element"></div>
+      <p id="checkout-express-error" class="checkout-error"></p>
+
+      <div id="checkout-paypal-container"></div>
+      <p id="checkout-paypal-error" class="checkout-error"></p>
+
+      <div class="checkout-divider"><span></span>OR<span></span></div>
+    </div>
+
+    <!-- ================================================================
          CHECKOUT FORM — collected ONCE, reused for both Stripe and
          PayPal. The shopper is never asked to retype this information.
          ================================================================ -->
@@ -389,29 +412,18 @@ input{font-family:var(--font-body);font-size:0.95rem;}
       <p class="checkout-note">Your details above are used for payment, receipt, and delivery — you'll never be asked to enter them again on this page.</p>
 
       <!-- ============================================================
-           PAYMENT — Express button (Apple Pay / Google Pay, when
-           available on the shopper's device/browser) + embedded card
-           form, both powered by the same Stripe PaymentIntent. No
+           CARD PAYMENT — embedded card form, powered by the same
+           Stripe PaymentIntent as the express checkout above. No
            redirect to a Stripe-hosted page at any point.
            ============================================================ -->
       <div class="checkout-section checkout-payment-section">
         <h2>Payment</h2>
-
-        <div id="checkout-express-checkout-element"></div>
-        <p id="checkout-express-error" class="checkout-error"></p>
-
-        <div class="checkout-divider" id="checkout-express-divider" style="display:none;"><span></span>or pay with card<span></span></div>
 
         <div id="checkout-payment-element"></div>
         <p id="checkout-stripe-error" class="checkout-error"></p>
         <button type="button" id="checkout-stripe-btn" class="checkout-pay-btn">
           <span id="checkout-stripe-btn-label">Pay</span>
         </button>
-
-        <div class="checkout-divider"><span></span>or<span></span></div>
-
-        <div id="checkout-paypal-container"></div>
-        <p id="checkout-paypal-error" class="checkout-error"></p>
       </div>
 
     </div>
@@ -598,7 +610,7 @@ function buildCustomerDataForCapi() {
     phone: undefined,
     firstName: formFields.firstName.value.trim() || undefined,
     lastName: formFields.lastName.value.trim() || undefined,
-    country: resolveCountryCode(formFields.country.value) || undefined,
+    country: walletCountryCode || resolveCountryCode(formFields.country.value) || undefined,
     externalId: externalId,
   };
 }
@@ -708,7 +720,7 @@ function buildShippingPayload() {
     address2: formFields.address2.value.trim(),
     city: formFields.city.value.trim(),
     zip: formFields.zip.value.trim(),
-    countryCode: resolveCountryCode(formFields.country.value),
+    countryCode: walletCountryCode || resolveCountryCode(formFields.country.value),
     email: isValidEmail(emailValue) ? emailValue : undefined,
   };
 }
@@ -834,6 +846,11 @@ let stripeElements = null;
 let stripePaymentElement = null;
 let stripeExpressCheckoutElement = null;
 let stripeClientSecret = null;
+// Set when Apple Pay / Google Pay supplies an ISO country code
+// directly (e.g. "DE") rather than the free-text country name the
+// manual form uses — kept separate so resolveCountryCode()'s
+// name-based lookup table is never fed an ISO code by mistake.
+let walletCountryCode = null;
 
 const stripeBtn = document.getElementById('checkout-stripe-btn');
 
@@ -874,18 +891,65 @@ async function initStripeElements() {
 
     // Express Checkout Element automatically shows Apple Pay / Google
     // Pay / Link buttons when the shopper's browser/device supports
-    // them, and renders nothing at all otherwise — no manual detection
-    // needed, and the divider above "or pay with card" only shows once
-    // we know there's actually a button to separate from the card form.
-    stripeExpressCheckoutElement = stripeElements.create('expressCheckout');
-    stripeExpressCheckoutElement.mount('#checkout-express-checkout-element');
-    stripeExpressCheckoutElement.on('ready', (event) => {
-      const hasButtons = event.availablePaymentMethods && Object.keys(event.availablePaymentMethods).length > 0;
-      document.getElementById('checkout-express-divider').style.display = hasButtons ? 'flex' : 'none';
+    // them, and renders nothing at all otherwise. PayPal is always
+    // shown alongside it in the express checkout section.
+    //
+    // Unlike the card form below, Express Checkout does NOT require
+    // the manual delivery form to be filled in first — Apple Pay and
+    // Google Pay collect the shopper's contact and shipping details
+    // through their own native payment sheet, and Stripe passes that
+    // back to us in the 'confirm' event. We only fall back to the
+    // manual form's data if the wallet genuinely didn't provide
+    // anything (which shouldn't normally happen, but we don't want to
+    // submit a payment with no shipping info at all).
+    stripeExpressCheckoutElement = stripeElements.create('expressCheckout', {
+      // Request the shopper's shipping address and email through the
+      // wallet's own native sheet (Apple Pay / Google Pay / Link),
+      // since this checkout has no shipping_options of its own and
+      // Express Checkout otherwise only requests payment authorization.
+      emailRequired: true,
+      shippingAddressRequired: true,
     });
-    stripeExpressCheckoutElement.on('confirm', async () => {
-      if (!validateCheckoutForm()) return;
+    stripeExpressCheckoutElement.mount('#checkout-express-checkout-element');
+    stripeExpressCheckoutElement.on('confirm', async (event) => {
+      showFieldError('checkout-express-error', '');
       showProcessing(true);
+
+      // Pull contact/shipping details directly from the wallet's own
+      // payment sheet (Apple Pay / Google Pay / Link), so the shopper
+      // never has to touch the manual form below at all.
+      const walletEmail = event.billingDetails?.email;
+      const walletName = event.shippingAddress?.name || event.billingDetails?.name;
+      const walletAddress = event.shippingAddress?.address;
+
+      if (walletEmail && isValidEmail(walletEmail)) {
+        formFields.email.value = walletEmail;
+      }
+      if (walletName) {
+        const [firstName, ...rest] = walletName.split(' ');
+        formFields.firstName.value = formFields.firstName.value || firstName || '';
+        formFields.lastName.value = formFields.lastName.value || rest.join(' ') || '';
+      }
+      if (walletAddress) {
+        formFields.address.value = formFields.address.value || walletAddress.line1 || '';
+        formFields.address2.value = formFields.address2.value || walletAddress.line2 || '';
+        formFields.city.value = formFields.city.value || walletAddress.city || '';
+        formFields.zip.value = formFields.zip.value || walletAddress.postal_code || '';
+        if (walletAddress.country) walletCountryCode = walletAddress.country.toUpperCase();
+      }
+
+      // As a last resort, if the wallet didn't provide an email at all
+      // (rare, but Apple Pay configurations can vary) and the manual
+      // form is also empty, we can't send an order confirmation email
+      // — ask the shopper to add one rather than silently lose it.
+      if (!isValidEmail(formFields.email.value.trim())) {
+        showProcessing(false);
+        showFieldError('checkout-express-error', 'We need an email address to send your receipt. Please add one in the Contact field below and try again.');
+        formFields.email.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        formFields.email.focus();
+        return;
+      }
+
       const { error } = await stripe.confirmPayment({
         elements: stripeElements,
         confirmParams: { return_url: window.location.href },
@@ -1032,12 +1096,12 @@ function renderPayPalButton() {
   }
   paypal.Buttons({
     style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
-    onClick: (data, actions) => {
-      if (!validateCheckoutForm()) {
-        return actions.reject();
-      }
-      return actions.resolve();
-    },
+    // No onClick form-validation gate here on purpose — PayPal collects
+    // its own shipping address and contact details in its popup when
+    // the manual delivery form below is empty (the server already
+    // requests GET_FROM_FILE in that case; see paypal-create-order.js).
+    // If the shopper HAS filled in the form already, that address is
+    // still used and sent as SET_PROVIDED_ADDRESS via buildShippingPayload().
     createOrder: async () => {
       const response = await fetch('/.netlify/functions/paypal-create-order', {
         method: 'POST',
